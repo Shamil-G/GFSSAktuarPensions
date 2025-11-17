@@ -1,0 +1,18 @@
+@import url('../common_style/main.css');
+@import url('../common_style/forms.css');
+@import url('../common_style/table_styles.css');
+@import url('../common_style/button.css');
+@import url('../common_style/images.css');
+@import url('../common_style/elements.css');
+@import url('../common_style/menu.css');
+@import url('../common_style/main_page.css');
+@import url('../common_style/modal.css');
+
+@import url('main.css');
+@import url('forms.css');
+@import url('table_styles.css');
+@import url('button.css');
+@import url('images.css');
+@import url('elements.css');
+@import url('menu.css');
+@import url('main_page.css');

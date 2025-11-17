@@ -1,0 +1,54 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}
+{{ res_value('BIG_REF') }}
+{% endblock %}
+
+{% block main_title %}
+{{ res_value('BIG_REF') }}
+{% endblock %}
+
+{% block navigate %}
+{% endblock %}
+
+{% block body %}
+<table class="table_common" style="width: 400px">
+    <colgroup>
+        <col style="min-width: 200px">
+        <col style="min-width: 120px">
+        <col style="min-width: 200px">
+    </colgroup>
+    <thead>
+        <tr>
+            <th style="font-size:16px; width: 120px"><a>{{ res_value('NAME_REF_PARM') }}</a></th>
+            <th style="font-size:16px; width: 120px"><a>{{ res_value('YEAR') }}</a></th>
+            <th style="font-size:16px;"><a>{{ res_value('REF_VALUE') }}</a></th>
+        </tr>
+    </thead>
+    <tfoot></tfoot>
+    <tbody>
+    <tbody id="court_mainBody" data-role="edit-row row-click" data-action="filterByOrder">
+        {% for el in list_val %}
+        <tr>
+            <td style="text-align: center"><a>{{ el.name }}</a></td>
+            <td style="text-align: center"><a>{{ el.year }}</a></td>
+            <td style="text-align: center">
+                <input type="text" style="width: 115px; text-align: right; font-family: monospace; font-size: 16px"
+                       name="value"
+                       inputmode="decimal"
+                       pattern="^\d+(\.\d{1,2})?$"
+                       value="{{ el.value }}"
+                       readonly
+                       class="sum_civ_amount input_s_form" />
+
+                <button class="edit-btn tiny-btn" data-id="{{ el.name }}" data-year="{{ el.year }}" data-field="value">✏️</button>
+                <button class="save-btn tiny-btn" data-id="{{ el.name }}" data-year="{{ el.year }}" data-field="value" style="display:none;">💾</button>
+                <button class="cancel-btn tiny-btn" data-id="{{ el.name }}" data-year="{{ el.year }}" data-field="value" style="display:none;">❌</button>
+
+            </td>
+        </tr>
+        {% endfor %}
+<tbody>
+</table>
+<script type="module" id="pageScript" data-page="big_ref" src="static/js/main.js"></script>
+{% endblock %}

@@ -1,0 +1,90 @@
+button, .button, .button_red {
+    margin: 0px;
+    padding: 5px 34px 5px 34px;
+    align-items: center;
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    font-weight: 500;
+    font-size: 19px;
+    font-family: Calibri;
+    line-height: 1.5;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.list_button {
+    padding: 2px 28px 2px 28px;
+}
+.button_add_op {
+    padding: 0px 4px 0px 4px;
+    font-size: 16px;
+}
+button:hover, .button:hover {
+    top: 1px;
+    text-shadow: 1px 2px 3px grey;
+    transition: .3s linear;
+}
+.button:hover {
+    box-shadow: 4px 4px 6px darkseagreen;
+}
+button:hover {
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+}
+.button_red {
+    padding: 2px 34px 3px 34px;
+    font-size: 16px;
+}
+.button_red:hover {
+    color: red;
+    box-shadow: 4px 4px 6px rgba(255, 0, 0, 0.1);
+}
+.bt {
+    margin: 12px 12px;
+    padding: 8px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    line-height: 1.5;
+    border-radius: 5px;
+    border: 1px solid;
+    font-weight: 500;
+    text-decoration: none;
+}
+.nav_button {
+    min-width: 125px;
+    text-decoration: none;
+    align-items: center;
+    padding: 12px 18px 12px 12px;
+    display: flex;
+    position: relative;
+    border-radius: 3px;
+    font-weight: 500;
+}
+.nav_button:hover {
+    top: 1px;
+    transition: .3s linear;
+    background-position: -200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+    box-shadow: 4px 4px 16px grey;
+}
+.nav_button:active {
+    top: 0px;
+    box-shadow: 3px 3px 6px grey;
+}
+.nav_button:active, .bt:active, .bt_s:active, .bt_t:active, .bt.danger {
+    top: 0px;
+    box-shadow: 4px 4px 6px grey;
+}
+.tiny-btn {
+    all: unset;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 3px 1px 1px 1px;
+    margin: 0;
+    line-height: 1;
+    background: none;
+    color: #333;
+    border: 1px solid;
+    border-radius: 3px;
+}
+

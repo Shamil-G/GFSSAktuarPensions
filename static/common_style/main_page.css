@@ -1,0 +1,127 @@
+/* Class container  - аналого ARTICLE */
+.container { 
+    margin: 0px;
+    padding: 2px;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.documents {
+    flex: 1 1 auto;
+    overflow-y: auto;
+
+    min-height: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+}
+.tabs {
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    flex: 0 0 auto;
+}
+.tab-content.active {
+    border-radius: 6px;
+}
+/* јктивна€ вкладка Ч "вдавленна€" */
+.tab.active {
+    z-index: 1;
+    position: relative;
+
+    font-weight: bold;
+    border-bottom: none;
+}
+select {
+    padding: 8px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 2px;
+    padding: 0px;
+}
+
+.tab {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.tab-panel {
+    display: none;
+}
+.tab-content-zone {
+    opacity: 1;
+    min-height: 300px; /* или средн€€ высота таба */
+    transition: opacity 200ms ease-in-out;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    padding: 6px 0;
+    border-bottom: 1px solid #ddd;
+}
+.tab-timestamp {
+    font-size: 12px;
+    color: #777;
+    text-align: right;
+    margin-top: 4px;
+    padding-right: 12px;
+    font-style: italic;
+}
+.recommend {
+    font-weight: bold;
+}
+.fade-out {
+    opacity: 0;
+    transition: opacity 300ms ease-in;
+}
+
+td.has-helper:hover .help-icon {
+    visibility: visible;
+}
+
+.popover {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px 12px;
+    max-width: 320px;
+    font-size: 13px;
+    color: #333;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+    border-radius: 6px;
+    z-index: 1000;
+}
+
+.popover-close {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    font-size: 16px;
+    color: #999;
+    cursor: pointer;
+}
+
+.popover-close:hover {
+    color: #c00;
+}
+
+.popover-content {
+    padding-top: 6px;
+}

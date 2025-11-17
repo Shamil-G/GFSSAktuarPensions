@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/include.css">
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    {% block javascript %}{% endblock %}
+</head>
+<body>
+
+    <div id="global-modal-layer"></div>
+
+    <common-container>
+        <header>
+            <header-l><img class="img-logo" src="/static/img/logo-g.ico"><a style="font-size:20px">&emsp;{{ res_value('APP_NAME') }}</a> </header-l>
+
+            <header-c>
+                <!--<a class="nav_button" style="margin-left: 16px; padding: 6px 24px" href="https://tolem.gfss.kz">Tolem</a>-->
+                <a class="nav_button" style="margin-left: 16px; padding: 6px 24px" href="http://qyzmetker:80">Qyzmetker</a>
+                <!--<a class="nav_button" style="margin-left: 16px; padding: 6px 24px" href="http://qyzmetker:8090">Python Reports</a>-->
+            </header-c>
+            <header-r>
+                {% if 'style' in session and session['style'] == 'color' %}
+                <div>
+                    <a href="/change-style"><img class="img-style" src="/static/img/icons8-black-white-50.png" style="width: 24px; height: 24px" /></a>
+                </div>
+                {% else %}
+                <div>
+                    <a href="/change-style"><img class="img-style" src="/static/img/icons8-color-48.png" style="width: 24px; height: 24px" /></a>
+                </div>
+                {% endif %}
+                {% if session['language'] == 'ru' %}
+                <a class="nav_button" style="margin-left: 16px; padding: 6px 24px; min-width: 74px" href="/language/kz">ҚАЗ</a>
+                {% else %}
+                <a class="nav_button" style="margin-left: 16px; padding: 6px 24px; min-width: 74px" href="/language/ru">РУС</a>
+                {% endif %}
+            </header-r>
+        </header>
+
+        <nav>
+            {% if g.user.is_authenticated %}
+            <a class="nav_button" href="/big_ref">{{ res_value('BIG_REF') }}</a>
+            <a class="nav_button" href="/logout">{{ res_value('LOGOUT_BUTTON') }}</a>
+            {% else %}
+            <a class="nav_button" href="/login">{{ res_value('LOGIN_BUTTON') }}</a>
+            {% endif %}
+            <p></p>
+        </nav>
+
+        <article_title>
+            {% block main_title %}{% endblock %}
+        </article_title>
+        <article>
+            {% block body %}{% endblock %}
+        </article>
+
+        <footer>
+            <footer-l>
+                <small>© 2021</small>
+            </footer-l>
+            <footer-r>
+                <small style="visibility: hidden">{{ res_value('CREATORS') }}</small>
+                <small style="visibility: hidden">{{ res_value('FOR_DEVELOPERS') }}</small>
+                <a style="font-size:14px">{% if g.user.is_authenticated %} {{ g.user.full_name }} {% endif %}</a>
+            </footer-r>
+        </footer>
+    </common-container>
+</body>
+</html>

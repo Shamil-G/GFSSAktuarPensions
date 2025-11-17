@@ -1,0 +1,36 @@
+.load_anketa {
+    color: mediumvioletred;
+}
+
+.get_report:link {
+    color: cornsilk;
+    text-decoration: none;
+}
+.get_report:visited,
+.get_report:hover {
+    color: rgb(28, 170, 53);
+    font-weight: bold;
+}
+.title2 {
+    color: var(--base-color-text);
+}
+.answer {
+    color: #ddd;
+}
+.select_answer:hover, .checkbox:hover {
+    background-color: #444D;
+    box-shadow: 6px 0px 12px 12px #444D;
+    border-radius: 4px;
+}
+.question {
+    color: peachpuff;
+    font-weight: 500;
+}
+
+.answer-item:hover {
+    background-color: #0f01;
+    box-shadow: 6px 0px 12px 12px #0f01;
+}
+.answer-item:hover .circle {
+    background-color: green; /* легкое свечение */
+}

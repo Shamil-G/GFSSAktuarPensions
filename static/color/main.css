@@ -1,0 +1,23 @@
+﻿html, body {
+    color: black;
+    background: #c9edcd;
+}
+nav {
+    background-image: url('/static/img/bg.jpg'); /* Update this path */
+}
+header {
+    background-image: url('/static/img/bg.jpg'); /* Update this path */
+}
+article {
+    border: 1px solid rgba(180, 180, 180, 0.3);
+    background-color: rgb(255 255 255 / 42%);
+}
+article_title {
+    background-color: #cfefd5;
+}
+footer {
+    background-image: url('/static/img/bg.jpg'); /* Update this path */
+}
+header, nav, article_title, article_body, article_info, footer {
+    border: 1px solid rgba(142, 142, 142, 0.3);
+}

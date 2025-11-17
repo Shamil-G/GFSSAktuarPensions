@@ -1,0 +1,25 @@
+.tabs {
+    border: 1px solid #aaa;
+    font-weight: bold;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+} 
+/* јктивна€ вкладка Ч "вдавленна€" */
+.tab.active {
+/*    background: #0f03;*/
+    background: #5557;
+    color: #ddd;
+    border-bottom: 1px solid #fff; /* сливаетс€ с панелью */
+    font-weight: 600;
+}
+.tab:hover {
+    background: green;
+    color: antiquewhite;
+}
+.tab-content {
+    background: #5557;
+}
+input.risk-input.editing {
+    color: #333;
+    background-color: #fffde7;
+    border: 1px solid #ffa726;
+}

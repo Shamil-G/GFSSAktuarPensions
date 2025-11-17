@@ -1,0 +1,70 @@
+tr > th {
+    border: 1px solid rgba(180, 180, 180, 0.3);
+}
+tr > td {
+    border: 1px solid rgba(180, 180, 180, 0.3);
+}
+/* Подсвечиваем строки на котором стоит курсор*/
+tbody > tr:hover {
+    background: #5556;
+}
+tr.active-row {
+    background: #5556;
+}
+.title, .title2 {
+    padding: 6px 16px 6px 10px;
+}
+.title{
+    font-size: 20px;
+}
+.title2 {
+    font-size: 16px;
+}
+
+/* Если отчет выбирали то установим новый цвет */
+.a_s {
+    color: #ddd;
+    text-decoration: none;
+}
+.a_s:visited {
+    color: #ddd;
+    text-decoration: none;
+}
+.a_s:link {
+    color: #ddd;
+    text-decoration: none;
+}
+.a_s2 {
+    color:moccasin;
+    text-decoration: none;
+}
+.a_s2:hover {
+    color:palevioletred;
+}
+
+/*
+.a_s2:visited {
+    color: blanchedalmond;
+    text-decoration: none;
+}
+*/
+reports {
+    color: #ddd;
+    text-align: left; /*Центрируем текст по горизонтали*/
+}
+reports > a {
+    text-decoration: none;
+    align-items: center;
+    padding: 5px 5px 5px 10px;
+    display: block;
+    border: inherit;
+    border-radius: inherit;
+    color: #fff;
+}
+reports > a:hover {
+    background: #777;
+    color: wheat;
+    text-decoration: none;
+    border-radius: 4px;
+}
+

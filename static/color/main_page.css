@@ -1,0 +1,33 @@
+/* јктивна€ вкладка Ч "вдавленна€" */
+.tab.active {
+    background: #0f03;
+    background-color: #d0ebff;
+    border-top: 1px solid #75a6fd;
+    border-left: 1px solid #75a6fd;
+    border-right: 1px solid #75a6fd;
+/**/ font-weight: 600;
+}
+.tab:hover {
+    background: green;
+    color: antiquewhite;
+}
+.tab {
+    background: #c8e6c9;
+}
+.tab-content {
+    background-color: #d0ebff;
+}
+.tab-content.active {
+    border-top: 1px solid #75a6fd;
+    border-right: 1px solid #75a6fd;
+    border-left: 1px solid #75a6fd;
+/*    background-color: #d0ebff;*/
+    border-radius: 6px;
+}
+.recommend {
+    color: #d86;
+}
+input.input_d:disabled {
+    background-color: #f3f3f3;
+    opacity: 0.7;
+}

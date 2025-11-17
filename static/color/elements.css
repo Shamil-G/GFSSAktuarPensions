@@ -1,0 +1,38 @@
+﻿a {
+    color: #111;
+    font-weight: normal;
+}
+.get_report:link {
+    color: #8b1313;
+    text-decoration: none;
+}
+.get_report:visited, .get_report:hover {
+    color: rgb(28, 170, 53);
+    font-weight: bold;
+}
+.title2 {
+    color: var(--base-color-text);
+}
+.text_shadow {
+    text-shadow: 1px 2px 3px grey;
+}
+
+.load_anketa {
+    color: brown;
+}
+.select_answer:hover, .checkbox:hover {
+    background-color: #0f01;
+    box-shadow: 6px 0px 12px 12px #0f01;
+    border-radius: 4px;
+}
+.answer:hover {
+    /*background-color: #0f01;*/
+    box-shadow: 6px 6px 6px #4444;
+}
+.answer-item:hover {
+    background-color: #0f01;
+    box-shadow: 6px 0px 12px 12px #0f01;
+}
+.answer-item:hover .circle {
+    background-color: green; /* легкое свечение */
+}

@@ -1,0 +1,139 @@
+﻿.load_anketa {
+    font-size: 18px;
+    text-decoration: none;
+    padding: 2px 0px;
+}
+
+.cancel_background_hover:hover {
+    background: inherit;
+}
+
+a {
+    font-weight: normal;
+}
+
+.title {
+    padding: 6px 12px;
+    font-size: 20px;
+}
+.title2 {
+    font-size: 18px;
+    padding: 4px;
+    margin-left: 5px;
+}
+.list_ankets {
+    background: inherit;
+    font-size: 18px;
+    text-decoration: none;
+}
+.list_ankets {
+    background: inherit;
+    font-size: 18px;
+    text-decoration: none;
+}
+.select_answer {
+    font-size: 18px;
+    text-decoration: none;
+    padding: 2px 8px 2px 3px;
+}
+.question {
+    font-size: 20px;
+    font-weight: bold;
+}
+.answer {
+    padding: 8px 8px 8px 3px;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.mark_select {
+    position: absolute;
+    margin-left: 4px;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    font-size: 20px;
+    background-color: green;
+    color: green;
+    border-radius: 50%;
+}
+
+.checkmark {
+    margin-left: 4px;
+    position: absolute;
+    cursor:pointer;
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 22px;
+    background-color: #2f22;
+    border-radius: 50%;
+}
+
+.checkbox {
+    margin: 8px 4px;
+    position: relative;
+    padding-left: 18px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+
+.checkbox:hover input ~ .checkmark {
+    background-color: green;
+}
+
+.checkbox input:checked ~ .checkmark {
+    background-color: green;
+}
+
+.checkbox:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.answer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 4px 0px 4px 0px;
+    margin: 4px 0px 4px 0px;
+    font-size: 18px;
+}
+
+.answer-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin: 22px 0px 22px 24px;
+    font-size: 18px;
+    text-shadow: none;
+}
+
+.circle {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border: 1px solid green;
+    border-radius: 50%;
+    margin-right: 12px;
+    transition: all 0.2s ease;
+}
+
+.circle.active {
+    background-color: green;
+}

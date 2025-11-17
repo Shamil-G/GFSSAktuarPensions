@@ -1,0 +1,35 @@
+form {
+    border-radius: 5px;
+    border: 1px solid rgba(180, 180, 180, 0.3);
+}
+.forms_model_list {
+    padding: 24px;
+    display: grid;
+    grid-template-rows: repeat(2, minmax(80px, 1fr));
+    grid-template-columns: repeat(5, minmax(300px, 1fr));
+    grid-gap: 2px;
+    align-items: flex-start;
+}
+.form_op {
+    background: #222;
+}
+.input_s, .input_d {
+    color: #ddd;
+    background-color: #444;
+    border: 1px solid rgba(180, 180, 180, 0.3);
+    box-shadow: 6px 6px 8px rgba(70, 205, 79, 0.2);
+}
+
+.input_s:hover {
+    /*color: bisque;*/
+    align-items: center;
+    box-shadow: 2px 2px 5px darkseagreen;
+}
+::placeholder {
+    color: #999;
+}
+select {
+    background: #444;
+    color: #ccc;
+    border: 1px solid #ffe4b57a;
+}

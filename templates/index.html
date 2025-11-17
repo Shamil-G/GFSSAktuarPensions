@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ res_value('FIRST_PAGE') }}
+{% endblock %}
+
+{% block body %}
+<div class="title_message">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes" style="margin: 0">
+        {% for msg in messages %}
+        <li class="td_value_bold"> {{ msg }} </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

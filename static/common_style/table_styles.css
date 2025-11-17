@@ -1,0 +1,64 @@
+﻿table {
+    width: 100%;
+    border-collapse: collapse;
+    text-shadow: none;
+    box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.1);
+}
+.my_stick_head {
+    position: sticky;
+    top: 0;
+    background-color: #c9edcd;
+    z-index: 2;
+    border: 1px solid grey;
+}
+
+tr > th {
+    padding: 10px;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: bold;
+    border: 1px solid grey;
+}
+tr > td {
+    margin-left: 4px;
+    padding: 3px 4px;
+    font-size: 18px;
+    text-align: center;
+}
+tr.disabled-row:hover {
+    background-color: inherit;
+    box-shadow: none;
+}
+
+/*.news-container {
+    max-height: 830px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+}
+.news-tbody {
+    max-height: 700px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}*/
+.table-scroll-800 {
+    height: 830px;
+    overflow-y: auto;
+}
+.table-scroll-800 tbody tr:nth-child(even) {
+    /*background: #f3f3f3;*/
+    /*background-color: rgb(0, 255, 0, 0.07);*/
+}
+/* Стили для скролла */
+::-webkit-scrollbar {
+    width: 2px;
+}
+/*Меняем алгоритм расчета длины и 
+высоты элемента с контента (width), 
+значения отступов (margin), 
+полей (padding) и границ (border) 
+на размеры блока. В секции  main.css это не работает!!! */
+*, *:after, *:before {
+    box-sizing: border-box;
+}
