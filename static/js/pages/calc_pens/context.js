@@ -1,27 +1,25 @@
-﻿import { MenuBinder } from '/static/js/pages/big_ref/binders/menuBinder.js';
+﻿import { FilterInputBinder } from '/static/js/pages/calc_pens/binders/filterInputBinder.js';
+import { MenuBinder } from '/static/js/pages/calc_pens/binders/menuBinder.js';
 import { HelperBinder } from '/static/js/binders/standart/helperBinder.js';
-import { EditRowTableBinder } from '/static/js/pages/big_ref/binders/editRowTableBinder.js';
-import { FilterActiveCloseRefundBinder } from '/static/js/binders/filters/filterActiveCloseRefundBinder.js';
 
 
-export const bigRefTabContext = {
+export const calcPensTabContext = {
     // Значения zone определяют id=""
     zones: {
-        mainTableHelper: '#big_ref_mainTableHelper',
-        fragment: '#big_ref_mainBody',
-        filters: '#big_ref_FilterZone'
+        mainTableHelper: '#calc_pens_mainTableHelper',
+        fragment: '#calc_pens_mainBody',
+        filters: '#calc_pens_FilterZone'
     },
 
     binders: {
         mainTableHelper: [HelperBinder],
-        fragment: [EditRowTableBinder], //RowClickBinder, 
-        filters: [FilterActiveCloseRefundBinder, MenuBinder],
+        filters: [FilterInputBinder, MenuBinder],
     },
-
+/*
     request: {
         fragment: {
             method: 'POST',
-            url: ref_name => `/filter-ref-name`
+            url: ref_name => `/filter-pens-year`
         },
         filters: {
             method: 'POST',
@@ -34,7 +32,7 @@ export const bigRefTabContext = {
             params: (id, year, field, value) => ({ id, year, field, value })
         }
     },
-
+*/
     bindScope: {
         filters: 'global'    // искать в document, независимо от fragment
     },
@@ -44,4 +42,4 @@ export const bigRefTabContext = {
     }
 };
 
-export default bigRefTabContext;
+export default calcPensTabContext;

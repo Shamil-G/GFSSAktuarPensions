@@ -138,8 +138,8 @@ function showTab(tabName) {
 })();
 
 const globalAPI = {
-    filterByOrder,
-    showTab,
+    //filterByOrder,
+    //showTab,
     PageManager
 };
 

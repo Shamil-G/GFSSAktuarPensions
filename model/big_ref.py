@@ -11,7 +11,7 @@ def get_big_ref_items(parm_name):
         where pp.name=coalesce(:parm_name,pp.name)
         order by name, year
     """
-    log.info(f'GET BIG REF ITEMS. PARM NAME: {parm_name}')
+    log.debug(f'GET BIG REF ITEMS. PARM NAME: {parm_name}')
     with get_connection() as connection:
         with connection.cursor() as cursor:
             cursor.execute(stmt, parm_name=parm_name)
@@ -24,6 +24,34 @@ def get_big_ref_items(parm_name):
             log.debug(f'------ GET BIG REF ITEMS. RESULT:\n\t{result}')
             return result
 
+
+def get_unique_big_ref_name():
+    stmt = """
+        select unique name
+        from pens_params pp
+        order by name
+    """
+    log.debug(f'GET UNIQUE BIG REF NAME.')
+    with get_connection() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(stmt)
+            
+            result = []
+            records = cursor.fetchall()
+            for rec in records:
+                res = {'name': rec[0] }
+                result.append(res)
+            log.debug(f'------ GET UNIQUE BIG REF NAME. RESULT:\n\t{result}')
+            return result
+
+def save_ref_value(ref_name, ref_year, ref_value):
+ with get_connection() as connection:
+        with connection.cursor() as cursor:
+            try:
+                cursor.execute('begin update pens_params set value=:value where name=:ref_name and year=:year; commit; end;', 
+                               value=ref_value, ref_name=ref_name, year=ref_year)
+            finally:
+                log.info(f'SAVE REF VALUE\n\tNAME: {ref_name}\n\tYEAR: {ref_year}\n\tVALUE: {ref_value}')
 
 def get_pretrial_items(order_num):
     stmt = """

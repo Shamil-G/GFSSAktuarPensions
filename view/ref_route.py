@@ -1,55 +1,40 @@
 ﻿from flask import render_template, request, redirect, url_for, g, session
 from flask_login import login_required
 from main_app import app, log
-import json
+from util.functions import extract_payload
 
-from model.big_ref import get_big_ref_items
+from model.big_ref import get_big_ref_items, get_unique_big_ref_name, save_ref_value
 
 @app.route('/big_ref')
 def view_big_ref():
     list_val=get_big_ref_items('')
-    log.info(f"BIG_REF. START\n{list_val}")
-    return render_template(f'big_ref.html', list_val=list_val)
+    list_name=get_unique_big_ref_name()
+    log.debug(f"BIG_REF. START\n{list_val}")
+    return render_template(f'big_ref.html', list_val=list_val, list_name=list_name)
 
 
-def extract_payload():
-    content_type = request.headers.get('Content-Type', '')
-    print("📥 Content-Type:", content_type)
-
-    if 'application/json' in content_type:
-        data = request.get_json(silent=True)
-        if isinstance(data, dict):
-            return data
-        else:
-            print("⚠️ JSON не распарсен, пробуем вручную")
-            try:
-                return json.loads(request.data.decode('utf-8'))
-            except Exception as e:
-                print("❌ Ошибка при ручном JSON-декодировании:", e)
-                return {}
-    elif 'application/x-www-form-urlencoded' in content_type:
-        return request.form.to_dict()
-    else:
-        print("⚠️ Неизвестный Content-Type, пробуем как JSON")
-        try:
-            return json.loads(request.data.decode('utf-8'))
-        except Exception:
-            return {}
-
-
-@app.route('/big_ref_fragment', methods=['GET','POST'])
+@app.route('/filter-ref-name', methods=['GET','POST'])
 @login_required
 def view_pretrial_fragment():
-    if request.method=='POST':
-        data = extract_payload()
-        order_num = data.get('order_num', '')
-    else:
-        order_num = request.args.get('order_num','')
+    data = extract_payload()
+    ref_name = data.get('value', '')
+    log.info(f"FILTER-REF-NAME FIRST HIT\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
 
-    pretrial_items = get_pretrial_items(order_num) if order_num else []
-    log.debug(f"PRETRIAL_FRAGMENT\n\tORDER_NUM: {order_num}\n\tPRETRIAL_ITEMS: {pretrial_items}")
-    return render_template("partials/_pretrial_fragment.html", pretrial_items=pretrial_items, selected_order=order_num)
+    list_items=get_big_ref_items(ref_name) if ref_name else []
+    return render_template("partials/_big_ref_fragment.html", list_val=list_items)
 
+
+@app.route('/save-ref-value', methods=['GET','POST'])
+@login_required
+def view_save_ref_value():
+    data = extract_payload()
+    ref_name = data.get('id', '')
+    ref_year = data.get('year', '')
+    ref_value = data.get('value', '')
+    log.info(f"FILTER-REF-NAME FIRST HIT\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
+
+    save_ref_value(ref_name, ref_year, ref_value)
+    return {'status': 200}
 
 
 @app.route('/help_fragment')

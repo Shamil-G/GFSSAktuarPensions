@@ -6,6 +6,7 @@ import oracledb
 def init_session(connection, requestedTag_ignored):
     cursor = connection.cursor()
     cursor.execute("ALTER SESSION SET NLS_DATE_FORMAT = 'DD.MM.YYYY HH24:MI'")
+    cursor.execute("ALTER SESSION SET NLS_NUMERIC_CHARACTERS = ', '")
     log.debug("--------------> Executed: ALTER SESSION SET NLS_DATE_FORMAT = 'DD.MM.YYYY HH24:MI'")
     cursor.close()
 
@@ -92,6 +93,7 @@ def select_one(stmt, args):
 def plsql_execute(cursor, f_name, cmd, args):
     try:
         cursor.execute(cmd, args)
+        log.info(f"------execute------> ERROR. {f_name}\ncmd: {cmd}\nargs: {args}")
     except oracledb.DatabaseError as e:
         error, = e.args
         log.error(f"------execute------> ERROR. {f_name}. args: {args}")

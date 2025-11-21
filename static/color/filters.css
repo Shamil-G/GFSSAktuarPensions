@@ -1,0 +1,20 @@
+.filter-panel {
+    background-color: #f0f8f4;
+    border-bottom: 1px solid #ccc;
+}
+
+.filter-panel label {
+    font-weight: bold;
+}
+
+.filter-panel input {
+    border: 1px solid #aaa;
+}
+
+.filter-panel button {
+    background-color: #cde2d3;
+}
+
+.filter-panel button:hover {
+    background-color: #b9d5c4;
+}

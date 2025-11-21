@@ -12,43 +12,54 @@
 {% endblock %}
 
 {% block body %}
-<table class="table_common" style="width: 400px">
-    <colgroup>
-        <col style="min-width: 200px">
-        <col style="min-width: 120px">
-        <col style="min-width: 200px">
-    </colgroup>
-    <thead>
-        <tr>
-            <th style="font-size:16px; width: 120px"><a>{{ res_value('NAME_REF_PARM') }}</a></th>
-            <th style="font-size:16px; width: 120px"><a>{{ res_value('YEAR') }}</a></th>
-            <th style="font-size:16px;"><a>{{ res_value('REF_VALUE') }}</a></th>
-        </tr>
-    </thead>
-    <tfoot></tfoot>
-    <tbody>
-    <tbody id="court_mainBody" data-role="edit-row row-click" data-action="filterByOrder">
-        {% for el in list_val %}
-        <tr>
-            <td style="text-align: center"><a>{{ el.name }}</a></td>
-            <td style="text-align: center"><a>{{ el.year }}</a></td>
-            <td style="text-align: center">
-                <input type="text" style="width: 115px; text-align: right; font-family: monospace; font-size: 16px"
-                       name="value"
-                       inputmode="decimal"
-                       pattern="^\d+(\.\d{1,2})?$"
-                       value="{{ el.value }}"
-                       readonly
-                       class="sum_civ_amount input_s_form" />
-
-                <button class="edit-btn tiny-btn" data-id="{{ el.name }}" data-year="{{ el.year }}" data-field="value">✏️</button>
-                <button class="save-btn tiny-btn" data-id="{{ el.name }}" data-year="{{ el.year }}" data-field="value" style="display:none;">💾</button>
-                <button class="cancel-btn tiny-btn" data-id="{{ el.name }}" data-year="{{ el.year }}" data-field="value" style="display:none;">❌</button>
-
-            </td>
-        </tr>
-        {% endfor %}
-<tbody>
-</table>
-<script type="module" id="pageScript" data-page="big_ref" src="static/js/main.js"></script>
-{% endblock %}
+<div class="container">
+    <div class="documents">
+        <table class="table_common" style="width: 400px" id="big_ref_mainTableHelper">
+            <colgroup>
+                <col style="min-width: 240px">
+                <col style="min-width: 120px">
+                <col style="min-width: 220px">
+            </colgroup>
+            <thead class="my_stick_head">
+                <tr>
+                    <th style="font-size:16px; width: 120px"><a>{{ res_value('NAME_REF_PARM') }}</a></th>
+                    <th style="font-size:16px; width: 120px"><a>{{ res_value('YEAR') }}</a></th>
+                    <th style="font-size:16px;"><a>{{ res_value('REF_VALUE') }}</a></th>
+                </tr>
+            </thead>
+            <tbody class="my_stick" id="big_ref_FilterZone">
+                <tr>
+                    <td style="padding: 4px 0px; text-align:center">
+                        <div data-role="menu"
+                             data-track="true"
+                             data-url="/filter-ref-name"
+                             data-target="big_ref_mainBody"
+                             style="min-width: 200px" class="dropdown">
+                            <input type="hidden" name="menuValue" id="menuValue">
+                            <button style="display: inline-block; border: 1px solid lightgray; min-width: 220px" type="button" class="dropdown-button period-button" id="menuButton">
+                                <i class="fas fa-filter"></i>
+                                <span class="label">{{ res_value('SELECT_REFER') }}</span>
+                                <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
+                            </button>
+                            <div style="min-width: 160px; margin-left: 20px" class="dropdown-content">
+                                {% for el in list_name %}
+                                <a data-value="{{ el.name }}" data-label="{{ el.name }}"><i class="fas fa-home"></i>{{ el.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody>
+            <tbody id="big_ref_mainBody" data-role="edit-row row-click">
+            <tbody>
+            <tfoot></tfoot>
+        </table>
+    </div>
+</div>
+    <script type="module" id="pageScript" data-page="big_ref" src="static/js/main.js"></script>
+    {% endblock %}

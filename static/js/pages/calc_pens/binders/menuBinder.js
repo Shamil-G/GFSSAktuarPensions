@@ -1,7 +1,7 @@
 ﻿import { TableLoader } from '/static/js/core/TableLoad.js';
 
 export const MenuBinder = {
-    role: 'menu',
+    role: 'menu-calc',
     massive: true,
 
     attach(dropdown, handler = null, force=false) {
@@ -44,11 +44,11 @@ export const MenuBinder = {
                 }));
 
                 // 🔹 Проверка на повторное значение
-                if (dropdown.__lastValue === value) {
-                    console.log(`⚠️ MenuBinder: duplicate value (${value}) — handler call skipped`);
-                    return;
-                }
-                dropdown.__lastValue = value;
+                //if (dropdown.__lastValue === value) {
+                //    console.log(`⚠️ MenuBinder: duplicate value (${value}) — handler call skipped`);
+                //    return;
+                //}
+                //dropdown.__lastValue = value;
 
                 //console.log(`MenuBinder. Dropdown: ${value}`);
 

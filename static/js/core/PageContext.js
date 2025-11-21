@@ -57,6 +57,7 @@ export class PageContext {
         await this.tabContext.load(); // или initialize(), если есть
 
         this.loader = new TabLoader(this.tabContext);
+
         this.attachZoneBinders();
 
         console.log('PageContext: initialized');
@@ -84,17 +85,26 @@ export class PageContext {
         return zone;
     }
 
-    getRequest(tabName, orderNum, zoneKey = 'fragment') {
+    getRequest(tabName, zoneKey, ...args) {
         const entry = this.tabContext.getEntry(tabName);
-        const req = entry?.request?.[zoneKey];
-        if (!req) return null;
+        if (!entry) {
+            console.warn(`[PageContext] Tab "${tabName}" not registered`);
+            return null;
+        }
 
-        const method = req.method || 'GET';
-        const url = typeof req.url === 'function' ? req.url(orderNum) : req.url;
-        const body = req.params ? req.params(orderNum) : null;
+        const req = entry.request?.[zoneKey];
+        if (!req) {
+            console.warn(`[PageContext] Request config for key "${zoneKey}" in tab "${tabName}" not found`);
+            return null;
+        }
+
+        const method = req.method || 'POST';
+        const url = typeof req.url === 'function' ? req.url(...args) : req.url;
+        const body = typeof req.params === 'function' ? req.params(...args) : req.params ?? null;
 
         return { method, url, body };
     }
+
 
     async loadTab(tabName, orderNum, zoneKey = 'fragment') {
         const entry = this.tabContext.getEntry(tabName);

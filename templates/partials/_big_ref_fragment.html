@@ -1,6 +1,22 @@
-{% for el in list_val %}
-<tr>
-    <td style="text-align: center"><a>{{ el.YEAR }}</a></td>
-    <td style="text-align: center"><a>{{ el.VALUE }}</a></td>
+﻿{% for el in list_val %}
+<tr data-role="edit-row" data-id="{{ el.name }}" data-year="{{ el.year}}">
+    <td style="text-align: center"><a>{{ el.name }}</a></td>
+    <td style="text-align: center">
+        <a>{{ el.year }}</a>
+    </td>
+    <td style="text-align: center">
+        <input type="text" style="width: 115px; text-align: right; font-family: monospace; font-size: 16px"
+               name="value"
+               inputmode="decimal"
+               pattern="^\d+(\.\d{1,2})?$"
+               value="{{ el.value }}"
+               readonly
+               class="sum_civ_amount input_s_form" />
+
+        <button class="edit-btn tiny-btn" data-id="{{ el.name }}" data-year="{{ el.year }}" data-field="value">✏️</button>
+        <button class="save-btn tiny-btn" data-id="{{ el.name }}" data-year="{{ el.year }}" data-field="value" style="display:none;">💾</button>
+        <button class="cancel-btn tiny-btn" data-id="{{ el.name }}" data-year="{{ el.year }}" data-field="value" style="display:none;">❌</button>
+
+    </td>
 </tr>
 {% endfor %}

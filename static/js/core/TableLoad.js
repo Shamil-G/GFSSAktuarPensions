@@ -18,14 +18,16 @@ export const TableLoader = {
         if (!target) return null;
 
         const { headers, body } = TabUtil.serializeParams(params);
+        //console.log("🧪 TableLoader.serializeParams → headers:", headers, "body:", body);
 
         try {
+            //console.log("TableLoad. WILL FETCH.  URL: ", url, ", headers: ", headers, ", BODY: ", body);
             const res = await fetch(url, { method: 'POST', headers, body });
             const html = await res.text();
 
             target.innerHTML = html;
 
-            //console.log("TableLoad. LOAD.  target: ", targetId, ", URL: ", url, ", params: ", params);
+            //console.log("TableLoad. LOAD.  target: ", targetId, ", URL: ", url, ", params: ", params, ", RES: ", res);
 
             return html; // ✅ теперь можно кэшировать
         } catch (err) {

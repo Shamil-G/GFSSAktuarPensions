@@ -42,4 +42,9 @@ LIST_NPA = НПА
 BIG_REF = Общий справочник
 NAME_REF_PARM = Справочная переменная
 REF_VALUE = Величина переменной 
+SELECT_REFER = Выберите справочник
+CALCULATIONS = Актуарные пенсионные расчеты
+CALCULATION_PERIOD=Провести актуарный расчет
+PERIOD_BY_FILTER=Расчет по отфильтрованным
+PERIOD_ALL=Полный расчет
 

@@ -12,7 +12,6 @@ export const EditRowTableBinder = {
             //console.log("edit-row. listener edit ...");
             const edit_btn = e.target.closest('.edit-btn');
             if (!edit_btn || !row.contains(edit_btn)) return;
-            console.log('.edit-btn continue...');
 
             e.stopPropagation();
 
@@ -63,7 +62,7 @@ export const EditRowTableBinder = {
             const year = save_btn.dataset.year;
             const value = save_btn.dataset.value;
 
-            console.log("ADDEventListener. SAVE edit-row. year: ", year);
+            //console.log("ADDEventListener. SAVE edit-row. year: ", year);
 
             if (!id || !field) {
                 console.warn('❌ EditBinder: missing id or field');
@@ -78,7 +77,7 @@ export const EditRowTableBinder = {
             ? [zone]
             : Array.from(zone.querySelectorAll(`[data-role~="${this.role}"]`));
 
-        console.log("EditRowTableBinder\n\t\t\tzone:\t", zone, "\n\t\t\tcontainers:\t", containers);
+        //console.log("EditRowTableBinder\n\t\t\tzone:\t", zone, "\n\t\t\tcontainers:\t", containers);
         containers.forEach(container => this.attach(container));
     }
     ,
@@ -156,7 +155,7 @@ export const EditRowTableBinder = {
             return;
         }
 
-        console.log('📡 SAVE REQUEST:', req);
+        //console.log('📡 SAVE REQUEST:', req);
 
         try {
             const res = await fetch(req.url, {
@@ -172,7 +171,7 @@ export const EditRowTableBinder = {
             }
 
             const result = await res.json();
-            console.log(`✅ ${field} saved: ${value} for ${id}/${year}`, result);
+            //console.log(`✅ ${field} saved: ${value} for ${id}/${year}`, result);
 
             this.cancelEdit(id, year, field);
         } catch (err) {
