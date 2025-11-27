@@ -1,34 +1,56 @@
-from flask import render_template, request, redirect, url_for, g, session
+from flask import render_template, request, redirect, url_for, g, session, abort, send_file
 from flask_login import login_required
 from main_app import app, log
 from util.functions import extract_payload
-
-from model.calc_pens import get_pens_items, calculate_in_db
+from model.calc_pens import get_pens_items, calculate_in_db, get_pivot_table, make_document
+import io
 
 
 @app.route('/show_pens')
+@login_required
 def view_show_pens():
-    filter=session.get('pens_filter', 'rownum<10')
+    filter=session.get('pens_filter', '1=1')
     (grouped_columns, rows )=get_pens_items(filter)
     log.debug(f"------->CALC PENS. START\n{grouped_columns}\nROWS: {rows}\n<-------")
     return render_template('calc_pens.html', columns=grouped_columns, rows=rows)
 
 
 @app.route('/calculate_pens', methods=['GET','POST'])
+@login_required
 def view_calc_pens():
     data = extract_payload()
     value = data.get('value', '')
 
-    filter=session.get('pens_filter', 'rownum<10')    
+    filter=''
+    if value=='filter':
+        filter=session.get('pens_filter', '1=2')    
+        calculate_in_db(value, filter)
+    if value=='all':
+        filter=session.get('pens_filter', '1=1')    
+        # calculate_in_db(value, filter)
 
     log.info(f"CALCULATE_PENS. value: {value}, filter: {filter}")
-
-    calculate_in_db(value, filter)
 
     (grouped_columns, rows )=get_pens_items(filter)
 
     log.debug(f"------->CALC PENS. START\n{grouped_columns}\nROWS: {rows}\n<-------")
-    return render_template('calc_pens.html', columns=grouped_columns, rows=rows)
+    return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
+
+
+@app.route('/print_pens', methods=['GET','POST'])
+@login_required
+def view_print_pens():
+    format_type = request.args.get("format", "excel")
+    value = request.args.get("value")
+
+    filter=''
+    if value=='filter':
+        filter=session.get('pens_filter', '1=2')    
+        calculate_in_db(value, filter)
+    if value=='all':
+        filter=session.get('pens_filter', '1=2')    
+
+    return make_document(filter, format_type)
 
 
 @app.route('/filter-pens-year', methods=['GET','POST'])
@@ -58,7 +80,7 @@ def view_pens_id():
         return '', 200
 
     log.info(f"FILTER_PENS_ID\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
-    filter = f"ids={ids}"
+    filter = f"ids like '{ids}%'"
     session['pens_filter']=filter
 
     (grouped_columns, rows )=get_pens_items(filter)

@@ -3,6 +3,13 @@ form {
     padding: 24px 15px 24px 24px;
     text-shadow: none;
 }
+.form_r {
+    margin: 12px;
+    padding: 6px;
+    border-radius: 5px;
+    border: 1px solid rgba(180, 180, 180, 0.3);
+}
+
 .form_op {
     margin: 1px 1px;
     padding: 4px 12px 4px 12px;

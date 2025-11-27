@@ -9,68 +9,64 @@
     max-width: 100%;
     overflow-x: auto;
     display: block;
+    max-height: calc(100vh - 186px);
 }
-
 /* Основная таблица */
 .report-table {
     width: max-content;
     border-collapse: collapse;
-    background-color: #e6f4ea; /* общий фон */
     table-layout: auto;
 }
 
-    /* Все ячейки */
-    .report-table th,
-    .report-table td {
-        border: 1px solid #ccc;
-        padding: 4px 8px;
-        white-space: nowrap;
-        background-color: inherit;
-    }
+/* Все ячейки */
+.report-table th,
+.report-table td {
+    border: 1px solid #ccc;
+    padding: 4px 8px;
+    white-space: nowrap;
+    background-color: inherit;
+}
 
-    /* Заголовки */
-    .report-table th {
-        font-weight: bold;
-        text-align: center;
-        vertical-align: middle;
-    }
+/* Заголовки */
+.report-table th {
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+}
 
-        /* Фиксированные строки (верхняя строка) */
-        .report-table th.sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 3;
-            background-color: #cde2d3; /* затемнённый зелёный */
-        }
+/* Фиксированные строки (верхняя строка) */
+.report-table th.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+}
 
-        /* Фиксированные колонки */
-        .report-table th.sticky-col,
-        .report-table td.sticky-col {
-            position: sticky;
-            z-index: 2;
-            min-width: 100px;
-            max-width: 100px;
-            background-color: #d8ecdd; /* светло-зелёный */
-            box-shadow: 2px 0 5px -2px rgba(0,0,0,0.1);
-        }
+/* Фиксированные колонки */
+.report-table th.sticky-col,
+.report-table td.sticky-col {
+    position: sticky;
+    z-index: 2;
+    min-width: 100px;
+    max-width: 100px;
+    box-shadow: 2px 0 5px -2px rgba(0,0,0,0.1);
+}
 
-            /* Комбинация: фиксированная строка + колонка */
-            .report-table th.sticky-col.sticky-header {
-                background-color: #b9d5c4; /* ещё темнее — для пересечения */
-                z-index: 4;
-            }
+/* Комбинация: фиксированная строка + колонка */
+.report-table th.sticky-col.sticky-header {
+    z-index: 4;
+}
 
-            /* Первая фиксированная колонка */
-            .report-table th.sticky-col:nth-child(1),
-            .report-table td.sticky-col:nth-child(1) {
-                left: 0;
-            }
+/* Первая фиксированная колонка */
+.report-table th.sticky-col:nth-child(1),
+.report-table td.sticky-col:nth-child(1) {
+    left: 0;
+}
 
-            /* Вторая фиксированная колонка */
-            .report-table th.sticky-col:nth-child(2),
-            .report-table td.sticky-col:nth-child(2) {
-                left: 100px;
-            }
+/* Вторая фиксированная колонка */
+.report-table th.sticky-col:nth-child(2),
+.report-table td.sticky-col:nth-child(2) {
+    left: 100px;
+}
 
 
 
@@ -78,7 +74,6 @@
 .my_stick_head {
     position: sticky;
     top: 0;
-    background-color: #c9edcd;
     z-index: 2;
     border: 1px solid grey;
 }
@@ -134,4 +129,20 @@ tr.disabled-row:hover {
 на размеры блока. В секции  main.css это не работает!!! */
 *, *:after, *:before {
     box-sizing: border-box;
+}
+reports > a {
+    font-size: 18px;
+    text-decoration: none;
+    align-items: center;
+    padding: 5px 5px 5px 10px;
+    display: block;
+    border: inherit;
+    border-radius: inherit;
+    text-shadow: 1px 1px 3px grey;
+    /*text-shadow: none;*/
+}
+
+reports > a:hover {
+    text-decoration: none;
+    border-radius: 4px;
 }

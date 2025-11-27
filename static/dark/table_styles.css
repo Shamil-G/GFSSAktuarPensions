@@ -1,3 +1,13 @@
+/* бегунок */
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #555; /* серый, видимый на чёрном */
+    border-radius: 4px;
+}
+
+/* при наведении */
+.table-container::-webkit-scrollbar-thumb:hover {
+    background-color: #777;
+}
 tr > th {
     border: 1px solid rgba(180, 180, 180, 0.3);
 }
@@ -53,18 +63,10 @@ reports {
     text-align: left; /*Центрируем текст по горизонтали*/
 }
 reports > a {
-    text-decoration: none;
-    align-items: center;
-    padding: 5px 5px 5px 10px;
-    display: block;
-    border: inherit;
-    border-radius: inherit;
-    color: #fff;
+   color: #fff;
 }
 reports > a:hover {
     background: #777;
     color: wheat;
-    text-decoration: none;
-    border-radius: 4px;
 }
 

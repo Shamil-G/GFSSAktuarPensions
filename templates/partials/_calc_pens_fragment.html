@@ -23,19 +23,21 @@
             </tr>
         </thead>
         <tbody>
-            {% for row in rows %}
-            <tr>
-                <td class="sticky-col">{{ row.get('Ид', '') }}</td>
-                <td class="sticky-col">{{ row.get('Дата рождения', '') }}</td>
-                {% for year, cols in columns.items() %}
-                {% for col in cols %}
-                <td style=" text-align: right; min-width: 128px; white-space: nowrap;">
-                    {{ row.get(col, '') }}
-                </td>
+            {% if rows and columns %}
+                {% for row in rows %}
+                <tr>
+                    <td class="sticky-col">{{ row.get('Ид', '') }}</td>
+                    <td class="sticky-col">{{ row.get('Дата рождения', '') }}</td>
+                    {% for year, cols in columns.items() %}
+                        {% for col in cols %}
+                        <td style=" text-align: right; min-width: 128px; white-space: nowrap;">
+                            {{ row.get(col, '') }}
+                        </td>
+                        {% endfor %}
+                    {% endfor %}
+                </tr>
                 {% endfor %}
-                {% endfor %}
-            </tr>
-            {% endfor %}
+            {% endif %}
         </tbody>
     </table>
 </div>

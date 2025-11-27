@@ -1,5 +1,6 @@
 ﻿import { FilterInputBinder } from '/static/js/pages/calc_pens/binders/filterInputBinder.js';
-import { MenuBinder } from '/static/js/pages/calc_pens/binders/menuBinder.js';
+import { MenuBinder }      from '/static/js/pages/calc_pens/binders/menuBinder.js';
+import { MenuPrintBinder } from '/static/js/pages/calc_pens/binders/menuPrintBinder.js';
 import { HelperBinder } from '/static/js/binders/standart/helperBinder.js';
 
 
@@ -13,7 +14,7 @@ export const calcPensTabContext = {
 
     binders: {
         mainTableHelper: [HelperBinder],
-        filters: [FilterInputBinder, MenuBinder],
+        filters: [FilterInputBinder, MenuBinder, MenuPrintBinder],
     },
 /*
     request: {

@@ -1,4 +1,23 @@
-﻿table {
+﻿.report-table {
+    background-color: #e6f4ea; /* общий фон */
+}
+.my_stick_head {
+    background-color: #c9edcd;
+}
+/* Комбинация: фиксированная строка + колонка */
+.report-table th.sticky-col.sticky-header {
+    background-color: #b9d5c4; /* ещё темнее — для пересечения */
+}
+/* Фиксированные строки (верхняя строка) */
+.report-table th.sticky-header {
+    background-color: #cde2d3; /* затемнённый зелёный */
+}
+/* Фиксированные колонки */
+.report-table th.sticky-col,
+.report-table td.sticky-col {
+    background-color: #d8ecdd; /* светло-зелёный */
+}
+table {
     box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.1);
 }
 tr > th {
@@ -50,4 +69,11 @@ table tbody > tr:hover {
 }
 ::-webkit-scrollbar-thumb {
     box-shadow: inset 0 0 3px rgba(255 0 0 / 1);
+}
+reports > a {
+    color: green;
+}
+
+reports > a:hover {
+    background-color: #cfefd5;
 }

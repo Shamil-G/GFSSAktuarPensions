@@ -1,0 +1,18 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}
+{{ res_value('LIST_REPORTS') }}
+{% endblock %}
+
+{% block main_title %}
+{{ res_value('LIST_REPORTS') }}
+{% endblock %}
+
+
+{% block body %}
+<form class="form_r">
+    <reports>
+        <a href="/reports/summary_01">1. Итоговый отчет по проекту пенсионных выплат</a>
+    </reports>
+</form>
+{% endblock %}

@@ -1,0 +1,56 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}
+{{ res_value('COEFF_REF') }}
+{% endblock %}
+
+{% block main_title %}
+{{ res_value('COEFF_REF') }}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="documents">
+        <table class="table_common" style="width: 800px">
+            <colgroup>
+                <col style="min-width: 120px">
+                <col style="min-width: 100px">
+                <col style="min-width: 460px">
+            </colgroup>
+            <thead class="my_stick_head">
+                <tr>
+                    <th style="font-size:16px; width: 120px"><a>{{ res_value('NAME_REF_PARM') }}</a></th>
+                    <th style="font-size:16px;"><a>{{ res_value('REF_VALUE') }}</a></th>
+                    <th style="font-size:16px; width: 120px"><a>{{ res_value('DESCR_PARAM') }}</a></th>
+                </tr>
+            </thead>
+            <tbody id="coeff_ref_mainBody" data-role="edit-row row-click">
+                {% for el in list_val %}
+                <tr data-role="edit-row" data-id="{{ el.name }}">
+                    <td style="text-align: left; padding-left: 10px; padding-right: 10px"><a>{{ el.name }}</a></td>
+                    <td style="text-align: center">
+                        <input type="text" style="width: 80px; text-align: right; font-family: monospace; font-size: 16px"
+                               name="value"
+                               inputmode="decimal"
+                               pattern="^\d+(\.\d{1,2})?$"
+                               value="{{ el.value }}"
+                               readonly
+                               class="sum_civ_amount input_s_form" />
+
+                        <button class="edit-btn tiny-btn" data-id="{{ el.name }}" data-field="value">✏️</button>
+                        <button class="save-btn tiny-btn" data-id="{{ el.name }}" data-field="value" style="display:none;">💾</button>
+                        <button class="cancel-btn tiny-btn" data-id="{{ el.name }}" data-field="value" style="display:none;">❌</button>
+
+                    </td>
+                    <td style="text-align: left; padding-left: 10px">
+                        <a>{{ el.descr }}</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            <tbody>
+            <tfoot></tfoot>
+        </table>
+    </div>
+</div>
+<script type="module" id="pageScript" data-page="coeff_ref" src="static/js/main.js"></script>
+{% endblock %}

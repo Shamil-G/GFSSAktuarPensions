@@ -8,26 +8,23 @@
 {{ res_value('CALCULATIONS') }}
 {% endblock %}
 
-{% block navigate %}
-{% endblock %}
-
 {% block body %}
 <div id="calc_pens_FilterZone" class="filter-panel">
     <label>
         Ид:
-        <input id="filter-id" 
-               data-role="filter-input" 
-               data-url="/filter-pens-id" 
-               data-target="calc_pens_mainBody" 
+        <input id="filter-id"
+               data-role="filter-input"
+               data-url="/filter-pens-id"
+               data-target="calc_pens_mainBody"
                type="text" placeholder="Введите Ид">
     </label>
 
     <label>
         Год рождения:
-        <input id="filter-year" 
-               data-role="filter-input" 
-               data-url="/filter-pens-year" 
-               data-target="calc_pens_mainBody" 
+        <input id="filter-year"
+               data-role="filter-input"
+               data-url="/filter-pens-year"
+               data-target="calc_pens_mainBody"
                type="number" placeholder="Напр. 1964">
     </label>
 
@@ -37,7 +34,7 @@
          data-track="true"
          style="min-width: 200px" class="dropdown">
         <input type="hidden" name="menuValuePeriod" id="menuValuePeriod">
-        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px" type="button" 
+        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px" type="button"
                 class="dropdown-button period-button" id="menuButton">
             <i class="fas fa-filter"></i>
             <span class="label">{{ res_value('CALCULATION_PERIOD') }}</span>
@@ -49,9 +46,25 @@
         </div>
     </div>
 
-    <!--<button onclick="applyFilters()">Фильтровать</button>-->
     <!--<button onclick="triggerCalculation()">Расчёт</button>-->
-    <button onclick="window.print()">Печать</button>
+    <!--<button onclick="window.print()">Печать</button>-->
+    <div data-role="menu-print"
+         data-url="/print_pens"
+         data-track="true"
+         style="min-width: 200px" class="dropdown">
+        <input type="hidden" name="menuValuePrintPeriod" id="menuValuePrintPeriod">
+        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px" type="button"
+                class="dropdown-button period-button" id="menuPrintButton">
+            <i class="fas fa-filter"></i>
+            <span class="label">{{ res_value('PRINT_PERIOD') }}</span>
+            <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
+        </button>
+        <div style="min-width: 160px; margin-left: 20px" class="dropdown-content">
+            <a data-value="filter" data-label="{{res_value('PRINT_BY_FILTER')}}"><i class="fas fa-home"></i>{{res_value('PRINT_BY_FILTER')}}</a>
+            <a data-value="all" data-label="{{res_value('PRINT_ALL')}}"><i class="fas fa-envelope"></i>{{res_value('PRINT_ALL')}}</a>
+        </div>
+    </div>
+
 </div>
 <!--<div class="container">-->
 <div  id="calc_pens_mainBody">
@@ -76,19 +89,21 @@
                 </tr>
             </thead>
             <tbody>
-                {% for row in rows %}
-                <tr>
-                    <td class="sticky-col">{{ row.get('Ид', '') }}</td>
-                    <td class="sticky-col">{{ row.get('Дата рождения', '') }}</td>
-                    {% for year, cols in columns.items() %}
-                    {% for col in cols %}
-                    <td style=" text-align: right; min-width: 128px; white-space: nowrap;">
-                        {{ row.get(col, '') }}
-                    </td>
+                {% if rows and columns %}
+                    {% for row in rows %}
+                    <tr>
+                        <td class="sticky-col">{{ row.get('Ид', '') }}</td>
+                        <td class="sticky-col">{{ row.get('Дата рождения', '') }}</td>
+                        {% for year, cols in columns.items() %}
+                            {% for col in cols %}
+                            <td style=" text-align: right; min-width: 128px; white-space: nowrap;">
+                                {{ row.get(col, '') }}
+                            </td>
+                            {% endfor %}
+                        {% endfor %}
+                    </tr>
                     {% endfor %}
-                    {% endfor %}
-                </tr>
-                {% endfor %}
+                {% endif %}
             </tbody>
         </table>
     </div>

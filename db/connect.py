@@ -93,10 +93,10 @@ def select_one(stmt, args):
 def plsql_execute(cursor, f_name, cmd, args):
     try:
         cursor.execute(cmd, args)
-        log.info(f"------execute------> ERROR. {f_name}\ncmd: {cmd}\nargs: {args}")
+        log.debug(f"------execute------> INFO. {f_name}\ncmd: {cmd}\nargs: {args}")
     except oracledb.DatabaseError as e:
         error, = e.args
-        log.error(f"------execute------> ERROR. {f_name}. args: {args}")
+        log.error(f"------execute------> ERROR\n{f_name}\n{cmd}\nargs: {args}")
         log.error(f"Oracle error: {error.code} : {error.message}")
 
 

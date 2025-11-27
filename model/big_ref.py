@@ -11,10 +11,18 @@ def get_big_ref_items(parm_name):
         where pp.name=coalesce(:parm_name,pp.name)
         order by name, year
     """
-    log.debug(f'GET BIG REF ITEMS. PARM NAME: {parm_name}')
+    stmt_k = """
+        select name, year, value, version, active
+        from pens_params pp
+        where pp.type='K'
+        order by name, year
+    """
+    log.info(f'GET BIG REF ITEMS. PARM NAME: {parm_name}')
     with get_connection() as connection:
         with connection.cursor() as cursor:
-            cursor.execute(stmt, parm_name=parm_name)
+            match parm_name:
+                case 'Коэффициенты': cursor.execute(stmt_k)
+                case _: cursor.execute(stmt, parm_name=parm_name)
             
             result = []
             records = cursor.fetchall()
@@ -28,7 +36,9 @@ def get_big_ref_items(parm_name):
 def get_unique_big_ref_name():
     stmt = """
         select unique name
-        from pens_params pp
+        from pens_params pp where type='L'
+        union 
+        select 'Коэффициенты' from dual
         order by name
     """
     log.debug(f'GET UNIQUE BIG REF NAME.')

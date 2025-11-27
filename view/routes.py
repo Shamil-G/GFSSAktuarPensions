@@ -10,7 +10,10 @@ from util.ip_addr import ip_addr
 
 # from view.routes_overpayments import *
 from view.ref_route import *
+from view.ref_coeff_route import *
 from view.calc_pens_route import *
+
+from reports.get_summary_01 import  make_report_summary_01
 
 log.info("Routes стартовал...")
 
@@ -91,3 +94,19 @@ def set_language(lang):
     else:
         return redirect(url_for('view_root'))
 
+
+@app.route('/reports', methods=['GET'])
+@app.route('/reports/<report_name>', methods=['GET'])
+@login_required
+def view_reports(report_name=None):
+
+    log.info(f'VIEW REPORTS. START {report_name}')
+    match report_name:
+        case 'summary_01':  
+            return make_report_summary_01()
+        case _: 
+            log.info(f'VIEW REPORTS. CASE DEFAULT')
+
+    log.info(f'VIEW REPORTS. FINISH')
+    # return render_template("index.html")
+    return render_template("reports.html")

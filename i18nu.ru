@@ -47,4 +47,11 @@ CALCULATIONS = Актуарные пенсионные расчеты
 CALCULATION_PERIOD=Провести актуарный расчет
 PERIOD_BY_FILTER=Расчет по отфильтрованным
 PERIOD_ALL=Полный расчет
+PRINT_PERIOD=Распечатать
+PRINT_BY_FILTER=Распечатать отфильтрованные
+PRINT_ALL=Распечатать всё
+LIST_REPORTS=Отчеты
+DESCR_PARAM=Описание параметра
+COEFF_REF=Справочник коеффициентов
+
 

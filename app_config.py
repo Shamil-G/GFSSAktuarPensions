@@ -9,6 +9,7 @@ LOG_PATH = "logs"
 LOAD_PATH = './loads/'
 src_lang = 'file'
 language = 'ru'
+REPORT_PATH='reports/'
 
 ldap_admins = ['Гусейнов Шамиль Аладдинович']
 admin_deps = ['Департамент анализа, учета и статистики',

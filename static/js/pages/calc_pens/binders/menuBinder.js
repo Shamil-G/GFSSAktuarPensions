@@ -19,6 +19,7 @@ export const MenuBinder = {
         const url = dropdown.dataset.url;
         const targetId = dropdown.dataset.target;
         const actionName = dropdown.dataset.action;
+        console.log('menu-calc. MenuBinder. Target: ', targetId, ', URL: ', url, ', action: ')
 
         items.forEach(item => {
             item.addEventListener('click', (event) => {
@@ -53,7 +54,7 @@ export const MenuBinder = {
                 //console.log(`MenuBinder. Dropdown: ${value}`);
 
                 if (actionName) {
-                    //console.log("MenuBinder. actionName: ", actionName);
+                    console.log("MenuBinder. actionName: ", actionName);
                     const fn = window[actionName] || API?.[actionName];
                     //console.log("MenuBinder. FN: ", fn);
                     if (typeof fn === 'function') {

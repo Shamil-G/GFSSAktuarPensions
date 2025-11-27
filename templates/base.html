@@ -44,7 +44,9 @@
         <nav>
             {% if g.user.is_authenticated %}
             <a class="nav_button" href="/show_pens">{{ res_value('CALCULATIONS') }}</a>
+            <a class="nav_button" href="/reports">{{ res_value('LIST_REPORTS') }}</a>
             <a class="nav_button" href="/big_ref">{{ res_value('BIG_REF') }}</a>
+            <a class="nav_button" href="/coeff_ref">{{ res_value('COEFF_REF') }}</a>
             <a class="nav_button" href="/logout">{{ res_value('LOGOUT_BUTTON') }}</a>
             {% else %}
             <a class="nav_button" href="/login">{{ res_value('LOGIN_BUTTON') }}</a>
