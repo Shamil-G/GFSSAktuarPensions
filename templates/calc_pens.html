@@ -32,10 +32,12 @@
          data-url="/calculate_pens"
          data-target="calc_pens_mainBody"
          data-track="true"
+         data-task="'Прогнозирование пенсионных расходов'"
          style="min-width: 200px" class="dropdown">
         <input type="hidden" name="menuValuePeriod" id="menuValuePeriod">
         <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px" type="button"
-                class="dropdown-button period-button" id="menuButton">
+                class="dropdown-button period-button" 
+                id="menuButton">
             <i class="fas fa-filter"></i>
             <span class="label">{{ res_value('CALCULATION_PERIOD') }}</span>
             <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
@@ -64,6 +66,8 @@
             <a data-value="all" data-label="{{res_value('PRINT_ALL')}}"><i class="fas fa-envelope"></i>{{res_value('PRINT_ALL')}}</a>
         </div>
     </div>
+
+    <div id="status" style="font-size: 18px"></div>
 
 </div>
 <!--<div class="container">-->

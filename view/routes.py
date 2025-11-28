@@ -1,7 +1,7 @@
-from flask import render_template, request, redirect, url_for, g, session
+from flask import render_template, request, redirect, url_for, g, session, jsonify
 from flask_login import login_user
 import requests
-
+import time
 from main_app import app, log
 from util.i18n import get_i18n_value
 from app_config import styles, sso_server
@@ -12,6 +12,9 @@ from util.ip_addr import ip_addr
 from view.ref_route import *
 from view.ref_coeff_route import *
 from view.calc_pens_route import *
+from model.manage_task import get_task_status
+
+# from util.functions import extract_payload
 
 from reports.get_summary_01 import  make_report_summary_01
 
@@ -110,3 +113,10 @@ def view_reports(report_name=None):
     log.info(f'VIEW REPORTS. FINISH')
     # return render_template("index.html")
     return render_template("reports.html")
+
+
+@app.route('/task_status/<int:task_id>')
+@login_required
+def task_status(task_id):
+    status=get_task_status(task_id)
+    return jsonify({"status": status})

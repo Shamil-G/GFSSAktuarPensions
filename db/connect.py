@@ -90,26 +90,26 @@ def select_one(stmt, args):
                 return mistake, rec, err_mess
 
 
-def plsql_execute(cursor, f_name, cmd, args):
+def plsql_execute(cursor, proc_name, cmd, args):
     try:
         cursor.execute(cmd, args)
-        log.debug(f"------execute------> INFO. {f_name}\ncmd: {cmd}\nargs: {args}")
+        log.debug(f"------execute------> INFO. {proc_name}\ncmd: {cmd}\nargs: {args}")
     except oracledb.DatabaseError as e:
         error, = e.args
-        log.error(f"------execute------> ERROR\n{f_name}\n{cmd}\nargs: {args}")
+        log.error(f"------execute------> ERROR\n{proc_name}\n{cmd}\nargs: {args}")
         log.error(f"Oracle error: {error.code} : {error.message}")
+
+
+def plsql_execute_s(f_name, proc_name, args):
+    with get_connection() as connection:
+        with connection.cursor() as cursor:
+            plsql_execute(cursor, f_name, proc_name, args)
 
 
 def plsql_proc_s(f_name, proc_name, args):
     with get_connection() as connection:
         with connection.cursor() as cursor:
             plsql_proc(cursor, f_name, proc_name, args)
-
-
-def plsql_func_s(f_name, proc_name, args):
-    with get_connection() as connection:
-        with connection.cursor() as cursor:
-            return plsql_func(cursor, f_name, proc_name, args)
 
 
 def plsql_proc(cursor, f_name, proc_name, args):
@@ -131,6 +131,12 @@ def plsql_func(cursor, f_name, func_name, args):
         log.error(f"-----plsql-func-----> ERROR. {f_name}. args: {args}")
         log.error(f"Oracle error: {error.code} : {error.message}")
     return ret
+
+
+def plsql_func_s(f_name, proc_name, args):
+    with get_connection() as connection:
+        with connection.cursor() as cursor:
+            return plsql_func(cursor, f_name, proc_name, args)
 
 
 if __name__ == "__main__":

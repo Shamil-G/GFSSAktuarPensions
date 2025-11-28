@@ -3,7 +3,7 @@ from flask_login import login_required
 from main_app import app, log
 from util.functions import extract_payload
 from model.calc_pens import get_pens_items, calculate_in_db, get_pivot_table, make_document
-import io
+import time
 
 
 @app.route('/show_pens')
@@ -23,15 +23,16 @@ def view_calc_pens():
 
     filter=''
     if value=='filter':
-        filter=session.get('pens_filter', '1=2')    
-        calculate_in_db(value, filter)
+        task_id = int(time.time())
+        filter=session.get('pens_filter', '1=2')
+        calculate_in_db(task_id, value, filter)
     if value=='all':
         filter=session.get('pens_filter', '1=1')    
-        # calculate_in_db(value, filter)
+        calculate_in_db(task_id, value, filter)
 
     log.info(f"CALCULATE_PENS. value: {value}, filter: {filter}")
 
-    (grouped_columns, rows )=get_pens_items(filter)
+    (grouped_columns, rows)=get_pens_items(filter)
 
     log.debug(f"------->CALC PENS. START\n{grouped_columns}\nROWS: {rows}\n<-------")
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)

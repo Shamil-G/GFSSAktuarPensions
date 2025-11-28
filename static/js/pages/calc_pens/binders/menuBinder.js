@@ -36,8 +36,12 @@ export const MenuBinder = {
                 hiddenInput.value = value;
                 if (labelSpan) labelSpan.textContent = label;
 
-                items.forEach(i => i.classList.remove('selected'));
-                anchor.classList.add('selected');
+
+                // items.forEach(i => i.classList.remove('selected'));
+                // anchor.classList.add('selected');
+
+                // получаем имя задачи
+                const taskName = dropdown.dataset.task;
 
                 dropdown.dispatchEvent(new CustomEvent('menu-changed', {
                     bubbles: true,
@@ -65,6 +69,8 @@ export const MenuBinder = {
                         console.warn(`❌ MenuBinder: handler '${actionName}' not found`);
                     }
                 }
+                // показываем статус
+                document.getElementById('status').textContent = "Задача '" + taskName + "' выполняется...";
 
                 // Не всегда при изменении пункта меню надо что то обновлять
                 if (targetId && url) {

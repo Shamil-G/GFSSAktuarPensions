@@ -135,5 +135,23 @@ def get_unique_year(filter):
             return result
 
 
-def calculate_in_db(select_value, filter):
-    plsql_proc_s('calculate_in_db', 'aktuar_pension.calculate_by_filter', (select_value, filter))
+def calculate_in_db(task_id, select_value, filter):
+    with get_connection() as connection:
+        with connection.cursor() as cursor:
+            # планируем задачу в фоне через DBMS_SCHEDULER
+            task_name = 'aktuar.aktuar_pension.create_task_calculate'
+            params = {'task_id': task_id, 'select_value': select_value, 'filter': filter}
+            cursor.execute(f'begin {task_name}(:task_id, :select_value, :filter); end;', params)
+            cmd =  f"""
+                BEGIN
+                  DBMS_SCHEDULER.create_job (
+                    job_name        => 'TASK_{task_id}',
+                    job_type        => 'PLSQL_BLOCK',
+                    job_action      => 'BEGIN aktuar.aktuar_pension.calculate_by_task({task_id}); END;',
+                    start_date      => SYSTIMESTAMP,
+                    enabled         => TRUE
+                  );
+                END;
+            """
+            log.info(f"CALCULATE IN DB: CMD:\n{cmd}")
+            cursor.execute(cmd)
