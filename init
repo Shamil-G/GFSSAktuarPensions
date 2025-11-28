@@ -1,0 +1,20 @@
+#python3 -m venv venv
+PROJECT_DIR=$HOME/GFSSAktuarPensions
+. $PROJECT_DIR/venv/bin/activate
+echo 'DIR' $PROJECT_DIR
+pip install --upgrade pip
+#pip install flask
+#pip install flask_login
+#pip install oracledb
+#pip install requests
+#pip install gunicorn
+#pip install gevent
+#pip install xlsxwriter
+#pip install redis
+#pip install openpyxl
+#pip install wsgi
+#python main_app.py
+#pip install ldap3
+#pip install pandas
+#pip install reportlab
+gunicorn

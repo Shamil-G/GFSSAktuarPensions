@@ -2,7 +2,7 @@ from gfss_parameter import BASE
 
 styles = ['color','dark']
 
-port = 5151
+port = 5081
 host = 'localhost'
 LOG_PATH = "logs"
 #URL_LOGIN = 'http://192.168.1.34:8000'

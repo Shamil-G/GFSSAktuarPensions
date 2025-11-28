@@ -13,7 +13,7 @@ access_log_format = '%({x-forwarded-for}i)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)
 accesslog = "logs/court-gunicorn-access.log"
 error_log_format = '%({x-forwarded-for}i)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s"  "%(a)s"'
 errorlog = "logs/court-gunicorn-error.log"
-proc_name = 'COURT-GFSS'
+proc_name = 'PENS-GFSS'
 # Перезапуск после N кол-во запросов
 max_requests = 100
 # Перезапуск, если ответа не было более 60 сек

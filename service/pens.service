@@ -1,0 +1,14 @@
+[Unit]
+Description=GUNICORN-PENS
+After=network.target
+
+[Service]
+Type=simple
+User=pens
+Group=pens
+WorkingDirectory=/home/pens/GFSSAktuarPensions
+Environment="LD_LIBRARY_PATH=/home/oracle/client/21.3/lib" "ORACLE_HOME=/home/oracle/client/21.3" "VENV_HOME=/home/pens/GFSSAktuarPensions/venv/bin" "PATH=/home/pens/GFSSAktuarPensions/venv/bin"
+ExecStart=/home/pens/GFSSAktuarPensions/venv/bin/gunicorn
+
+[Install] 
+WantedBy=multi-user.target

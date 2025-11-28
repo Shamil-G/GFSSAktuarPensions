@@ -1,0 +1,10 @@
+systemctl get-default
+systemctl daemon-reload
+systemctl enable /home/pens/GFSSAktuarPensions/service/pens.service
+systemctl --now pens
+#systemctl stop pens
+systemctl start pens
+systemctl status -l pens
+
+#firewall-cmd --add-port=8090/tcp --permanent
+#firewall-cmd --reload

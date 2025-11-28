@@ -1,0 +1,4 @@
+systemctl stop pens
+systemctl start pens
+sleep 1
+systemctl status -l pens
