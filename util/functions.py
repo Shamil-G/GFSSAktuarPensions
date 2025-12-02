@@ -15,11 +15,11 @@ def extract_payload():
         if isinstance(data, dict):
             return data
         else:
-            log("⚠️ JSON не распарсен, пробуем вручную")
+            log.info("⚠️ JSON не распарсен, пробуем вручную")
             try:
                 return json.loads(request.data.decode('utf-8'))
             except Exception as e:
-                log(f"❌ Ошибка при ручном JSON-декодировании: {e}" )
+                log.info(f"❌ Ошибка при ручном JSON-декодировании: {e}" )
                 return {}
     elif 'application/x-www-form-urlencoded' in content_type:
         return request.form.to_dict()

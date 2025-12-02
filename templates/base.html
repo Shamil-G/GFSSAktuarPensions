@@ -15,13 +15,39 @@
     <div id="global-modal-layer"></div>
 
     <common-container>
-        <header>
-            <header-l><img class="img-logo" src="/static/img/logo-g.ico"><a style="font-size:20px">&emsp;{{ res_value('APP_NAME') }}</a> </header-l>
+        <header id="scenario_FilterZone">
+            <header-l style="font-size:20px">
+                <img class="img-logo" src="/static/img/logo-g.ico"><a>&emsp;{{ res_value('APP_NAME') }},</a>
+                <a style="margin-left:20px" id="scenarioLabel">
+                    &emsp;Сценарий:
+                    <span id="scenarioName">{{ session.get('name_scenario', '') }}</span>
+                </a>
+                <div data-role="menu-scenario"
+                     data-url="/set-scenario"
+                     data-target="calc_pens_mainBody"
+                     style="min-width: 180px; margin-left: 20px" class="dropdown">
+                    <input type="hidden" name="menuValue" id="menuValue">
+                    <button style="display: inline-block; border: 1px solid lightgray; min-width: 180px" type="button"
+                            class="dropdown-button period-button"
+                            id="menuButton">
+                        <i class="fas fa-filter"></i>
+                        <span class="label">{{ res_value('SELECT_SCENARIO') }}</span>
+                        <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
+                    </button>
+                    <div style="min-width: 210px;" class="dropdown-content">
+                        <a data-value="work" data-label="{{res_value('WOKR_SCENARIO')}}"><i class="fas fa-home"></i>{{res_value('WOKR_SCENARIO')}}</a>
+                        <a data-value="real" data-label="{{res_value('REAL_SCENARIO')}}"><i class="fas fa-envelope"></i>{{res_value('REAL_SCENARIO')}}</a>
+                        <a data-value="optim" data-label="{{res_value('OPTIMISTIC_SCENARIO')}}"><i class="fas fa-envelope"></i>{{res_value('OPTIMISTIC_SCENARIO')}}</a>
+                        <a data-value="pessimistic" data-label="{{res_value('PESSIMISTIC_SCENARIO')}}"><i class="fas fa-envelope"></i>{{res_value('PESSIMISTIC_SCENARIO')}}</a>
+                    </div>
+                </div>
+            </header-l>
 
             <header-c>
                 <!--<a class="nav_button" style="margin-left: 16px; padding: 6px 24px" href="https://tolem.gfss.kz">Tolem</a>-->
                 <a class="nav_button" style="margin-left: 16px; padding: 6px 24px" href="http://qyzmetker:80">Qyzmetker</a>
-                <!--<a class="nav_button" style="margin-left: 16px; padding: 6px 24px" href="http://qyzmetker:8090">Python Reports</a>-->
+                <a class="nav_button" style="margin-left: 16px; padding: 6px 24px" href="http://qyzmetker:8090">{{ res_value('PYTHON_REPORTS') }}</a>
+                <a class="nav_button" style="margin-left: 16px; padding: 6px 24px" href="http://qyzmetker:8080">{{ res_value('PROVISION') }}</a>
             </header-c>
             <header-r>
                 {% if 'style' in session and session['style'] == 'color' %}
@@ -39,11 +65,13 @@
                 <a class="nav_button" style="margin-left: 16px; padding: 6px 24px; min-width: 74px" href="/language/ru">РУС</a>
                 {% endif %}
             </header-r>
+            <script type="module" id="pageBaseScript" data-page="main_page" src="/static/js/base.js" defer></script>
         </header>
 
         <nav>
             {% if g.user.is_authenticated %}
             <a class="nav_button" href="/show_pens">{{ res_value('CALCULATIONS') }}</a>
+            <a class="nav_button" href="/show_solidary">{{ res_value('SOLIDARY') }}</a>
             <a class="nav_button" href="/reports">{{ res_value('LIST_REPORTS') }}</a>
             <a class="nav_button" href="/big_ref">{{ res_value('BIG_REF') }}</a>
             <a class="nav_button" href="/coeff_ref">{{ res_value('COEFF_REF') }}</a>

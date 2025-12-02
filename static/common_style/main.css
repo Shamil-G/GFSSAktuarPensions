@@ -37,7 +37,7 @@ nav {
 header {
     display: grid;
     padding-left: 16px;
-    grid-template-columns: 4fr 4fr 4fr;
+    grid-template-columns: 2fr 2fr 1fr;
     align-items: center; /* Выравниваем по вертикали*/
     grid-area: header; /* задаем имя элемента */
     background-size: cover;
@@ -105,7 +105,7 @@ footer > footer-c, header > header-c {
     text-align: right;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
 }
 
 nav > a {

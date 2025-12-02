@@ -4,7 +4,7 @@ import  pandas as pd
 from    model.create_documents import export_to_excel, export_to_pdf
 from    pivots.pivot_functions import *
 
-def get_stmt(filter, limit_rows=1000):
+def get_stmt(scenario, filter, limit_rows=1000):
     return f"""
         select ids, to_char(birth_date,'dd.mm.yyyy') as birth_date, year, 
         -- sum_pay, incoming_sum
@@ -12,6 +12,7 @@ def get_stmt(filter, limit_rows=1000):
             to_char(incoming_sum,'999G999G999G999D99') as sum_incoming
         from aktuar_pensioners pp
         where {filter}
+        and pp.scenario='{scenario}'
         FETCH FIRST {limit_rows} ROWS ONLY
     """
 
@@ -82,11 +83,12 @@ def get_pivot_table(df, type="data"):
             return grouped_columns, df_pivot.to_dict(orient="records")
 
 
-def make_document(filter, type):
+def make_document(scenario, filter, type):
     log.info(f'make_document')
     with get_connection() as connection:
         with connection.cursor() as cursor:
-            stmt = get_stmt(filter, 200)
+            stmt = get_stmt(scenario, filter, 200)
+
             log.debug(f'MAKE_DOCUMENT. STMT: {stmt}')
             cursor.execute(stmt)
             
@@ -100,18 +102,18 @@ def make_document(filter, type):
             return get_pivot_table(df, type)
 
 
-def get_pens_items(filter):
+def get_pens_items(scenario, filter):
     log.info(f'GET PENS ITEMS. FILTER: {filter}')
     with get_connection() as connection:
         with connection.cursor() as cursor:
-            stmt = get_stmt(filter)
-            log.debug(f'GET PENS ITEMS. STMT: {stmt}')
+            stmt = get_stmt(scenario, filter)
+            log.info(f'GET PENS ITEMS. STMT: {stmt}')
             # cursor.execute(get_stmt(filter))
             cursor.execute(stmt)
             
             rows = cursor.fetchall()
             if not rows: 
-                log.info(f'------->GET PENS ITEMS. not ROWS:\n{get_stmt(filter)}')
+                log.info(f'------->GET PENS ITEMS. not ROWS:\n{get_stmt(scenario, filter)}')
                 return  {},[]
 
             columns = [col[0].lower() for col in cursor.description]
@@ -121,11 +123,11 @@ def get_pens_items(filter):
             return get_pivot_table(df)
 
 
-def get_unique_year(filter):
+def get_unique_year(scenario, filter):
     log.debug(f'GET UNIQUE YEAR.')
     with get_connection() as connection:
         with connection.cursor() as cursor:
-            cursor.execute(get_stmt(filter))
+            cursor.execute(get_stmt(scenario, filter))
             
             result = []
             records = cursor.fetchall()
@@ -135,13 +137,13 @@ def get_unique_year(filter):
             return result
 
 
-def calculate_in_db(task_id, select_value, filter):
+def calculate_in_db(scenario, task_id, select_value, filter):
     with get_connection() as connection:
         with connection.cursor() as cursor:
             # планируем задачу в фоне через DBMS_SCHEDULER
             task_name = 'aktuar.aktuar_pension.create_task_calculate'
-            params = {'task_id': task_id, 'select_value': select_value, 'filter': filter}
-            cursor.execute(f'begin {task_name}(:task_id, :select_value, :filter); end;', params)
+            params = {'scenario':scenario,'task_id': task_id, 'select_value': select_value, 'filter': filter}
+            cursor.execute(f'begin {task_name}(:task_id, :scenario, :select_value, :filter); end;', params)
             cmd =  f"""
                 BEGIN
                   DBMS_SCHEDULER.create_job (

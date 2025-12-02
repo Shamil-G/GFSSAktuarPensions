@@ -155,7 +155,7 @@ export const EditRowTableBinder = {
             return;
         }
 
-        //console.log('📡 SAVE REQUEST:', req);
+        console.log('📡 SAVE REQUEST:', req);
 
         try {
             const res = await fetch(req.url, {
