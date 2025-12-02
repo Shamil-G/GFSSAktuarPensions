@@ -1,7 +1,7 @@
 ﻿import { TableLoader } from '/static/js/core/TableLoad.js';
 
 export const MenuBinder = {
-    role: 'menu',
+    role: 'menu-scenario',
     massive: true,
 
     attach(dropdown, handler = null, force=false) {

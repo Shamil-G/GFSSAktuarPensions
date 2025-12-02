@@ -1,14 +1,9 @@
-﻿import { TableLoader } from '/static/js/core/TableLoad.js';
-import { TabContext } from '/static/js/core/TabContext.js';
-import { PageManager, PageContext } from '/static/js/core/PageContext.js';
-
-import * as TabUtil from '/static/js/_aux/tabUtil.js';
-
+﻿import { PageManager, PageContext } from '/static/js/core/PageContext.js';
 
 (async () => {
     console.log('Start PageContext:');
 
-    const scriptTag = document.getElementById('pageScript');
+    const scriptTag = document.getElementById('pageBaseScript');
     const pageName = scriptTag?.dataset.page || 'unknown';
     console.log('Активная страница:', pageName);
 

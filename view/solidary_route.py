@@ -6,18 +6,28 @@ from model.calc_pens import get_pens_items, calculate_in_db, get_pivot_table, ma
 import time
 
 
-@app.route('/show_pens')
+@app.route('/show_solidary')
 @login_required
-def view_show_pens():
+def view_show_solidary():
     filter=session.get('pens_filter', '1=1')
-    (grouped_columns, rows )=get_pens_items(filter)
+
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
+
+    log.info(f"SHOW PENS. SCENaRIO: {scenario}")
+    if scenario=='':
+        return redirect(url_for('view_root'))
+
+
+    (grouped_columns, rows )=get_pens_items(scenario, filter)
     log.debug(f"------->CALC PENS. START\n{grouped_columns}\nROWS: {rows}\n<-------")
     return render_template('calc_pens.html', columns=grouped_columns, rows=rows)
 
 
 @app.route('/calculate_pens', methods=['GET','POST'])
 @login_required
-def view_calc_pens():
+def view_calc_solidary():
     data = extract_payload()
     value = data.get('value', '')
 
@@ -32,7 +42,11 @@ def view_calc_pens():
 
     log.info(f"CALCULATE_PENS. value: {value}, filter: {filter}")
 
-    (grouped_columns, rows)=get_pens_items(filter)
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
+
+    (grouped_columns, rows)=get_pens_items(scenario, filter)
 
     log.debug(f"------->CALC PENS. START\n{grouped_columns}\nROWS: {rows}\n<-------")
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
@@ -40,7 +54,7 @@ def view_calc_pens():
 
 @app.route('/print_pens', methods=['GET','POST'])
 @login_required
-def view_print_pens():
+def view_print_solidary():
     format_type = request.args.get("format", "excel")
     value = request.args.get("value")
 
@@ -51,12 +65,16 @@ def view_print_pens():
     if value=='all':
         filter=session.get('pens_filter', '1=2')    
 
-    return make_document(filter, format_type)
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
+
+    return make_document(scenario, filter, format_type)
 
 
 @app.route('/filter-pens-year', methods=['GET','POST'])
 @login_required
-def view_pens_year():
+def view_pens_solidary():
     data = extract_payload()
     year = data.get('value', '')
     if not year:
@@ -66,14 +84,17 @@ def view_pens_year():
     filter = f"extract(year from birth_date)={year}"
     session['pens_filter']=filter
 
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
     log.info(f"FILTER_PENS_YEAR\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
-    (grouped_columns, rows)=get_pens_items(filter)
+    (grouped_columns, rows)=get_pens_items(scenario, filter)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
 
 
 @app.route('/filter-pens-id', methods=['GET','POST'])
 @login_required
-def view_pens_id():
+def view_filter_id_solidary():
     data = extract_payload()
     ids = data.get('value', '')
     if not ids:
@@ -84,16 +105,22 @@ def view_pens_id():
     filter = f"ids like '{ids}%'"
     session['pens_filter']=filter
 
-    (grouped_columns, rows )=get_pens_items(filter)
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
+    (grouped_columns, rows )=get_pens_items(scenario, filter)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
 
 
 @app.route('/filter-pens-period', methods=['GET','POST'])
 @login_required
-def view_pens_period():
+def view_filter_period_solidary():
     data = extract_payload()
     ref_year = data.get('value', '')
     log.info(f"FILTER_PENS_PERIOD\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
 
-    (grouped_columns, rows )=get_pens_items(ref_year)
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
+    (grouped_columns, rows )=get_pens_items(scenario, ref_year)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)

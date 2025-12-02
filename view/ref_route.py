@@ -6,9 +6,14 @@ from util.functions import extract_payload
 from model.big_ref import get_big_ref_items, get_unique_big_ref_name, save_ref_value
 
 @app.route('/big_ref')
+@login_required
 def view_big_ref():
-    list_val=get_big_ref_items('')
-    list_name=get_unique_big_ref_name()
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
+
+    list_val=get_big_ref_items(scenario,'')
+    list_name=get_unique_big_ref_name(scenario)
     log.debug(f"BIG_REF. START\n{list_val}")
     return render_template(f'big_ref.html', list_val=list_val, list_name=list_name)
 
@@ -20,7 +25,10 @@ def view_pretrial_fragment():
     ref_name = data.get('value', '')
     log.info(f"FILTER-REF-NAME FIRST HIT\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
 
-    list_items=get_big_ref_items(ref_name) if ref_name else []
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
+    list_items=get_big_ref_items(scenario, ref_name) if ref_name else []
     return render_template("partials/_big_ref_fragment.html", list_val=list_items)
 
 
@@ -31,9 +39,12 @@ def view_save_ref_value():
     ref_name = data.get('id', '')
     ref_year = data.get('year', '')
     ref_value = data.get('value', '')
+    scenario = ''
+    if 'scenarion' in session:
+        scenario=session['scenario']
     log.info(f"FILTER-REF-NAME FIRST HIT\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
 
-    save_ref_value(ref_name, ref_year, ref_value)
+    save_ref_value(scenario, ref_name, ref_year, ref_value)
     return {'status': 200}
 
 

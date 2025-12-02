@@ -11,7 +11,8 @@ from util.ip_addr import ip_addr
 # from view.routes_overpayments import *
 from view.ref_route import *
 from view.ref_coeff_route import *
-from view.calc_pens_route import *
+from view.pens_fond_route import *
+from view.solidary_route import *
 from model.manage_task import get_task_status
 
 # from util.functions import extract_payload
@@ -64,6 +65,22 @@ def view_root():
             session['to-do'] = 'active'
         log.info("--------> Now will go to LIST_OVERPAYMENTS")
         # return redirect(url_for('view_root'))
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
+    else:
+        scenario='work'
+        session['scenario']=scenario
+
+    match scenario:
+        case 'work': name_scenario='Рабочий' 
+        case 'real': name_scenario='Реалистичный' 
+        case 'optim': name_scenario='Оптимистичный' 
+        case 'pessimistic': name_scenario='Пессимистичный' 
+        case _: name_scenario='Не задан' 
+
+    session['name_scenario']=name_scenario
+
     return render_template("index.html")
 
 
@@ -120,3 +137,12 @@ def view_reports(report_name=None):
 def task_status(task_id):
     status=get_task_status(task_id)
     return jsonify({"status": status})
+
+@app.route('/set-scenario', methods=["POST"])
+@login_required
+def view_set_scenario():
+    data = extract_payload()
+    name_scenario = data.get('value', '')
+    log.info(f"SET_SCENARIO. VALUE: {name_scenario}")
+    session['scenario']= name_scenario
+    return {'status': 200}, 200

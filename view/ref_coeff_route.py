@@ -1,4 +1,4 @@
-﻿from flask import render_template, request, g
+﻿from flask import render_template, request, g, session
 from flask_login import login_required
 from main_app import app, log
 from util.functions import extract_payload
@@ -6,8 +6,13 @@ from util.functions import extract_payload
 from model.coeff_ref import get_coeff_items, save_coeff_value
 
 @app.route('/coeff_ref')
+@login_required
 def view_ref_coeff():
-    list_val=get_coeff_items()
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
+    
+    list_val=get_coeff_items(scenario)
     log.debug(f"COEFF_REF. START\n{list_val}")
     return render_template('coefficients.html', list_val=list_val)
 
@@ -20,5 +25,8 @@ def view_save_coeff_value():
     ref_value = data.get('value', '')
     log.info(f"VIEW SAVE COEFF VALUE\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
 
-    save_coeff_value(ref_name, ref_value)
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
+    save_coeff_value(scenario, ref_name, ref_value)
     return {'status': 200}
