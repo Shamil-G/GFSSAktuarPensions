@@ -6,6 +6,7 @@ from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from flask import Response
 from urllib.parse import quote
+import datetime
 
 
 def format_for_excel(df):
@@ -66,6 +67,8 @@ def export_to_excel_2(df_pivot, scenario='Рабочий', filename="report.xlsx
         header_fmt = workbook.add_format({"bold": True, "align": "center", "valign": "vcenter", "border": 1})
         money_fmt = workbook.add_format({"num_format": "# ### ### ##0.00", "align": "right"})
         text_fmt = workbook.add_format({"bold": True, "align": "left"})
+        footer_fmt = workbook.add_format({'align': 'right', "valign": "vcenter", "italic": True}) # золотой фон
+
 
         head = f"Расчет базовой и солидарной пенсии, сценарий '{scenario}'"
         worksheet.write(0, 0,  head, text_fmt)
@@ -76,6 +79,11 @@ def export_to_excel_2(df_pivot, scenario='Рабочий', filename="report.xlsx
         # Форматирование колонок
         for i, col in enumerate(df.columns):
             worksheet.set_column(i+1, i+1, 16, money_fmt)
+
+        now = datetime.datetime.now()
+        stop_time = now.strftime("%H:%M:%S")
+
+        worksheet.write(1, len(df)+3, f'Дата формирования: {now.strftime("%d.%m.%Y ")}', footer_fmt)
 
     excel_bytes = output.getvalue()
 

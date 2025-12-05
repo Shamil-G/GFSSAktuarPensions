@@ -168,7 +168,7 @@ def calculate_base_solidary(scenario):
                   DBMS_SCHEDULER.create_job (
                     job_name        => 'TASK_CALCULATE_BASE_SOLIDARY',
                     job_type        => 'PLSQL_BLOCK',
-                    job_action      => 'BEGIN aktuar.aktuar_base_solidary.calculate({scenario}); END;',
+                    job_action      => 'BEGIN aktuar.aktuar_base_solidary.calculate(''{scenario}''); END;',
                     start_date      => SYSTIMESTAMP,
                     enabled         => TRUE
                   );
