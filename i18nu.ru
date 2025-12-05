@@ -60,4 +60,6 @@ WOKR_SCENARIO=Рабочий
 PESSIMISTIC_SCENARIO=Песссимистичный
 PYTHON_REPORTS=Отчеты на Питон 
 PROVISION=Расчет провизии
-SOLIDARY=Солидарные пенсии
+BASE_SOLIDARY=Солидарная и базовая пенсии
+PENS_FOND = Пенсионные накопления
+

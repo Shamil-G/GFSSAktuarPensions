@@ -1,11 +1,11 @@
 ﻿{% extends 'base.html' %}
 
 {% block title %}
-{{ res_value('CALCULATIONS') }}
+{{ res_value('PENS_FOND') }}
 {% endblock %}
 
 {% block main_title %}
-{{ res_value('CALCULATIONS') }}
+{{ res_value('PENS_FOND') }}
 {% endblock %}
 
 {% block body %}
@@ -36,7 +36,7 @@
          style="min-width: 200px" class="dropdown">
         <input type="hidden" name="menuValuePeriod" id="menuValuePeriod">
         <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px" type="button"
-                class="dropdown-button period-button" 
+                class="dropdown-button period-button"
                 id="menuButton">
             <i class="fas fa-filter"></i>
             <span class="label">{{ res_value('CALCULATION_PERIOD') }}</span>
@@ -71,7 +71,7 @@
 
 </div>
 <!--<div class="container">-->
-<div  id="calc_pens_mainBody">
+<div id="calc_pens_mainBody">
     <div class="table-container">
         <table id="calc_pens_mainTableHelper" class="report-table">
             <thead>
@@ -86,27 +86,27 @@
                 </tr>
                 <tr>
                     {% for year, cols in columns.items() %}
-                        {% for col in cols %}
-                        <th>{{ col.split('_', 1)[1] }}</th>
-                        {% endfor %}
+                    {% for col in cols %}
+                    <th>{{ col.split('_', 1)[1] }}</th>
+                    {% endfor %}
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 {% if rows and columns %}
-                    {% for row in rows %}
-                    <tr>
-                        <td class="sticky-col">{{ row.get('Ид', '') }}</td>
-                        <td class="sticky-col">{{ row.get('Дата рождения', '') }}</td>
-                        {% for year, cols in columns.items() %}
-                            {% for col in cols %}
-                            <td style=" text-align: right; min-width: 128px; white-space: nowrap;">
-                                {{ row.get(col, '') }}
-                            </td>
-                            {% endfor %}
-                        {% endfor %}
-                    </tr>
+                {% for row in rows %}
+                <tr>
+                    <td class="sticky-col">{{ row.get('Ид', '') }}</td>
+                    <td class="sticky-col">{{ row.get('Дата рождения', '') }}</td>
+                    {% for year, cols in columns.items() %}
+                    {% for col in cols %}
+                    <td style=" text-align: right; min-width: 128px; white-space: nowrap;">
+                        {{ row.get(col, '') }}
+                    </td>
                     {% endfor %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
                 {% endif %}
             </tbody>
         </table>

@@ -29,3 +29,13 @@ def extract_payload():
             return json.loads(request.data.decode('utf-8'))
         except Exception:
             return {}
+
+def get_scenario(name):
+    scenario = ''
+    log.info(f'GET SCENARIO: {name}')
+    match name:
+        case 'work': scenario='Рабочий'
+        case 'real': scenario='Реалистичный'
+        case 'optim': scenario='Оптимистичный'
+        case 'pessimistic': scenario='Пессимистичный'
+    return scenario
