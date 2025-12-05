@@ -1,0 +1,105 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}
+{{ res_value('BASE_SOLIDARY') }}
+{% endblock %}
+
+{% block main_title %}
+{{ res_value('BASE_SOLIDARY') }}
+{% endblock %}
+
+{% block body %}
+<div id="calc_base_solidary_FilterZone" class="filter-panel">
+    <div data-role="menu-calc"
+         data-url="/calculate_base_solidary"
+         data-target="calc_base_solidary_mainBody"
+         data-track="true"
+         data-task="'Прогнозирование пенсионных расходов'"
+         style="min-width: 200px" class="dropdown">
+        <input type="hidden" name="menuValuePeriod" id="menuValuePeriod">
+        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px" type="button"
+                class="dropdown-button period-button"
+                id="menuButton">
+            <i class="fas fa-filter"></i>
+            <span class="label">{{ res_value('CALCULATION_PERIOD') }}</span>
+            <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
+        </button>
+        <div style="min-width: 160px; margin-left: 20px" class="dropdown-content">
+            <!--<a data-value="filter" data-label="{{res_value('PERIOD_BY_FILTER')}}"><i class="fas fa-home"></i>{{res_value('PERIOD_BY_FILTER')}}</a>-->
+            <a data-value="all" data-label="{{res_value('PERIOD_ALL')}}"><i class="fas fa-envelope"></i>{{res_value('PERIOD_ALL')}}</a>
+        </div>
+    </div>
+
+    <!--<button onclick="triggerCalculation()">Расчёт</button>-->
+    <!--<button onclick="window.print()">Печать</button>-->
+    <div data-role="menu-print"
+         data-url="/print_base_solidary"
+         data-track="true"
+         style="min-width: 200px" class="dropdown">
+        <input type="hidden" name="menuValuePrintPeriod" id="menuValuePrintPeriod">
+        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px" type="button"
+                class="dropdown-button period-button" id="menuPrintButton">
+            <i class="fas fa-filter"></i>
+            <span class="label">{{ res_value('PRINT_PERIOD') }}</span>
+            <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
+        </button>
+        <div style="min-width: 160px; margin-left: 20px" class="dropdown-content">
+            <!--<a data-value="filter" data-label="{{res_value('PRINT_BY_FILTER')}}"><i class="fas fa-home"></i>{{res_value('PRINT_BY_FILTER')}}</a>-->
+            <a data-value="all" data-label="{{res_value('PRINT_ALL')}}"><i class="fas fa-envelope"></i>{{res_value('PRINT_ALL')}}</a>
+        </div>
+    </div>
+
+    <div id="status" style="font-size: 18px"></div>
+
+</div>
+<!--<div class="container">-->
+<div id="calc_base_solidary_mainBody">
+    <div class="table-container">
+        <table id="calc_base_solidary_mainTableHelper" class="report-table">
+            <thead>
+                <tr>
+                    <th class="sticky-col sticky-header">Показатели</th>
+                    {% if rows %}
+                    {% for year in rows[0].keys() if year != 'metric_name' %}
+                    <th>
+                        {{ year }}
+                    </th>
+                    {% endfor %}
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% if rows %}
+                    {% for row in rows %}
+                        {# вычисляем индекс #}
+                        {% set idx = loop.index0 %}
+                        {% set total = rows|length %}
+
+                        <tr 
+                            {% if idx>= total - 2 %}
+                                style="font-weight:bold; color:#800000; padding:10px 8px"   {# последние две строки — жирный, бордовый #}
+                            {% elif idx % 2 == 0 %}
+                                style="background-color:#d0f0d0;"          {# чётные строки — светло-зелёные #}
+                            {% else %}
+                                style="background-color:#a0d0a0;"          {# нечётные строки — чуть темнее зелёные #}
+                            {% endif %}
+                        >
+                            <td class="sticky-col" style="text-align: left; min-width: 256px; white-space: normal; word-wrap: break-word;">
+                                {{ row['metric_name'] }}
+                            </td>
+                            {% for year in row.keys() if year != 'metric_name' %}
+                            <td style="text-align: right; min-width: 128px; white-space: nowrap;">
+                                {{ row.get(year,'') }}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--</div>-->
+<script type="module" id="pageScript" data-page="calc_base_solidary" src="static/js/main.js"></script>
+{% endblock %}

@@ -1,0 +1,46 @@
+﻿import { FilterInputBinder } from '/static/js/pages/calc_pens/binders/filterInputBinder.js';
+import { MenuBinder }      from '/static/js/pages/calc_base_solidary/binders/menuBinder.js';
+import { MenuPrintBinder } from '/static/js/pages/calc_base_solidary/binders/menuPrintBinder.js';
+import { HelperBinder } from '/static/js/binders/standart/helperBinder.js';
+
+
+export const calcBaseSolidaryTabContext = {
+    // Значения zone определяют id=""
+    zones: {
+        mainTableHelper: '#calc_base_solidary_mainTableHelper',
+        fragment: '#calc_base_solidary_mainBody',
+        filters: '#calc_base_solidary_FilterZone'
+    },
+
+    binders: {
+        mainTableHelper: [HelperBinder],
+        filters: [FilterInputBinder, MenuBinder, MenuPrintBinder],
+    },
+/*
+    request: {
+        fragment: {
+            method: 'POST',
+            url: ref_name => `/filter-pens-year`
+        },
+        filters: {
+            method: 'POST',
+            url: '/big_ref_filters',
+            params: () => ({}) // 👈 пустой объект, если нет orderNum
+        },
+        save_row_big_ref: {
+            method: 'POST',
+            url: (id, year, field) => `/save-ref-value`,
+            params: (id, year, field, value) => ({ id, year, field, value })
+        }
+    },
+*/
+    bindScope: {
+        filters: 'global'    // искать в document, независимо от fragment
+    },
+
+    loadStrategy: {
+        filters: 'eager'
+    }
+};
+
+export default calcBaseSolidaryTabContext;

@@ -5,6 +5,7 @@ from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from flask import Response
+from urllib.parse import quote
 
 
 def format_for_excel(df):
@@ -52,37 +53,40 @@ def format_for_excel2(df: pd.DataFrame) -> pd.DataFrame:
     return df[ordered_cols]
 
 
-def export_to_excel2(df_pivot, grouped_columns, filename='report.xlsx'):
-    df = format_for_excel(df_pivot.copy())
-    with pd.ExcelWriter(filename, engine='xlsxwriter') as writer:
-        df.to_excel(writer, sheet_name='Отчёт', index=False, startrow=2, header=False)
+def export_to_excel_2(df_pivot, scenario='Рабочий', filename="report.xlsx"):
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
+        # Формируем Excel файл
+        df = df_pivot.copy()
+        df.to_excel(writer, sheet_name="Отчёт", index=False, startrow=2, header=True)
 
         workbook  = writer.book
-        worksheet = writer.sheets['Отчёт']
+        worksheet = writer.sheets["Отчёт"]
 
-        money_fmt = workbook.add_format({'num_format': '# ### ### ##0.00', 'align': 'right'})
-        text_fmt = workbook.add_format({'align': 'center'})
-        header_fmt = workbook.add_format({'bold': True, 'align': 'center', 'valign': 'vcenter', 'border': 1})
-        subheader_fmt = workbook.add_format({'align': 'center', 'valign': 'vcenter', 'border': 1})
+        header_fmt = workbook.add_format({"bold": True, "align": "center", "valign": "vcenter", "border": 1})
+        money_fmt = workbook.add_format({"num_format": "# ### ### ##0.00", "align": "right"})
+        text_fmt = workbook.add_format({"bold": True, "align": "left"})
 
-        worksheet.merge_range(0, 0, 1, 0, 'Ид', header_fmt)
-        worksheet.merge_range(0, 1, 1, 1, 'Дата рождения', header_fmt)
-        col_idx = 2
-
-        for year, cols in grouped_columns.items():
-            worksheet.merge_range(0, col_idx, 0, col_idx + len(cols) - 1, year, header_fmt)
-            for i, col in enumerate(cols):
-                label = col.split('_', 1)[1]
-                worksheet.write(1, col_idx + i, label, subheader_fmt)
-            col_idx += len(cols)
+        head = f"Расчет базовой и солидарной пенсии, сценарий '{scenario}'"
+        worksheet.write(0, 0,  head, text_fmt)
+        
+        # worksheet.write(2, 0,  "Показатель", header_fmt)
+        worksheet.set_column(0, 0, 48, text_fmt)
 
         # Форматирование колонок
         for i, col in enumerate(df.columns):
-            if 'Сумма' in col:
-                worksheet.set_column(i, i, 18, money_fmt)
-            else:
-                worksheet.set_column(i, i, 14, text_fmt)
-        return filename
+            worksheet.set_column(i+1, i+1, 16, money_fmt)
+
+    excel_bytes = output.getvalue()
+
+    safe_filename = quote(filename)
+    return Response(
+        excel_bytes,
+        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={
+            "Content-Disposition": f"attachment; filename*=UTF-8''{safe_filename}"
+        }
+    )
 
 
 def export_to_excel(df_pivot, grouped_columns, filename="report.xlsx"):

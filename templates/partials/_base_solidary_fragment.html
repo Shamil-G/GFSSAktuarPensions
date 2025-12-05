@@ -1,0 +1,44 @@
+<div class="table-container">
+    <table id="calc_base_solidary_mainTableHelper" class="report-table">
+        <thead>
+            <tr>
+                <th class="sticky-col sticky-header">Показатели</th>
+                {% if rows %}
+                {% for year in rows[0].keys() if year != 'metric_name' %}
+                <th>
+                    {{ year }}
+                </th>
+                {% endfor %}
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% if rows %}
+            {% for row in rows %}
+            {# вычисляем индекс #}
+            {% set idx = loop.index0 %}
+            {% set total = rows|length %}
+
+            <tr {% if idx>= total - 2 %}
+                style="font-weight:bold; color:#800000; padding:10px 8px"   {# последние две строки — жирный, бордовый #}
+                {% elif idx % 2 == 0 %}
+                style="background-color:#d0f0d0;"          {# чётные строки — светло-зелёные #}
+                {% else %}
+                style="background-color:#a0d0a0;"          {# нечётные строки — чуть темнее зелёные #}
+                {% endif %}
+                >
+                <td class="sticky-col" style="text-align: left; min-width: 256px; white-space: normal; word-wrap: break-word;">
+                    {{ row['metric_name'] }}
+                </td>
+                {% for year in row.keys() if year != 'metric_name' %}
+                <td style="text-align: right; min-width: 128px; white-space: nowrap;">
+                    {{ row.get(year,'') }}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            {% endif %}
+
+        </tbody>
+    </table>
+</div>

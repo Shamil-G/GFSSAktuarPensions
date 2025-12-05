@@ -43,7 +43,6 @@ BIG_REF = Общий справочник
 NAME_REF_PARM = Справочная переменная
 REF_VALUE = Величина переменной
 SELECT_REFER = Выберите справочник
-CALCULATIONS = Актуарные пенсионные расчеты
 CALCULATION_PERIOD=Провести актуарный расчет
 PERIOD_BY_FILTER=Расчет по отфильтрованным
 PERIOD_ALL=Полный расчет
@@ -60,4 +59,6 @@ WOKR_SCENARIO=Рабочий
 PESSIMISTIC_SCENARIO=Песссимистичный
 PYTHON_REPORTS=Отчеты на Питон 
 PROVISION=Расчет провизии
-SOLIDARY=Солидарные пенсии
+BASE_SOLIDARY=Солидарная и базовая пенсии
+PENS_FOND = Пенсионные накопления
+
