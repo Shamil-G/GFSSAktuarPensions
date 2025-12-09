@@ -62,5 +62,5 @@ def save_ref_value(scenario, ref_name, ref_year, ref_value):
             try:
                 cursor.execute('begin update params set value=:value where scenario=:scenario and name=:ref_name and year=:year; commit; end;', args)
             finally:
-                        log.info(f'SAVE REF VALUE\n\tNAME: {ref_name}\n\tYEAR: {ref_year}\n\tVALUE: {ref_value}')
+                log.info(f'SAVE REF VALUE\n\tSCENARIO: {scenario}\n\tNAME: {ref_name}\n\tYEAR: {ref_year}\n\tVALUE: {value}')
 

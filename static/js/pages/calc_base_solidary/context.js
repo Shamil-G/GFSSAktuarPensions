@@ -1,5 +1,5 @@
 ﻿import { FilterInputBinder } from '/static/js/pages/calc_pens/binders/filterInputBinder.js';
-import { MenuBinder }      from '/static/js/pages/calc_base_solidary/binders/menuBinder.js';
+import { MenuCalcBinder }      from '/static/js/pages/calc_base_solidary/binders/menuCalcBinder.js';
 import { MenuPrintBinder } from '/static/js/pages/calc_base_solidary/binders/menuPrintBinder.js';
 import { HelperBinder } from '/static/js/binders/standart/helperBinder.js';
 
@@ -9,31 +9,29 @@ export const calcBaseSolidaryTabContext = {
     zones: {
         mainTableHelper: '#calc_base_solidary_mainTableHelper',
         fragment: '#calc_base_solidary_mainBody',
-        filters: '#calc_base_solidary_FilterZone'
+        menues: '#calc_base_solidary_MenuZone'
     },
 
     binders: {
         mainTableHelper: [HelperBinder],
-        filters: [FilterInputBinder, MenuBinder, MenuPrintBinder],
+        menues: [MenuCalcBinder, MenuPrintBinder]
     },
-/*
+
     request: {
+        calculate: {
+            method: 'POST',
+            url: `/calculate_base_solidary`
+        },
         fragment: {
             method: 'POST',
-            url: ref_name => `/filter-pens-year`
+            url: `/reload_base_solidary`
         },
-        filters: {
-            method: 'POST',
-            url: '/big_ref_filters',
-            params: () => ({}) // 👈 пустой объект, если нет orderNum
+        print: {
+            method: 'GET',
+            url: `/print_base_solidary`
         },
-        save_row_big_ref: {
-            method: 'POST',
-            url: (id, year, field) => `/save-ref-value`,
-            params: (id, year, field, value) => ({ id, year, field, value })
-        }
     },
-*/
+
     bindScope: {
         filters: 'global'    // искать в document, независимо от fragment
     },

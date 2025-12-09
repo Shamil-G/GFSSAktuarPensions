@@ -20,11 +20,11 @@
             {% set total = rows|length %}
 
             <tr {% if idx>= total - 2 %}
-                style="font-weight:bold; color:#800000; padding:10px 8px"   {# последние две строки — жирный, бордовый #}
+                style="font-weight:bold; color:#228B22; padding:10px 8px"   {# последние две строки — жирный, бордовый #}
                 {% elif idx % 2 == 0 %}
                 style="background-color:#d0f0d0;"          {# чётные строки — светло-зелёные #}
                 {% else %}
-                style="background-color:#a0d0a0;"          {# нечётные строки — чуть темнее зелёные #}
+                style="background-color:#e8ffe8;"          {# нечётные строки — чуть темнее зелёные #}
                 {% endif %}
                 >
                 <td class="sticky-col" style="text-align: left; min-width: 256px; white-space: normal; word-wrap: break-word;">

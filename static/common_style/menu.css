@@ -55,7 +55,6 @@
 
 .period-button {
     border-radius: 6px;
-    padding: 2px 12px;
     color: #333;
     cursor: pointer;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;

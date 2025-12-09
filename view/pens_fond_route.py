@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, g, session, abort, send_file
+from flask import render_template, request, redirect, url_for, g, session
 from flask_login import login_required
 from main_app import app, log
 from util.functions import extract_payload
@@ -14,14 +14,12 @@ def view_show_pens():
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
-
-    log.info(f"SHOW PENS. SCENaRIO: {scenario}")
-    if scenario=='':
+    else:
+        log.info(f"SHOW PENS. NOT FOUND SCENARIO: {scenario}")
         return redirect(url_for('view_root'))
 
-
     (grouped_columns, rows )=get_pens_items(scenario, filter)
-    log.debug(f"------->CALC PENS. START\n{grouped_columns}\nROWS: {rows}\n<-------")
+    log.debug(f"------->VIEW SHOW PENS FOND. \n{grouped_columns}\nROWS: {rows}\n<-------")
     return render_template('calc_pens.html', columns=grouped_columns, rows=rows)
 
 
@@ -45,6 +43,9 @@ def view_calc_pens():
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
+    else:
+        return redirect(url_for('view_root'))
+
 
     (grouped_columns, rows)=get_pens_items(scenario, filter)
 
@@ -68,6 +69,8 @@ def view_print_pens():
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
+    else:
+        return redirect(url_for('view_root'))
 
     return make_document(scenario, filter, format_type)
 
@@ -87,6 +90,9 @@ def view_pens_year():
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
+    else:
+        return redirect(url_for('view_root'))
+
     log.info(f"FILTER_PENS_YEAR\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
     (grouped_columns, rows)=get_pens_items(scenario, filter)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
@@ -108,6 +114,9 @@ def view_pens_id():
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
+    else:
+        return redirect(url_for('view_root'))
+
     (grouped_columns, rows )=get_pens_items(scenario, filter)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
 
@@ -122,5 +131,8 @@ def view_pens_period():
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
+    else:
+        return redirect(url_for('view_root'))
+
     (grouped_columns, rows )=get_pens_items(scenario, ref_year)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)

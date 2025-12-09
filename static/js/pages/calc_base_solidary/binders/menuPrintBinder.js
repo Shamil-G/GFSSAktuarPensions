@@ -7,7 +7,7 @@ export const MenuPrintBinder = {
         if (dropdown.__menuPrintBound && !force) return;
         dropdown.__menuPrintBound = true;
 
-        const items = dropdown.querySelectorAll('.dropdown-content a');
+        const items = dropdown.querySelectorAll('button');
         const url = dropdown.dataset.url;
 
         if (!url || items.length === 0) return;
