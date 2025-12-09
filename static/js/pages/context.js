@@ -1,5 +1,5 @@
 // pages/context.js
-import { MenuScenarioBinder } from '/static/js/core/MenuScenarioBinder.js';
+import { MenuScenarioBinder } from '/static/js/core/menuScenarioBinder.js';
 
 export const globalContext = {
     zones: {
