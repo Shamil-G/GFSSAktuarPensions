@@ -61,10 +61,6 @@ def view_root():
         # LOGIN with session variable
         log.info(f'User is anonymous ...')
         try_auto_login()
-        if 'to-do' not in session:
-            session['to-do'] = 'active'
-        log.info("--------> Now will go to LIST_OVERPAYMENTS")
-        # return redirect(url_for('view_root'))
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
