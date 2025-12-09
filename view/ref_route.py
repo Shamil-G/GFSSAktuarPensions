@@ -11,6 +11,9 @@ def view_big_ref():
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
+    else:
+        return redirect(url_for('view_root'))
+
 
     list_val=get_big_ref_items(scenario,'')
     list_name=get_unique_big_ref_name(scenario)
@@ -28,6 +31,9 @@ def view_pretrial_fragment():
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
+    else:
+        return redirect(url_for('view_root'))
+
     list_items=get_big_ref_items(scenario, ref_name) if ref_name else []
     return render_template("partials/_big_ref_fragment.html", list_val=list_items)
 
@@ -40,9 +46,12 @@ def view_save_ref_value():
     ref_year = data.get('year', '')
     ref_value = data.get('value', '')
     scenario = ''
-    if 'scenarion' in session:
+    if 'scenario' in session:
         scenario=session['scenario']
-    log.info(f"FILTER-REF-NAME FIRST HIT\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
+    else:
+        return redirect(url_for('view_root'))
+
+    log.info(f"VIEW SAVE_REF_VALUE\n\tMETHOD: {request.method}\n\tSCENARIO: {scenario}\n\tEXTRACTED DATA: {data}")
 
     save_ref_value(scenario, ref_name, ref_year, ref_value)
     return {'status': 200}

@@ -8,20 +8,28 @@
 {{ res_value('PENS_FOND') }}
 {% endblock %}
 
+{% block link_style %}
+    <link rel="stylesheet" type="text/css" href="/static/common_style/filter.css">
+    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/filter.css">
+{% endblock %}
+
 {% block body %}
-<div id="calc_pens_FilterZone" class="filter-panel">
-    <label>
+<div id="calc_pens_FilterZone" class="filter-panel" style="padding: 2px">
+    <label style="margin-left: 5px; font-size:18px">
         Ид:
         <input id="filter-id"
+               style="margin-left: 5px; font-size:18px"
                data-role="filter-input"
                data-url="/filter-pens-id"
                data-target="calc_pens_mainBody"
+               
                type="text" placeholder="Введите Ид">
     </label>
 
-    <label>
+    <label style="margin-left: 10px; font-size: 18px">
         Год рождения:
         <input id="filter-year"
+               style="margin-left: 5px; font-size: 18px"
                data-role="filter-input"
                data-url="/filter-pens-year"
                data-target="calc_pens_mainBody"
@@ -33,7 +41,7 @@
          data-target="calc_pens_mainBody"
          data-track="true"
          data-task="'Прогнозирование пенсионных расходов'"
-         style="min-width: 200px" class="dropdown">
+         style="min-width: 200px; margin-left: 10px" class="dropdown">
         <input type="hidden" name="menuValuePeriod" id="menuValuePeriod">
         <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px" type="button"
                 class="dropdown-button period-button"
@@ -42,7 +50,7 @@
             <span class="label">{{ res_value('CALCULATION_PERIOD') }}</span>
             <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
         </button>
-        <div style="min-width: 160px; margin-left: 20px" class="dropdown-content">
+        <div style="min-width: 220px; margin-left: 3px" class="dropdown-content">
             <a data-value="filter" data-label="{{res_value('PERIOD_BY_FILTER')}}"><i class="fas fa-home"></i>{{res_value('PERIOD_BY_FILTER')}}</a>
             <a data-value="all" data-label="{{res_value('PERIOD_ALL')}}"><i class="fas fa-envelope"></i>{{res_value('PERIOD_ALL')}}</a>
         </div>
@@ -53,7 +61,7 @@
     <div data-role="menu-print"
          data-url="/print_pens"
          data-track="true"
-         style="min-width: 200px" class="dropdown">
+         style="min-width: 200px; margin-left: 10px" class="dropdown">
         <input type="hidden" name="menuValuePrintPeriod" id="menuValuePrintPeriod">
         <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px" type="button"
                 class="dropdown-button period-button" id="menuPrintButton">
@@ -61,7 +69,7 @@
             <span class="label">{{ res_value('PRINT_PERIOD') }}</span>
             <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
         </button>
-        <div style="min-width: 160px; margin-left: 20px" class="dropdown-content">
+        <div style="min-width: 200px; margin-left: 3px" class="dropdown-content">
             <a data-value="filter" data-label="{{res_value('PRINT_BY_FILTER')}}"><i class="fas fa-home"></i>{{res_value('PRINT_BY_FILTER')}}</a>
             <a data-value="all" data-label="{{res_value('PRINT_ALL')}}"><i class="fas fa-envelope"></i>{{res_value('PRINT_ALL')}}</a>
         </div>

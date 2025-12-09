@@ -107,7 +107,7 @@ def get_pens_items(scenario, filter):
     with get_connection() as connection:
         with connection.cursor() as cursor:
             stmt = get_stmt(scenario, filter)
-            log.info(f'GET PENS ITEMS. STMT: {stmt}')
+            log.debug(f'GET PENS ITEMS. STMT: {stmt}')
             # cursor.execute(get_stmt(filter))
             cursor.execute(stmt)
             

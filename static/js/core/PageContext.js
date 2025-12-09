@@ -3,6 +3,8 @@ import { TabLoader } from './TabLoader.js';
 //import { TabTreeRegistry } from '../tabTreeRegistry.js';
 import * as TabUtil from '/static/js/_aux/tabUtil.js';
 
+import { globalContext } from '/static/js/pages/context.js';
+
 //Метод	Назначение
 //initialize()	Загружает tabTree, инициализирует TabContext, создаёт TabLoader
 //loadTab()	Загружает фрагмент по стратегии и orderNum
@@ -34,6 +36,17 @@ export class PageContext {
         this.tabTree = null;
         this.tabContext = null;
         this.loader = null;
+        // глобальные зоны/биндеры берём из внешнего файла
+        this.globalZones = globalContext.zones;
+        this.globalBinders = globalContext.binders;
+    }
+
+    attachGlobalBinders() {
+        Object.entries(this.globalBinders).forEach(([zoneKey, binderList]) => {
+            const zoneEl = document.querySelector(this.globalZones[zoneKey]);
+            if (!zoneEl) return;
+            binderList.forEach(binder => binder.attachAll(zoneEl));
+        });
     }
 
     destroy() {
@@ -50,15 +63,23 @@ export class PageContext {
     async initialize() {
         console.log('PageContext: initializing for', this.pageName);
 
-        this.tabTree = await PageContext.resolveTabTree(this.pageName);;
-        //this.tabTree = await TabTreeRegistry.resolve(this.pageName);
-        this.tabContext = new TabContext(this.tabTree);
+        if(this.pageName && this.pageName.trim() !== "" && this.pageName !== "unknown"){
+            console.log("PageContext: pageName ", this.pageName);
+            this.tabTree = await PageContext.resolveTabTree(this.pageName);
+            //this.tabTree = await TabTreeRegistry.resolve(this.pageName);
+            this.tabContext = new TabContext(this.tabTree);
 
-        await this.tabContext.load(); // или initialize(), если есть
+            await this.tabContext.load(); // или initialize(), если есть
 
-        this.loader = new TabLoader(this.tabContext);
+            this.loader = new TabLoader(this.tabContext);
 
-        this.attachZoneBinders();
+            this.attachZoneBinders();
+        }
+        else{
+            console.log("PageContext: pageName пустой, загружаем только глобальные биндеры");
+        }
+
+        this.attachGlobalBinders(); // 🔹 глобальные биндеры всегда активны
 
         console.log('PageContext: initialized');
     }
@@ -141,25 +162,28 @@ export class PageContext {
     }
 
     list({ strategy = 'all', zoneKey = null } = {}) {
-        const prefix = this.pageName + '.';
-        const all = this.tabContext.getTabNames().filter(name => name.startsWith(prefix));
+        if(this.pageName && this.pageName.trim() !== "" && this.pageName !== "unknown") {
+            const prefix = this.pageName + '.';
+            const all = this.tabContext.getTabNames().filter(name => name.startsWith(prefix));
 
-        return all.filter(name => {
-            const entry = this.tabContext.getEntry(name);
-            if (!entry?.loadStrategy) return false;
+            return all.filter(name => {
+                const entry = this.tabContext.getEntry(name);
+                if (!entry?.loadStrategy) return false;
 
-            if (strategy === 'all') return true;
+                if (strategy === 'all') return true;
 
-            if (typeof entry.loadStrategy === 'string') {
-                return entry.loadStrategy === strategy;
-            }
+                if (typeof entry.loadStrategy === 'string') {
+                    return entry.loadStrategy === strategy;
+                }
 
-            if (zoneKey && typeof entry.loadStrategy === 'object') {
-                return entry.loadStrategy[zoneKey] === strategy;
-            }
+                if (zoneKey && typeof entry.loadStrategy === 'object') {
+                    return entry.loadStrategy[zoneKey] === strategy;
+                }
 
-            return false;
-        });
+                return false;
+            });
+        }
+        return false;
     }
 
     attachBinders(tabName) {

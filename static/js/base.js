@@ -1,7 +1,7 @@
 ﻿import { PageManager, PageContext } from '/static/js/core/PageContext.js';
 
 (async () => {
-    console.log('Start PageContext:');
+    console.log('Start Base Page Context:');
 
     const scriptTag = document.getElementById('pageBaseScript');
     const pageName = scriptTag?.dataset.page || 'unknown';
@@ -9,7 +9,7 @@
 
     await PageManager.set(pageName);
 
-    console.log('Tabs in page:', PageManager.get().list());
+    console.log('Tabs in Base Page:', PageManager.get().list());
 
     setTimeout(() => {
         console.log('Script finished');

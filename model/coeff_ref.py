@@ -24,9 +24,9 @@ def get_coeff_items(scenario):
             return result
 
 
-def save_coeff_value(ref_name, ref_value):
+def save_coeff_value(scenario, ref_name, ref_value):
     stmt_update ="""
-        begin update params set value=:value where name=:ref_name and type='K'; commit; end;
+        begin update params set value=:value where scenario=:scenario and name=:ref_name and type='K'; commit; end;
     """
     value=0
     match ref_name:
@@ -38,7 +38,7 @@ def save_coeff_value(ref_name, ref_value):
 
     with get_connection() as connection:
         with connection.cursor() as cursor:
-            args = {"value": value, "ref_name": ref_name}
+            args = {"scenario": scenario, "value": value, "ref_name": ref_name}
             plsql_execute(cursor, "save_coeff_value", stmt_update, args )
             # try:
             #     cursor.execute(stmt_update, value=ref_value, ref_name=ref_name)

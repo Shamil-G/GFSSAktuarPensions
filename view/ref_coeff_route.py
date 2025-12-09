@@ -1,4 +1,4 @@
-﻿from flask import render_template, request, g, session
+﻿from flask import render_template, request,  redirect, url_for, g, session
 from flask_login import login_required
 from main_app import app, log
 from util.functions import extract_payload
@@ -11,6 +11,8 @@ def view_ref_coeff():
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
+    else:
+        return redirect(url_for('view_root'))
     
     list_val=get_coeff_items(scenario)
     log.debug(f"COEFF_REF. START\n{list_val}")
@@ -28,5 +30,8 @@ def view_save_coeff_value():
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
+    else:
+        return redirect(url_for('view_root'))
+
     save_coeff_value(scenario, ref_name, ref_value)
     return {'status': 200}

@@ -12,13 +12,13 @@ def view_show_solidary():
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
-
-    log.info(f"SHOW SOLIDARY. SCENARIO: {scenario}")
-    if scenario=='':
+    else:
         return redirect(url_for('view_root'))
 
+    log.info(f"VIEW SHOW BASE SOLIDARY. SCENARIO: {scenario}")
+
     rows = get_base_solidary_items(scenario)
-    log.debug(f"------->\n\tSHOW BASE_SOLIDARY\n\tROWS:\n\t{rows}\n<-------")
+    log.debug(f"------->\n\tVIEW SHOW BASE SOLIDARY\n\tROWS:\n\t{rows}\n<-------")
     return render_template('calc_base_solidary.html', rows=rows)
 
 
@@ -44,6 +44,22 @@ def view_print_solidary():
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
+    else:
+        return redirect(url_for('view_root'))
 
     return make_document(scenario, format_type)
 
+
+@app.route('/reload_base_solidary', methods=['GET','POST'])
+@login_required
+def view_reload_base_clculate():
+    log.info(f"VIEW RELOAD BASE CALCULATE\n\tMETHOD: {request.method}")
+
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
+    else:
+        return redirect(url_for('view_root'))
+
+    rows = get_base_solidary_items(scenario)
+    return render_template("partials/_base_solidary_fragment.html", rows=rows)

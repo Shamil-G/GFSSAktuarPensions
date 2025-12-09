@@ -59,6 +59,7 @@ def export_to_excel_2(df_pivot, scenario='Рабочий', filename="report.xlsx
     with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
         # Формируем Excel файл
         df = df_pivot.copy()
+        df = df.rename(columns={'metric_name': 'Показатели'})
         df.to_excel(writer, sheet_name="Отчёт", index=False, startrow=2, header=True)
 
         workbook  = writer.book
@@ -83,7 +84,8 @@ def export_to_excel_2(df_pivot, scenario='Рабочий', filename="report.xlsx
         now = datetime.datetime.now()
         stop_time = now.strftime("%H:%M:%S")
 
-        worksheet.write(1, len(df)+3, f'Дата формирования: {now.strftime("%d.%m.%Y ")}', footer_fmt)
+
+        worksheet.write(1, 4, f'Дата формирования: {now.strftime("%d.%m.%Y ")}', footer_fmt)
 
     excel_bytes = output.getvalue()
 

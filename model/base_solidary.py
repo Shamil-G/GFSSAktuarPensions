@@ -52,7 +52,7 @@ def prepare_base_solidary_pivot(df):
     )
 
     METRIC_RENAME_MAP = {
-        'metric_name': 'Показатель',
+        'metric_name': 'Показатели',
         'cnt_new_m' : 'Новых мужчин', 
         'cnt_new_w' : 'Новых женщин', 
         'cnt_new_all' : 'Всего мужчин и женщин', 
@@ -61,13 +61,13 @@ def prepare_base_solidary_pivot(df):
         'cnt_curr_base': 'Кол-во получателей базовой пенсии', 
         'cnt_curr_solidary': 'Кол-во получателей солидарной пенсии', 
 
-        'sum_avg_base': 'Средний размер назначенной базовой пенсии',
-        'sum_avg_solidary' :'Средний размер назначенной солидарной пенсии',
+        'sum_avg_base': 'Средний размер базовой пенсии',
+        'sum_avg_solidary' :'Средний размер солидарной пенсии',
 
-        'sum_avg_base_new': 'Средний размер новой базовой пенсии',
-        'sum_avg_solidary_new': 'Средний размер новой солидарной пенсии',
-        'sum_base': 'Размер базовой пенсии',
-        'sum_solidary': 'Размер солидарной пенсии'
+        'sum_avg_base_new': 'Средний размер назначаемой базовой пенсии',
+        'sum_avg_solidary_new': 'Средний размер назначаемой солидарной пенсии',
+        'sum_base': 'Сумма расходов на базовую пенсию, в год',
+        'sum_solidary': 'Сумма расходов на солидарную пенсию, в год'
     }
     log.debug(f'PIVOT_COLUMNS: {df_pivot.columns}')
 
@@ -80,12 +80,12 @@ def prepare_base_solidary_pivot(df):
         "Всего мужчин и женщин",
         "Кол-во получателей базовой пенсии",
         "Кол-во получателей солидарной пенсии",
-        'Средний размер назначенной базовой пенсии',
-        'Средний размер новой базовой пенсии',
-        'Средний размер назначенной солидарной пенсии',
-        'Средний размер новой солидарной пенсии',
-        'Размер базовой пенсии',
-        'Размер солидарной пенсии'
+        'Средний размер назначаемой базовой пенсии',
+        'Средний размер назначаемой солидарной пенсии',
+        'Средний размер базовой пенсии',
+        'Средний размер солидарной пенсии',
+        'Сумма расходов на базовую пенсию, в год',
+        'Сумма расходов на солидарную пенсию, в год'
     ]
 
     # задали приоритет для метрик
@@ -104,19 +104,18 @@ def prepare_base_solidary_pivot(df):
         key=lambda x: int(x)
     )
     df_pivot = df_pivot[cols]
-    log.info(f'df_pivot: {df_pivot}')
+    log.debug(f'PREPARE BASE SOLIDARY PIVOT. df_pivot: {df_pivot}')
 
     return df_pivot
 
 
 def get_pivot_table(df, scenario, type="data"):
     df_pivot = prepare_base_solidary_pivot(df)
-    log.info(f'NOW will be call export_to_excel_2')
+    log.debug(f'GET PIVOT TABLE. DF_PIVOT: {df_pivot}')
     match type:
         case "excel":
             return export_to_excel_2(df_pivot, scenario, f'Base_Solidary.{scenario}.xlsx')
         case _:
-            # df_pivot = df_pivot.where(pd.notna(df_pivot), "")
             return df_pivot.to_dict(orient="records")
 
 
@@ -163,16 +162,6 @@ def calculate_base_solidary(scenario):
     with get_connection() as connection:
         with connection.cursor() as cursor:
             # планируем задачу в фоне через DBMS_SCHEDULER
-            cmd =  f"""
-                BEGIN
-                  DBMS_SCHEDULER.create_job (
-                    job_name        => 'TASK_CALCULATE_BASE_SOLIDARY',
-                    job_type        => 'PLSQL_BLOCK',
-                    job_action      => 'BEGIN aktuar.aktuar_base_solidary.calculate(''{scenario}''); END;',
-                    start_date      => SYSTIMESTAMP,
-                    enabled         => TRUE
-                  );
-                END;
-            """
+            cmd =  f'BEGIN aktuar.aktuar_base_solidary.calculate(:scenario); END;';
             log.info(f"CALCULATE BASE & SOLIDARY. CMD:\n{cmd}")
-            cursor.execute(cmd)
+            cursor.execute(cmd, scenario=scenario)
