@@ -20,19 +20,20 @@
     overflow: hidden;
 }
 
-.dropdown-content a {
-    margin: 1px;
-    padding: 6px 12px;
-    font-size: 18px;
-    text-decoration: none;
-    text-align: left;
-    text-indent: 0;
-    display: block;
-    box-sizing: border-box;
-/*    align-items: start;*/
-    gap: 10px;
-    transition: background 0.5s, color 0.8s;
-}
+    .dropdown-content a {
+        margin: 1px;
+        padding: 6px 12px;
+        font-size: 18px;
+        text-decoration: none;
+        text-align: left;
+        text-indent: 0;
+        display: block;
+        box-sizing: border-box;
+        text-shadow: none;
+        /*    align-items: start;*/
+        gap: 10px;
+        transition: background 0.5s, color 0.8s;
+    }
 
 .dropdown:hover .dropdown-content {
     display: block;

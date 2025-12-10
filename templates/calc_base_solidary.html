@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block link_style %}
-    <link rel="stylesheet" type="text/css" href="/static/common_style/filters.css">
-    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/filters.css">
+    <!--<link rel="stylesheet" type="text/css" href="/static/common_style/filters.css">
+    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/filters.css">-->
 {% endblock %}
 
 {% block body %}
@@ -23,7 +23,7 @@
          data-task="'Прогнозирование пенсионных расходов'"
          style="min-width: 200px; display: inline-block;; margin-left: 5px">
         <input type="hidden" name="menuValuePeriod" id="menuValuePeriod">
-        <button style="border: 1px solid lightgray; min-width: 160px"
+        <button style="border: 1px solid lightgray; min-width: 160px; font-weight: bold"
                 type="button"
                 id="menuCalcButton">
             <i class="fas fa-filter"></i>
@@ -36,7 +36,7 @@
          data-track="true"
          style="min-width: 200px; display: inline-block; margin-left: 10px">
         <input type="hidden" name="menuValuePrint" id="menuValuePrint">
-        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px"
+        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px; font-weight: bold"
                 type="button"
                 id="menuPrintButton">
             <i class="fas fa-filter"></i>
@@ -73,9 +73,9 @@
                 <tr {% if idx>= total - 2 %}
                     style="font-weight:bold; color:#228B22; padding:10px 8px;s"   {# последние две строки — жирный, зеленый #}
                     {% elif idx % 2 == 0 %}
-                    style="background-color:#d0f0d0;"          {# чётные строки — светло-зелёные #}
+                    class="row-1"          {# чётные строки — светло-зелёные #}
                     {% else %}
-                    style="background-color:#e8ffe8;"          {# нечётные строки — чуть темнее зелёные #}
+                    class="row-2"          {# нечётные строки — чуть темнее зелёные #}
                     {% endif %}
                     >
                     <td class="sticky-col" style="text-align: left; min-width: 256px; white-space: normal; word-wrap: break-word;">

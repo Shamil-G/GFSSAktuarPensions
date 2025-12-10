@@ -9,16 +9,16 @@
 {% endblock %}
 
 {% block link_style %}
-    <link rel="stylesheet" type="text/css" href="/static/common_style/filters.css">
-    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/filters.css">
+    <!--<link rel="stylesheet" type="text/css" href="/static/common_style/filters.css">
+    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/filters.css">-->
 {% endblock %}
 
 {% block body %}
-<div id="calc_pens_FilterZone" class="filter-panel" style="padding: 2px">
-    <label style="margin-left: 5px; font-size:18px">
+<div id="calc_pens_FilterZone" style="display: flex; padding: 2px; gap: 12px; align-items: center; font-size: 18px; font-weight: bold">
+    <label style="margin-left: 5px;">
         Ид:
         <input id="filter-id"
-               style="margin-left: 5px; font-size:18px"
+               style="margin-left: 5px; font-size: 18px; width: 180px; border: 1px solid #ccc; border-radius: 4px; padding: 4px 10px"
                data-role="filter-input"
                data-url="/filter-pens-id"
                data-target="calc_pens_mainBody"
@@ -26,14 +26,14 @@
                type="text" placeholder="Введите Ид">
     </label>
 
-    <label style="margin-left: 10px; font-size: 18px">
+    <label style="margin-left: 10px; font-weight: bold">
         Год рождения:
         <input id="filter-year"
-               style="margin-left: 5px; font-size: 18px"
+               style="margin-left: 5px; font-size: 18px; width: 88px; border: 1px solid #ccc; border-radius: 4px; padding: 4px 10px"
                data-role="filter-input"
                data-url="/filter-pens-year"
                data-target="calc_pens_mainBody"
-               type="number" placeholder="Напр. 1964">
+               type="number" placeholder="1964">
     </label>
 
     <div data-role="menu-calc"
@@ -43,8 +43,7 @@
          data-task="'Прогнозирование пенсионных расходов'"
          style="min-width: 200px; margin-left: 10px" class="dropdown">
         <input type="hidden" name="menuValuePeriod" id="menuValuePeriod">
-        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px" type="button"
-                class="dropdown-button period-button"
+        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px; padding: 4px 16px; font-weight: bold" type="button"
                 id="menuButton">
             <i class="fas fa-filter"></i>
             <span class="label">{{ res_value('CALCULATION_PERIOD') }}</span>
@@ -63,8 +62,8 @@
          data-track="true"
          style="min-width: 200px; margin-left: 10px" class="dropdown">
         <input type="hidden" name="menuValuePrintPeriod" id="menuValuePrintPeriod">
-        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px" type="button"
-                class="dropdown-button period-button" id="menuPrintButton">
+        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px; padding: 4px 16px; font-weight: bold" type="button"
+                id="menuPrintButton">
             <i class="fas fa-filter"></i>
             <span class="label">{{ res_value('PRINT_PERIOD') }}</span>
             <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
