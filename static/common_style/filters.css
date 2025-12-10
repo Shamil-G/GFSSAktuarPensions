@@ -9,7 +9,7 @@
 
 .filter-panel label {
     display: flex;
-    flex-direction: column;
+    /*flex-direction: column;*/
     font-weight: bold;
 }
 
