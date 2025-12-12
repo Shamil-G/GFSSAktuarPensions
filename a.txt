@@ -1,0 +1,30 @@
+INIT db_oracle
+ 
+ -------------- celery@DESKTOP-JD1B3P8 v5.6.0 (recovery)
+--- ***** ----- 
+-- ******* ---- Windows-11-10.0.26200-SP0 2025-12-11 10:37:35
+- *** --- * --- 
+- ** ---------- [config]
+- ** ---------- .> app:         __init__:0x1e723c99160
+- ** ---------- .> transport:   redis://192.168.20.33:6379/0
+- ** ---------- .> results:     redis://192.168.20.33:6379/0
+- *** --- * --- .> concurrency: 12 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+                
+
+[tasks]
+  . view.celery_task_route.long_process
+
+
+worker: Hitting Ctrl+C again will initiate cold shutdown, terminating all running tasks!
+
+worker: Warm shutdown (MainProcess)
+
+worker: Hitting Ctrl+C again will terminate all running tasks!
+
+Waiting gracefully for cold shutdown to complete...
+
+worker: Cold shutdown (MainProcess)

@@ -13,6 +13,7 @@ pip3 install openpyxl
 pip3 install requests
 pip3 install pandas
 pip3 install gunicorn
+pip3 install celery
 rem pip3 install ldap3
 pip3 install xlsxwriter
 python main_app.py

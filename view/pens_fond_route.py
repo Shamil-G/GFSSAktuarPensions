@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, g, session
+from flask import render_template, request, redirect, url_for, g, session, jsonify
 from flask_login import login_required
 from main_app import app, log
 from util.functions import extract_payload
@@ -23,34 +23,62 @@ def view_show_pens():
     return render_template('calc_pens.html', columns=grouped_columns, rows=rows)
 
 
-@app.route('/calculate_pens', methods=['GET','POST'])
+@app.route('/show-pens-fragment', methods=['GET','POST'])
 @login_required
-def view_calc_pens():
-    data = extract_payload()
-    value = data.get('value', '')
-
-    filter=''
-    if value=='filter':
-        task_id = int(time.time())
-        filter=session.get('pens_filter', '1=2')
-        calculate_in_db(task_id, value, filter)
-    if value=='all':
-        filter=session.get('pens_filter', '1=1')    
-        calculate_in_db(task_id, value, filter)
-
-    log.info(f"CALCULATE_PENS. value: {value}, filter: {filter}")
+def view_pens_by_filter():
+    filter=session.get('pens_filter', '1=1')
 
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
     else:
+        log.info(f"SHOW PENS. NOT FOUND SCENARIO: {scenario}")
         return redirect(url_for('view_root'))
 
-
-    (grouped_columns, rows)=get_pens_items(scenario, filter)
-
-    log.debug(f"------->CALC PENS. START\n{grouped_columns}\nROWS: {rows}\n<-------")
+    (grouped_columns, rows )=get_pens_items(scenario, filter)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
+
+
+@app.route('/calculate_pens', methods=['POST'])
+# @login_required
+def view_calc_pens():
+    # log.info(f"VIEW CALC PENS. DATA: {request}")
+    # # data = request.get_json(force=True)
+    # data = 'is Ready'
+    # return jsonify({"status": "success", "received": data})
+    # log.info(f'VIEW CALC PENS: {request}')
+    data = extract_payload()
+
+    scenario = data.get("scenario",'')
+    filter = data.get("value",'')
+    filter2 = ''
+    if 'pens_filter' in session:
+        filter2 = session['pens_filter']
+    log.info(f'1. VIEW CALC PENS: {data}, filter: {filter}, filter2: {filter2}')
+
+    if scenario=='':
+        log.info(f"SHOW PENS. NOT FOUND SCENARIO")
+        return jsonify({'status': 'fail', 'message': 'SCENARIO is EMPTY'})
+    if filter=='':
+        log.info(f"SHOW PENS. NOT FOUND FILTER")
+        return jsonify({'status': 'fail', 'message': 'FILTER is EMPTY'})
+
+    log.info(f"CALCULATE_PENS. scenario: {scenario}, filter: {filter}")
+
+    calculate_in_db(scenario, filter)
+
+    return jsonify({'status': 'success'})
+    # scenario=''
+    # if 'scenario' in session:
+    #     scenario=session['scenario']
+    # else:
+    #     return redirect(url_for('view_root'))
+
+
+    # (grouped_columns, rows)=get_pens_items(scenario, filter)
+
+    # log.debug(f"------->CALC PENS. START\n{grouped_columns}\nROWS: {rows}\n<-------")
+    # return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
 
 
 @app.route('/print_pens', methods=['GET','POST'])
@@ -93,7 +121,7 @@ def view_pens_year():
     else:
         return redirect(url_for('view_root'))
 
-    log.info(f"FILTER_PENS_YEAR\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
+    log.info(f"FILTER_PENS_YEAR\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}, FILTER: {session['pens_filter']}")
     (grouped_columns, rows)=get_pens_items(scenario, filter)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
 
@@ -120,19 +148,3 @@ def view_pens_id():
     (grouped_columns, rows )=get_pens_items(scenario, filter)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
 
-
-@app.route('/filter-pens-period', methods=['GET','POST'])
-@login_required
-def view_pens_period():
-    data = extract_payload()
-    ref_year = data.get('value', '')
-    log.info(f"FILTER_PENS_PERIOD\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
-
-    scenario=''
-    if 'scenario' in session:
-        scenario=session['scenario']
-    else:
-        return redirect(url_for('view_root'))
-
-    (grouped_columns, rows )=get_pens_items(scenario, ref_year)
-    return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)

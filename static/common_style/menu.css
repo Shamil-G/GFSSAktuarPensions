@@ -2,7 +2,10 @@
     position: relative;
     display: inline-block;
 }
-
+.dropdown.disabled {
+    pointer-events: none; /* блокирует все клики внутри */
+    opacity: 0.5; /* визуально серое */
+}
 .dropdown-button {
     padding: 4px 16px;
     font-size: 18px;
@@ -19,21 +22,24 @@
     z-index: 100;
     overflow: hidden;
 }
-
-    .dropdown-content a {
-        margin: 1px;
-        padding: 6px 12px;
-        font-size: 18px;
-        text-decoration: none;
-        text-align: left;
-        text-indent: 0;
-        display: block;
-        box-sizing: border-box;
-        text-shadow: none;
-        /*    align-items: start;*/
-        gap: 10px;
-        transition: background 0.5s, color 0.8s;
-    }
+.dropdown-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.dropdown-content a {
+    margin: 1px;
+    padding: 6px 12px;
+    font-size: 18px;
+    text-decoration: none;
+    text-align: left;
+    text-indent: 0;
+    display: block;
+    box-sizing: border-box;
+    text-shadow: none;
+    /*    align-items: start;*/
+    gap: 10px;
+    transition: background 0.5s, color 0.8s;
+}
 
 .dropdown:hover .dropdown-content {
     display: block;

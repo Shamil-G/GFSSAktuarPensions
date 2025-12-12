@@ -7,4 +7,4 @@ rem python -m pip install --upgrade pip
 rem pip install --upgrade pip
 rem pip3 install celery
 rem # python main_app.py
-celery -A main_app.celery worker --loglevel=INFO --logfile=celery.log
+python worker.py

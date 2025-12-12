@@ -137,23 +137,23 @@ def get_unique_year(scenario, filter):
             return result
 
 
-def calculate_in_db(scenario, task_id, select_value, filter):
+def calculate_in_db(scenario, filter):
     with get_connection() as connection:
         with connection.cursor() as cursor:
             # планируем задачу в фоне через DBMS_SCHEDULER
-            task_name = 'aktuar.aktuar_pension.create_task_calculate'
-            params = {'scenario':scenario,'task_id': task_id, 'select_value': select_value, 'filter': filter}
-            cursor.execute(f'begin {task_name}(:task_id, :scenario, :select_value, :filter); end;', params)
-            cmd =  f"""
-                BEGIN
-                  DBMS_SCHEDULER.create_job (
-                    job_name        => 'TASK_{task_id}',
-                    job_type        => 'PLSQL_BLOCK',
-                    job_action      => 'BEGIN aktuar.aktuar_pension.calculate_by_task({task_id}); END;',
-                    start_date      => SYSTIMESTAMP,
-                    enabled         => TRUE
-                  );
-                END;
-            """
-            log.info(f"CALCULATE IN DB: CMD:\n{cmd}")
-            cursor.execute(cmd)
+            cmd = 'begin aktuar.aktuar_pension.celery_task_calculate(:scenario, :filter); end;'
+            params = {'scenario':scenario, 'filter': filter}
+            log.info(f"CALCULATE IN DB. START\t\nCMD: {cmd}\t\nPARAMS: {params}")
+            cursor.execute(cmd, params)
+            # cmd =  f"""
+            #     BEGIN
+            #       DBMS_SCHEDULER.create_job (
+            #         job_name        => 'TASK_{task_id}',
+            #         job_type        => 'PLSQL_BLOCK',
+            #         job_action      => 'BEGIN aktuar.aktuar_pension.calculate_by_task({task_id}); END;',
+            #         start_date      => SYSTIMESTAMP,
+            #         enabled         => TRUE
+            #       );
+            #     END;
+            # """
+            log.info(f"CALCULATE IN DB. FINISH. CMD: {cmd}")
