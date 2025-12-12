@@ -13,7 +13,7 @@ from view.ref_route import *
 from view.ref_coeff_route import *
 from view.pens_fond_route import *
 from view.solidary_route import *
-from model.manage_task import get_task_status
+from view.celery_task_route import *
 
 # from util.functions import extract_payload
 

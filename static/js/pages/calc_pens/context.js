@@ -16,24 +16,19 @@ export const calcPensTabContext = {
         mainTableHelper: [HelperBinder],
         filters: [FilterInputBinder, MenuBinder, MenuPrintBinder],
     },
-/*
+
     request: {
         fragment: {
             method: 'POST',
-            url: ref_name => `/filter-pens-year`
+            url: ref_name => `/show-pens-fragment`
         },
         filters: {
             method: 'POST',
             url: '/big_ref_filters',
             params: () => ({}) // 👈 пустой объект, если нет orderNum
         },
-        save_row_big_ref: {
-            method: 'POST',
-            url: (id, year, field) => `/save-ref-value`,
-            params: (id, year, field, value) => ({ id, year, field, value })
-        }
     },
-*/
+
     bindScope: {
         filters: 'global'    // искать в document, независимо от fragment
     },

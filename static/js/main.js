@@ -3,7 +3,6 @@ import { TabContext } from '/static/js/core/TabContext.js';
 import { PageManager, PageContext } from '/static/js/core/PageContext.js';
 import * as TabUtil from '/static/js/_aux/tabUtil.js';
 
-
 (async () => {
     console.log('Start Main Page Context:');
 

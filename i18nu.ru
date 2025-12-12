@@ -23,6 +23,7 @@ FULL_DESCR = Детальное описание:
 ID_CALC = Ид расчета
 INSERT_NICKNAME =Введите зарегистрированное имя
 INSERT_PASSWORD =Введите пароль компьютера
+PASSWORD_INFO =Введите пароль
 LOAD_FILE = Загрузить
 LOGIN = Войти
 LOGIN_NAME =Фамилия/ИИН

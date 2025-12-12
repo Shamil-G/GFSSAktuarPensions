@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block link_style %}
-    <!--<link rel="stylesheet" type="text/css" href="/static/common_style/filters.css">
-    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/filters.css">-->
+<!--<link rel="stylesheet" type="text/css" href="/static/common_style/filters.css">
+<link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/filters.css">-->
 {% endblock %}
 
 {% block body %}
@@ -22,7 +22,6 @@
                data-role="filter-input"
                data-url="/filter-pens-id"
                data-target="calc_pens_mainBody"
-               
                type="text" placeholder="Введите Ид">
     </label>
 
@@ -37,14 +36,18 @@
     </label>
 
     <div data-role="menu-calc"
-         data-url="/calculate_pens"
+         data-action="/start_task"
+         data-work-url="/calculate_pens"
          data-target="calc_pens_mainBody"
          data-track="true"
          data-task="'Прогнозирование пенсионных расходов'"
+         data-session-scenario="{{ session['scenario'] }}"
          style="min-width: 200px; margin-left: 10px" class="dropdown">
-        <input type="hidden" name="menuValuePeriod" id="menuValuePeriod">
-        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px; padding: 4px 16px; font-weight: bold" type="button"
-                id="menuButton">
+        <input type="hidden" name="menuValuePeriod" id="menuCalcPeriodInput">
+        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px; padding: 4px 16px; font-weight: bold" 
+                type="button"
+                class="dropdown-button"
+                id="menuCalcButton"> 
             <i class="fas fa-filter"></i>
             <span class="label">{{ res_value('CALCULATION_PERIOD') }}</span>
             <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
@@ -62,7 +65,8 @@
          data-track="true"
          style="min-width: 200px; margin-left: 10px" class="dropdown">
         <input type="hidden" name="menuValuePrintPeriod" id="menuValuePrintPeriod">
-        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px; padding: 4px 16px; font-weight: bold" type="button"
+        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px; padding: 4px 16px; font-weight: bold" 
+                type="button"
                 id="menuPrintButton">
             <i class="fas fa-filter"></i>
             <span class="label">{{ res_value('PRINT_PERIOD') }}</span>
@@ -119,6 +123,5 @@
         </table>
     </div>
 </div>
-<!--</div>-->
 <script type="module" id="pageScript" data-page="calc_pens" src="static/js/main.js"></script>
 {% endblock %}

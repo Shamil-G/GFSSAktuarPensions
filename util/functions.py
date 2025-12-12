@@ -11,7 +11,7 @@ def extract_payload():
     log.info(f"📥 Content-Type: {content_type}")
 
     if 'application/json' in content_type:
-        data = request.get_json(silent=True)
+        data = request.get_json(force=True)
         if isinstance(data, dict):
             return data
         else:
