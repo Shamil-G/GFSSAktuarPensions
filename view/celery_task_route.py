@@ -5,7 +5,7 @@ from model.celery_tasks import celery_calc_pens
 from util.functions import extract_payload
 
 
-@app.route('/start_task', methods=['POST'])
+@app.route('/start_task_calculate_pens', methods=['POST'])
 def start_task():
     payload = extract_payload()
     taskName = payload.get("taskName",'')
@@ -13,13 +13,19 @@ def start_task():
     work_url = payload.get("work_url",'')
     scenario = payload.get("scenario",'')
 
-    log.info(f'START_TASK. scenario: {session['scenario']}, filter: {session['pens_filter']}')
-
     filter=''
-    if value=='all':
+    pens_filter=session.get('pens_filter','1=1')
+    ids_filter=session.get('ids_filter','')
+    if value=='all': filter='1=1'
+    else: 
+        if 'extract' in pens_filter:
+            filter=pens_filter
+        if 'like' in pens_filter and ids_filter!='':
+            filter=f'ids = {ids_filter}'
+    if filter=='':
         filter='1=1'
-    else:
-        filter=session['pens_filter']
+
+    log.info(f'START_TASK. scenario: {session['scenario']}, value: {value}, filter: {filter}, work_url: {work_url}')
 
     log.info(f'START_TASK. PAYLOAD: {payload}')
     log.info(f'START_TASK. TASK_NAME: {taskName}, scenario: {scenario}, value: {value}, work_url: {work_url}')
@@ -33,6 +39,7 @@ def start_task():
 
     if(scenario!='' and filter!=''):
         task = celery_calc_pens.apply_async(args=[taskName, scenario, filter, work_url])
+        log.info(f"TASK: {task} started")  
         return jsonify({"taskName": taskName, "status": "started"})
     return jsonify({"task_id": taskName, "status": "fail"})
 

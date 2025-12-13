@@ -129,8 +129,10 @@ export const MenuBinder = {
                 }
                 // при необходимости перерисовываем таблицу
                 const targetId = dropdown?.dataset.target;
-                const url = dropdown?.dataset.url;
+                const url = dropdown?.dataset.fragment;
+                console.log('Для обновления фрагмента используем. URL: ', url, ', targetId: ', targetId, ', Result: ', result);
                 if (targetId && url) {
+                    console.log('Обновляем данные. URL: ', url, ', targetId: ', targetId, ', Result: ', result);
                     TableLoader.load(url, targetId, { value: result });
                 }
             });

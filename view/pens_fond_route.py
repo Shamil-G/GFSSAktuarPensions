@@ -10,6 +10,8 @@ import time
 @login_required
 def view_show_pens():
     filter=session.get('pens_filter', '1=1')
+    year_filter=session.get('year_filter','')
+    ids_filter=session.get('ids_filter','')
 
     scenario=''
     if 'scenario' in session:
@@ -17,10 +19,11 @@ def view_show_pens():
     else:
         log.info(f"SHOW PENS. NOT FOUND SCENARIO: {scenario}")
         return redirect(url_for('view_root'))
+    log.info(f'*** view_show_pens. scenario: {scenario}, ids_flter: {ids_filter}, year_filter: {year_filter}')
 
     (grouped_columns, rows )=get_pens_items(scenario, filter)
     log.debug(f"------->VIEW SHOW PENS FOND. \n{grouped_columns}\nROWS: {rows}\n<-------")
-    return render_template('calc_pens.html', columns=grouped_columns, rows=rows)
+    return render_template('calc_pens.html', columns=grouped_columns, rows=rows, year_filter=year_filter, ids_filter=ids_filter)
 
 
 @app.route('/show-pens-fragment', methods=['GET','POST'])
@@ -42,11 +45,6 @@ def view_pens_by_filter():
 @app.route('/calculate_pens', methods=['POST'])
 # @login_required
 def view_calc_pens():
-    # log.info(f"VIEW CALC PENS. DATA: {request}")
-    # # data = request.get_json(force=True)
-    # data = 'is Ready'
-    # return jsonify({"status": "success", "received": data})
-    # log.info(f'VIEW CALC PENS: {request}')
     data = extract_payload()
 
     scenario = data.get("scenario",'')
@@ -68,17 +66,6 @@ def view_calc_pens():
     calculate_in_db(scenario, filter)
 
     return jsonify({'status': 'success'})
-    # scenario=''
-    # if 'scenario' in session:
-    #     scenario=session['scenario']
-    # else:
-    #     return redirect(url_for('view_root'))
-
-
-    # (grouped_columns, rows)=get_pens_items(scenario, filter)
-
-    # log.debug(f"------->CALC PENS. START\n{grouped_columns}\nROWS: {rows}\n<-------")
-    # return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
 
 
 @app.route('/print_pens', methods=['GET','POST'])
@@ -106,22 +93,26 @@ def view_print_pens():
 @app.route('/filter-pens-year', methods=['GET','POST'])
 @login_required
 def view_pens_year():
-    data = extract_payload()
-    year = data.get('value', '')
-    if not year:
-        log.info(f"FILTER_PENS_YEAR. YEAR is EMPTY")
-        return '', 200
-
-    filter = f"extract(year from birth_date)={year}"
-    session['pens_filter']=filter
-
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
     else:
         return redirect(url_for('view_root'))
 
-    log.info(f"FILTER_PENS_YEAR\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}, FILTER: {session['pens_filter']}")
+    data = extract_payload()
+    year = data.get('value', '')
+    session['year_filter']=year
+
+    filter='1=1'
+    if not year:
+        log.info(f"FILTER_PENS_YEAR. YEAR is EMPTY")
+    else:
+        filter = f"extract(year from birth_date)={year}"
+    
+    session['pens_filter']=filter
+
+    log.debug(f"FILTER_PENS_ID\n\tMETHOD: {request.method}\n\tscenario: {scenario}\n\tIDS: {year}\n\tfilter:{filter}")
+
     (grouped_columns, rows)=get_pens_items(scenario, filter)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
 
@@ -129,21 +120,25 @@ def view_pens_year():
 @app.route('/filter-pens-id', methods=['GET','POST'])
 @login_required
 def view_pens_id():
-    data = extract_payload()
-    ids = data.get('value', '')
-    if not ids:
-        log.info(f"FILTER_PENS_ID. IDS is EMPTY")
-        return '', 200
-
-    log.info(f"FILTER_PENS_ID\n\tMETHOD: {request.method}\n\tEXTRACTED DATA: {data}")
-    filter = f"ids like '{ids}%'"
-    session['pens_filter']=filter
-
     scenario=''
     if 'scenario' in session:
         scenario=session['scenario']
     else:
         return redirect(url_for('view_root'))
+
+    data = extract_payload()
+    ids = data.get('value', '')
+    session['ids_filter']=ids
+
+    filter='1=1'
+    if not ids:
+        log.info(f"FILTER_PENS_ID. IDS is EMPTY")
+    else:
+        filter = f"ids like '{ids}%'"
+    
+    session['pens_filter']=filter
+
+    log.debug(f"FILTER_PENS_ID\n\tMETHOD: {request.method}\n\tscenario: {scenario}\n\tIDS: {ids}\n\tfilter:{filter}")
 
     (grouped_columns, rows )=get_pens_items(scenario, filter)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
