@@ -22,11 +22,6 @@ export const calcPensTabContext = {
             method: 'POST',
             url: ref_name => `/show-pens-fragment`
         },
-        filters: {
-            method: 'POST',
-            url: '/big_ref_filters',
-            params: () => ({}) // 👈 пустой объект, если нет orderNum
-        },
     },
 
     bindScope: {

@@ -22,7 +22,8 @@
                data-role="filter-input"
                data-url="/filter-pens-id"
                data-target="calc_pens_mainBody"
-               type="text" placeholder="Введите Ид">
+               type="text" placeholder="Введите Ид" 
+               value="{{ ids_filter }}">
     </label>
 
     <label style="margin-left: 10px; font-weight: bold">
@@ -32,12 +33,14 @@
                data-role="filter-input"
                data-url="/filter-pens-year"
                data-target="calc_pens_mainBody"
-               type="number" placeholder="1964">
+               type="number" placeholder="1964"
+               value="{{ year_filter }}">
     </label>
 
     <div data-role="menu-calc"
-         data-action="/start_task"
+         data-action="/start_task_calculate_pens"
          data-work-url="/calculate_pens"
+         data-fragment="/show-pens-fragment"
          data-target="calc_pens_mainBody"
          data-track="true"
          data-task="'Прогнозирование пенсионных расходов'"
