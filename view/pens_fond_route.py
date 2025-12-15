@@ -41,7 +41,9 @@ def view_pens_by_filter():
     (grouped_columns, rows )=get_pens_items(scenario, filter)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
 
-
+# /calculate_pens גûחûגאועסÿ CELERY (celery_taks.py) קונוח גûחמג
+# def celery_calc_pens(taskName, scenario, value, work_url):
+# ג ךמעמנמי  work_url=/calculate_pens
 @app.route('/calculate_pens', methods=['POST'])
 # @login_required
 def view_calc_pens():
@@ -49,14 +51,13 @@ def view_calc_pens():
 
     scenario = data.get("scenario",'')
     filter = data.get("value",'')
-    filter2 = ''
-    if 'pens_filter' in session:
-        filter2 = session['pens_filter']
-    log.info(f'1. VIEW CALC PENS: {data}, filter: {filter}, filter2: {filter2}')
+
+    log.info(f'VIEW CALC PENS: {data}, filter: {filter}')
 
     if scenario=='':
-        log.info(f"SHOW PENS. NOT FOUND SCENARIO")
+        log.info(f"VIEW CALC PENS. NOT FOUND SCENARIO")
         return jsonify({'status': 'fail', 'message': 'SCENARIO is EMPTY'})
+
     if filter=='':
         log.info(f"SHOW PENS. NOT FOUND FILTER")
         return jsonify({'status': 'fail', 'message': 'FILTER is EMPTY'})
@@ -74,6 +75,20 @@ def view_print_pens():
     format_type = request.args.get("format", "excel")
     value = request.args.get("value")
 
+    data = extract_payload()
+
+    scenario = data.get("scenario",'')
+    filter = data.get("value",'')
+
+    scenario=''
+    if 'scenario' in session:
+        scenario=session['scenario']
+        return jsonify({'status': 'fail', 'message': 'SCENARIO is EMPTY'})
+
+    if filter=='':
+        log.info(f"SHOW PENS. NOT FOUND FILTER")
+        return jsonify({'status': 'fail', 'message': 'FILTER is EMPTY'})
+
     filter=''
     if value=='filter':
         filter=session.get('pens_filter', '1=2')    
@@ -81,9 +96,6 @@ def view_print_pens():
     if value=='all':
         filter=session.get('pens_filter', '1=2')    
 
-    scenario=''
-    if 'scenario' in session:
-        scenario=session['scenario']
     else:
         return redirect(url_for('view_root'))
 
@@ -142,4 +154,3 @@ def view_pens_id():
 
     (grouped_columns, rows )=get_pens_items(scenario, filter)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
-

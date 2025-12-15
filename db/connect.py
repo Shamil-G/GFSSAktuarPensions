@@ -51,8 +51,8 @@ def close_connection(connection):
 
 def select(stmt):
     results = []
-    mistake = 0
-    err_mess = ''
+    err_message = ''
+    status='success'
     with get_connection() as connection:
         with connection.cursor() as cursor:
             try:
@@ -62,18 +62,17 @@ def select(stmt):
                     results.append(rec)
             except oracledb.DatabaseError as e:
                 error, = e.args
-                mistake = 1
-                err_mess = f"Oracle error: {error.code} : {error.message}"
-                log.error(err_mess)
-                log.error(f"ERROR with ------select------>\n{stmt}\n")
+                status='fail'
+                err_message = f'STMT: {stmt}\n\t{error.code} : {error.message}'
+                log.error(f"------select------> ERROR\n{err_message}\n")
             finally:
-                return mistake, results, err_mess
+                return status, results, err_message
 
 
 def select_one(stmt, args):
-    mistake = 0
-    err_mess = ''
     rec = []
+    err_message = ''
+    status='success'
     with get_connection() as connection:
         with connection.cursor() as cursor:
             try:
@@ -82,55 +81,69 @@ def select_one(stmt, args):
                 rec = cursor.fetchone()
             except oracledb.DatabaseError as e:
                 error, = e.args
-                mistake = 1
-                err_mess = f"Oracle error: {error.code} : {error.message}"
-                log.error(f"ERROR with ------select------>\n{stmt}\n")
-                log.error(err_mess)
+                status='fail'
+                err_message = f'STMT: {stmt}\n\tARGS: {args}\n\t{error.code} : {error.message}'
+                log.error(f"------select------> ERROR\n\t{err_message}")
+                log.error(err_message)
             finally:
-                return mistake, rec, err_mess
+                return status, rec, err_message
 
 
 def plsql_execute(cursor, proc_name, cmd, args):
+    err_message = ''
+    status='success'
     try:
         cursor.execute(cmd, args)
         log.debug(f"------execute------> INFO. {proc_name}\ncmd: {cmd}\nargs: {args}")
     except oracledb.DatabaseError as e:
         error, = e.args
-        log.error(f"------execute------> ERROR\n{proc_name}\n{cmd}\nargs: {args}")
-        log.error(f"Oracle error: {error.code} : {error.message}")
+        status='fail'
+        err_message = f'{proc_name}:{cmd}\n\tARGS: {args}\n\t{error.code} : {error.message}'
+        log.error(f"------execute------> ERROR\n\t{err_message}")
+    finally:
+        return status, f'{err_message}'
 
 
 def plsql_execute_s(f_name, proc_name, args):
     with get_connection() as connection:
         with connection.cursor() as cursor:
-            plsql_execute(cursor, f_name, proc_name, args)
+            return plsql_execute(cursor, f_name, proc_name, args)
+
+
+def plsql_proc(cursor, f_name, proc_name, args):
+    err_message = ''
+    status='success'
+    try:
+        cursor.callproc(proc_name, args)
+        log.debug(f"------plsql_proc------> INFO. \n\tf_name: {f_name}\n\tproc_name: {proc_name}\n\targs: {args}")
+    except oracledb.DatabaseError as e:
+        error, = e.args
+        status='fail'
+        err_message = f'{f_name}:{proc_name}\n\tARGS: {args}\n\t{error.code} : {error.message}'
+        log.error(f"-----plsql-proc-----> ERROR. {err_message}")
+    finally:
+        return status, err_message
 
 
 def plsql_proc_s(f_name, proc_name, args):
     with get_connection() as connection:
         with connection.cursor() as cursor:
-            plsql_proc(cursor, f_name, proc_name, args)
-
-
-def plsql_proc(cursor, f_name, proc_name, args):
-    try:
-        cursor.callproc(proc_name, args)
-    except oracledb.DatabaseError as e:
-        error, = e.args
-        # log.error(f"-----plsql-proc-----> ERROR. {f_name}. IP_Addr: {ip_addr()}, args: {args}")
-        log.error(f"-----plsql-proc-----> ERROR. {f_name}. ARGS: {args}")
-        log.error(f"Oracle error: {error.code} : {error.message}")
+            return plsql_proc(cursor, f_name, proc_name, args)
 
 
 def plsql_func(cursor, f_name, func_name, args):
     ret = ''
+    err_mess = ''
+    status='success'
     try:
         ret = cursor.callfunc(func_name, str, args)
     except oracledb.DatabaseError as e:
         error, = e.args
-        log.error(f"-----plsql-func-----> ERROR. {f_name}. args: {args}")
-        log.error(f"Oracle error: {error.code} : {error.message}")
-    return ret
+        status='fail'
+        err_mess = f'{f_name}:{func_name}\n\tARGS: {args}\n\t{error.code} : {error.message}'
+        log.error(f"-----plsql-func-----> ERROR. {err_mess}")
+    finally:
+        return status, ret, err_mess
 
 
 def plsql_func_s(f_name, proc_name, args):

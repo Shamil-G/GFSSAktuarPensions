@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ res_value('PAGE_DEMOGRAPHY') }}
+{% endblock %}
+
+{% block main_title %}
+{{ res_value('PAGE_DEMOGRAPHY') }}
+{% endblock %}
+
+
+{% block body %}
+<form class="form_r">
+    <reports>
+        <a href="/reports/summary_01">1. Сводный отчет по выплатам из накопительного пенсионного фонда</a>
+    </reports>
+</form>
+<script type="module" id="pageScript" data-page="reports" src="static/js/main.js"></script>
+{% endblock %}
