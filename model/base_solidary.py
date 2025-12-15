@@ -1,5 +1,5 @@
 ﻿from    util.logger import log
-from    db.connect import get_connection, plsql_proc_s
+from    db.connect import get_connection
 import  pandas as pd
 from    model.create_documents import export_to_excel_2
 from    pivots.pivot_functions import *

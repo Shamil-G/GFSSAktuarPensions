@@ -1,5 +1,5 @@
 ﻿from    util.logger import log
-from    db.connect import get_connection, plsql_proc_s
+from    db.connect import get_connection
 import  pandas as pd
 from    model.create_documents import export_to_excel, export_to_pdf
 from    pivots.pivot_functions import *
@@ -145,15 +145,5 @@ def calculate_in_db(scenario, filter):
             params = {'scenario':scenario, 'filter': filter}
             log.info(f"CALCULATE IN DB. START\t\nCMD: {cmd}\t\nPARAMS: {params}")
             cursor.execute(cmd, params)
-            # cmd =  f"""
-            #     BEGIN
-            #       DBMS_SCHEDULER.create_job (
-            #         job_name        => 'TASK_{task_id}',
-            #         job_type        => 'PLSQL_BLOCK',
-            #         job_action      => 'BEGIN aktuar.aktuar_pension.calculate_by_task({task_id}); END;',
-            #         start_date      => SYSTIMESTAMP,
-            #         enabled         => TRUE
-            #       );
-            #     END;
-            # """
+
             log.info(f"CALCULATE IN DB. FINISH. CMD: {cmd}")

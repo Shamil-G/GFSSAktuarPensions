@@ -63,4 +63,5 @@ PYTHON_REPORTS=Отчеты на Питон
 PROVISION=Расчет провизии
 BASE_SOLIDARY=Солидарная и базовая пенсии
 PENS_FOND = Пенсионные накопления
+PAGE_DEMOGRAPHY=Демография
 

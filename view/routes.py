@@ -13,6 +13,7 @@ from view.ref_route import *
 from view.ref_coeff_route import *
 from view.pens_fond_route import *
 from view.solidary_route import *
+from view.demography_route import *
 from view.celery_task_route import *
 
 # from util.functions import extract_payload
@@ -127,12 +128,6 @@ def view_reports(report_name=None):
     # return render_template("index.html")
     return render_template("reports.html")
 
-
-@app.route('/task_status/<int:task_id>')
-@login_required
-def task_status(task_id):
-    status=get_task_status(task_id)
-    return jsonify({"status": status})
 
 @app.route('/set-scenario', methods=["POST"])
 @login_required

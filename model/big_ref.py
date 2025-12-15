@@ -1,6 +1,6 @@
 from    util.logger import log
 from    db.connect import get_connection
-from decimal import Decimal
+
 
 stmt_list_op = ""
 

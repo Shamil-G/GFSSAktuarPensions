@@ -39,7 +39,7 @@ def save_coeff_value(scenario, ref_name, ref_value):
     with get_connection() as connection:
         with connection.cursor() as cursor:
             args = {"scenario": scenario, "value": value, "ref_name": ref_name}
-            plsql_execute(cursor, "save_coeff_value", stmt_update, args )
+            status, message = plsql_execute(cursor, "save_coeff_value", stmt_update, args )
             # try:
             #     cursor.execute(stmt_update, value=ref_value, ref_name=ref_name)
             # except:
