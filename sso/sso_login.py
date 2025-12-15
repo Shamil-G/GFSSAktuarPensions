@@ -1,7 +1,7 @@
 from flask import session
 from util.ip_addr import ip_addr
 from util.logger import log
-from app_config import ldap_admins, admin_deps, permit_post
+from app_config import list_admins, admin_deps, deps
 
      
 class SSO_User:
@@ -12,55 +12,63 @@ class SSO_User:
         self.dep_name=''
         self.roles=''
         self.top_control=0
+        self.roles='Operator'
 
         if 'password' in session:
             self.password = session['password']
         if src_user and 'login_name' in src_user:
             log.debug(f'SSO_USER. src_user: {src_user}')
 
-            login_name = src_user['login_name']
-            self.username = login_name
-            session['username'] = login_name
-
-            if 'dep_name' in src_user and src_user['dep_name'] in admin_deps:
-                self.top_control=1
-
-            if self.top_control==0 and ('post' not in src_user or src_user['post'] not in permit_post):
-                log.info(f'----------------\n\tUSER {session['username']} not Registred\n----------------')
+            self.username = src_user['login_name']
+            session['username'] = self.username
+            
+            if 'fio' not in src_user:
+                log.info(f"---> SSO\n\tUSER {self.username} not Registred\n\tFIO is empty\n<---")
                 return None
 
-            if 'dep_name' in src_user and src_user['dep_name'] in admin_deps:
+            if 'dep_name' not in src_user:
+                log.info(f"---> SSO\n\tUSER {self.username} not Registred\n\tDEP_NAME is empty\n<---")
+                return None
+
+            if src_user['dep_name'] not in admin_deps and src_user['dep_name'] not in deps:
+                log.info(f"---> SSO\n\tUSER {self.username} not Registred\n\tDEP_NAME {src_user['dep_name']} have not rigth<---")
+                return None
+
+            if 'post' not in src_user:
+                log.info(f"---> SSO\n\tUSER {self.username} not Registred\n\tPOST in \n{src_user}\n\tis empty\n<---")
+                return None
+
+            # RFBN_ID
+            self.rfbn_id=src_user.get('rfbn_id','')
+            # dep_name
+            self.dep_name = src_user.get('dep_name','')
+            session['dep_name']=self.dep_name
+            # post
+            self.post = src_user.get('post','')
+            session['post']=self.post
+            # FIO
+            self.fio = src_user.get('fio','')
+            #
+            if self.dep_name in admin_deps:
                 self.top_control=1
-            else:
-                self.top_control=0
 
-            if 'post' in src_user:
-                self.post = src_user['post']
-                session['post']=self.post
-
-            if 'dep_name' in src_user:
-                self.dep_name = src_user['dep_name']
-                session['dep_name']=self.dep_name
-
-            if src_user['fio'] in ldap_admins:
-                log.info(f'----------------\n\tUSER {session['username']} are Admin\n----------------')
+            if self.fio in list_admins:
+                log.info(f'---> SSO\n\tUSER: {self.fio}\n\tpost: {self.post}, dep_name: {self.dep_name}\n\tis Admin\n<---')
                 self.roles='Admin'
-            else:
-                self.roles='Operator'
             session['roles'] = self.roles
 
             if 'roles' in src_user:
                 self.roles = src_user['roles']
                 session['roles']=self.roles
                 
-            full_name = src_user['fio']
-            self.full_name = full_name
-            session['full_name'] = full_name 
+            self.full_name = self.fio
+            session['full_name'] = self.full_name 
+            session['fio'] = self.full_name 
 
             self.ip_addr = ip
-            log.info(f"LM SSO. SUCCESS\n\tUSERNAME: {self.username}, IP_ADDR: {self.ip_addr}\n\tFIO: {self.full_name}\n\tROLES: {self.roles}, POST: {self.post}\n\tDEP_NAME: {self.dep_name} ")
+            log.info(f"---> SSO SUCCESS\n\tUSERNAME: {self.username}\n\tIP_ADDR: {self.ip_addr}\n\tFIO: {self.full_name}\n\tROLES: {self.roles}, POST: {self.post}\n\tDEP_NAME: {self.dep_name}\n<---")
             return self
-        log.info(f"LM SSO. F`AIL. USERNAME: {src_user}, ip_addr: {ip}, password: {session['password']}")
+        log.info(f"---> SSO FAIL. USERNAME: {src_user}\n\tip_addr: {ip}, password: {session['password']}\n<---")
         return None
 
     def have_role(self, role_name):
@@ -86,7 +94,7 @@ class SSO_User:
             return False
 
     def get_id(self):
-        log.debug(f'LDAP_User. GET_ID. self.src_user: {self.src_user}, self.username: {self.username}')
+        log.debug(f'---> SSO\n\tGET_ID. self.src_user: {self.src_user}, self.username: {self.username}\n<---')
         if hasattr(self, 'src_user'):
             return self.src_user
         else: 
