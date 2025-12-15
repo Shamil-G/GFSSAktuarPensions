@@ -48,6 +48,7 @@ class SSO_User:
             session['post']=self.post
             # FIO
             self.fio = src_user.get('fio','')
+            session['fio'] = self.fio
             #
             if self.dep_name in admin_deps:
                 self.top_control=1
@@ -58,15 +59,14 @@ class SSO_User:
             session['roles'] = self.roles
 
             if 'roles' in src_user:
-                self.roles = src_user['roles']
+                self.roles = self.roles.append(src_user['roles'])
                 session['roles']=self.roles
                 
+            session['full_name'] = self.fio
             self.full_name = self.fio
-            session['full_name'] = self.full_name 
-            session['fio'] = self.full_name 
 
             self.ip_addr = ip
-            log.info(f"---> SSO SUCCESS\n\tUSERNAME: {self.username}\n\tIP_ADDR: {self.ip_addr}\n\tFIO: {self.full_name}\n\tROLES: {self.roles}, POST: {self.post}\n\tDEP_NAME: {self.dep_name}\n<---")
+            log.info(f"---> SSO SUCCESS\n\tUSERNAME: {self.username}\n\tIP_ADDR: {self.ip_addr}\n\tFIO: {self.fio}\n\tROLES: {self.roles}, POST: {self.post}\n\tDEP_NAME: {self.dep_name}\n<---")
             return self
         log.info(f"---> SSO FAIL. USERNAME: {src_user}\n\tip_addr: {ip}, password: {session['password']}\n<---")
         return None
