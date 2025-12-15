@@ -50,9 +50,10 @@ def try_auto_login():
             log.info(f'LOGIN GET. json_user: {json_user}')
             session['username'] = json_user['login_name']
             user = SSO_User().get_user_by_name(json_user)
-            login_user(user)
+            if user:
+                login_user(user)
         else:
-            log.info(f'----------------\n\tUSER {ip_addr()} not Registred\n----------------')
+            log.info(f'---> Try auto login\n\tUSER {ip_addr()} not Registred\n<---')
             return render_template('login.html')
 
 
