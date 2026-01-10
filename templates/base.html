@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
+
     <link rel="stylesheet" type="text/css" href="/static/common_style/main.css">
     <link rel="stylesheet" type="text/css" href="/static/common_style/forms.css">
     <link rel="stylesheet" type="text/css" href="/static/common_style/table_styles.css">
@@ -25,6 +26,10 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <title>{% block title %}{% endblock %}</title>
     {% block javascript %}{% endblock %}
 </head>
@@ -68,15 +73,13 @@
                 <a class="nav_button" style="margin-left: 16px; padding: 6px 24px" href="http://qyzmetker:8080">{{ res_value('PROVISION') }}</a>
             </header-c>
             <header-r>
-                {% if 'style' in session and session['style'] == 'color' %}
                 <div>
-                    <a href="/change-style"><img class="img-style" src="/static/img/icons8-black-white-50.png" style="width: 24px; height: 24px" /></a>
+                    <a href="#" onclick="toggleTheme()">
+                        <img id="theme-icon"
+                             src="/static/img/dark-icon.png"
+                             style="width: 24px; height: 24px; border-radius: 18px; margin: 2px 2px; vertical-align: middle;" />
+                    </a>
                 </div>
-                {% else %}
-                <div>
-                    <a href="/change-style"><img class="img-style" src="/static/img/icons8-color-48.png" style="width: 24px; height: 24px" /></a>
-                </div>
-                {% endif %}
                 {% if session['language'] == 'ru' %}
                 <a class="nav_button" style="margin-left: 16px; padding: 6px 24px; min-width: 74px" href="/language/kz">ҚАЗ</a>
                 {% else %}
@@ -88,15 +91,16 @@
 
         <nav>
             {% if g.user.is_authenticated %}
-                <a class="nav_button" href="/show_pens">{{ res_value('PENS_FOND') }}</a>
-                <a class="nav_button" href="/show_solidary">{{ res_value('BASE_SOLIDARY') }}</a>
-                <a class="nav_button" href="/show_demography">{{ res_value('PAGE_DEMOGRAPHY') }}</a>
-                <a class="nav_button" href="/reports">{{ res_value('LIST_REPORTS') }}</a>
-                <a class="nav_button" href="/big_ref">{{ res_value('BIG_REF') }}</a>
-                <a class="nav_button" href="/coeff_ref">{{ res_value('COEFF_REF') }}</a>
-                <a class="nav_button" href="/logout">{{ res_value('LOGOUT_BUTTON') }}</a>
+            <a class="nav_button" href="/show_pens">{{ res_value('PENS_FOND') }}</a>
+            <a class="nav_button" href="/show_base">{{ res_value('BASE_PENSION') }}</a>
+            <a class="nav_button" href="/show_solidary">{{ res_value('BASE_SOLIDARY') }}</a>
+            <a class="nav_button" href="/show_demography">{{ res_value('PAGE_DEMOGRAPHY') }}</a>
+            <a class="nav_button" href="/reports">{{ res_value('LIST_REPORTS') }}</a>
+            <a class="nav_button" href="/big_ref">{{ res_value('BIG_REF') }}</a>
+            <a class="nav_button" href="/coeff_ref">{{ res_value('COEFF_REF') }}</a>
+            <a class="nav_button" href="/logout">{{ res_value('LOGOUT_BUTTON') }}</a>
             {% else %}
-                <a class="nav_button" href="/login">{{ res_value('LOGIN_BUTTON') }}</a>
+            <a class="nav_button" href="/login">{{ res_value('LOGIN_BUTTON') }}</a>
             {% endif %}
             <p></p>
         </nav>
@@ -119,5 +123,22 @@
             </footer-r>
         </footer>
     </common-container>
+    <script>
+        const html = document.documentElement;
+        // Загружаем сохранённую тему
+        const saved = localStorage.getItem("theme");
+        if (saved) { html.dataset.theme = saved; }
+
+        function toggleTheme() {
+            const newTheme = html.dataset.theme === "dark" ? "color" : "dark";
+            html.dataset.theme = newTheme;
+            localStorage.setItem("theme", newTheme);
+
+            document.getElementById("theme-icon").src =
+                newTheme === "dark"
+                    ? "/static/img/color-icon.png"
+                    : "/static/img/dark-icon.png";
+        }
+    </script>
 </body>
 </html>

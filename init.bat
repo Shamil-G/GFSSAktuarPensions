@@ -1,4 +1,4 @@
-python -m venv venv
+rem python -m venv venv
 rem . /home/registry/venv/bin/activate
 
 call C:\Projects\GFSSAktuarPensions\venv\Scripts\activate.bat
@@ -16,4 +16,7 @@ pip3 install gunicorn
 pip3 install celery
 rem pip3 install ldap3
 pip3 install xlsxwriter
+pip3 install flask_socketio
+pip3 install reportlab
+
 python main_app.py
