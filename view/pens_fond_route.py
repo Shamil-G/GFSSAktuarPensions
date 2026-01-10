@@ -41,9 +41,9 @@ def view_pens_by_filter():
     (grouped_columns, rows )=get_pens_items(scenario, filter)
     return render_template("partials/_calc_pens_fragment.html", columns=grouped_columns, rows=rows)
 
-# /calculate_pens вызывается CELERY (celery_taks.py) через вызов
+# /calculate_pens РІС‹Р·С‹РІР°РµС‚СЃСЏ CELERY (celery_taks.py) С‡РµСЂРµР· РІС‹Р·РѕРІ
 # def celery_calc_pens(taskName, scenario, value, work_url):
-# в которой  work_url=/calculate_pens
+# РІ РєРѕС‚РѕСЂРѕР№  work_url=/calculate_pens
 @app.route('/calculate_pens', methods=['POST'])
 # @login_required
 def view_calc_pens():

@@ -1,0 +1,137 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}
+{{ res_value('PENS_FOND') }}
+{% endblock %}
+
+{% block main_title %}
+{{ res_value('PENS_FOND') }}
+{% endblock %}
+
+{% block link_style %}
+<!--<link rel="stylesheet" type="text/css" href="/static/common_style/filters.css">
+<link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/filters.css">-->
+{% endblock %}
+
+{% block body %}
+<!--<div id="calc_pens_FilterZone" style="display: flex; padding: 2px; gap: 12px; align-items: center; font-size: 18px; font-weight: bold">
+    <div data-role="menu-calc"
+         data-action="/start_task_calculate_pens"
+         data-work-url="/calculate_pens"
+         data-fragment="/show-pens-fragment"
+         data-target="calc_pens_mainBody"
+         data-track="true"
+         data-task="'Прогнозирование пенсионных расходов'"
+         data-session-scenario="{{ session['scenario'] }}"
+         style="min-width: 200px; margin-left: 10px" class="dropdown">
+        <input type="hidden" name="menuValuePeriod" id="menuCalcPeriodInput">
+        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px; padding: 4px 16px; font-weight: bold" 
+                type="button"
+                class="dropdown-button"
+                id="menuCalcButton"> 
+            <i class="fas fa-filter"></i>
+            <span class="label">{{ res_value('CALCULATION_PERIOD') }}</span>
+            <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
+        </button>
+        <div style="min-width: 220px; margin-left: 3px" class="dropdown-content">
+            <a data-value="filter" data-label="{{res_value('PERIOD_BY_FILTER')}}"><i class="fas fa-home"></i>{{res_value('PERIOD_BY_FILTER')}}</a>
+            <a data-value="all" data-label="{{res_value('PERIOD_ALL')}}"><i class="fas fa-envelope"></i>{{res_value('PERIOD_ALL')}}</a>
+        </div>
+    </div>-->
+
+    <!--<button onclick="triggerCalculation()">Расчёт</button>-->
+    <!--<button onclick="window.print()">Печать</button>-->
+    <!--<div data-role="menu-print"
+         data-url="/print_pens"
+         data-track="true"
+         style="min-width: 200px; margin-left: 10px" class="dropdown">
+        <input type="hidden" name="menuValuePrintPeriod" id="menuValuePrintPeriod">
+        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px; padding: 4px 16px; font-weight: bold" 
+                type="button"
+                id="menuPrintButton">
+            <i class="fas fa-filter"></i>
+            <span class="label">{{ res_value('PRINT_PERIOD') }}</span>
+            <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
+        </button>
+        <div style="min-width: 200px; margin-left: 3px" class="dropdown-content">
+            <a data-value="filter" data-label="{{res_value('PRINT_BY_FILTER')}}"><i class="fas fa-home"></i>{{res_value('PRINT_BY_FILTER')}}</a>
+            <a data-value="all" data-label="{{res_value('PRINT_ALL')}}"><i class="fas fa-envelope"></i>{{res_value('PRINT_ALL')}}</a>
+        </div>
+    </div>
+
+    <div id="status" style="font-size: 18px"></div>
+
+</div>-->
+<!--<div class="container">-->
+<div id="calc_pens_mainBody" style="height: calc(100vh - 120px); display: flex; flex-direction: column;">
+    <div style="flex: 1; overflow-y: auto; overflow-x: auto; position: relative;">
+        <!--class="table-container"-->
+        <table style="border-collapse: collapse; width: max-content;">
+
+            <!--class="table_common"-->
+            <thead>
+                <!--class="my_styck_head"-->
+                <!-- Первая строка заголовка: фиксированные колонки + года -->
+                <tr>
+                    <th rowspan="2"
+                        style="position: sticky; top: 0px; z-index: 3; white-space: nowrap; ">
+                        Год назначения
+                    </th>
+
+                    <th rowspan="2"
+                        style="position: sticky; top: 0px; z-index: 3; white-space: nowrap; ">
+                        Возраст
+                    </th>
+
+                    <th rowspan="2"
+                        style="position: sticky; top: 0px; z-index: 3; white-space: nowrap; ">
+                        Пол
+                    </th>
+
+                    {% for year in columns %}
+                    <th colspan="3"
+                        style="position: sticky; top: 0px; z-index: 3; white-space: nowrap; ">
+                        {{ year }}
+                    </th>
+                    {% endfor %}
+                </tr>
+
+                <tr>
+                    {% for year in columns %}
+                    <th style="position: sticky; top: 40px; z-index: 3; white-space: nowrap; ">
+                        Количество
+                    </th>
+                    <th style="position: sticky; top: 40px; z-index: 3; white-space: nowrap; ">
+                        Сумма
+                    </th>
+                    <th style="position: sticky; top: 40px; z-index: 3; white-space: nowrap; ">
+                        Среднее
+                    </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in rows %}
+                {% set sticky = 'box-sizing: border-box; position: sticky; border: none; box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.2); top: 80px; z-index: 2; background: #a3cfa8; font-weight: bold;'
+                    if loop.index0 == 0 
+                    else ''
+                %}
+                <tr>
+                    <td style="{{ sticky }}">{{ row.pens_year }}</td>
+                    <td style="{{ sticky }}">{{ row.pens_age }}</td>
+                    <td style="{{ sticky }}">{{ row.sex }}</td>
+
+                    {% for year in columns %}
+                    <td style="{{ sticky }} white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right;">{{ row['cnt_' ~ year] }}</td>
+                    <td style="{{ sticky }} white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right; ">{{ row['sum_' ~ year] }}</td>
+                    <td style="{{ sticky }} white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right; ">{{ row['avg_' ~ year] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="module" id="pageScript" data-page="calc_pens" src="static/js/main.js"></script>
+{% endblock %}
