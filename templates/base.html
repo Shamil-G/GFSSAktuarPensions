@@ -12,12 +12,12 @@
     <link rel="stylesheet" type="text/css" href="/static/common_style/main_page.css">
     <link rel="stylesheet" type="text/css" href="/static/common_style/modal.css">
 
-    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/main.css">
-    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/table_styles.css">
-    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/menu.css">
-    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/button.css">
-    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/images.css">
+    <!--<link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/table_styles.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/menu.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/main.css">
 
+    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/button.css">
+    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/images.css">-->
     {% block link_style %}{% endblock %}
 
     <!--<link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/include.css">-->
@@ -45,10 +45,11 @@
                     &emsp;Сценарий:
                     <span id="scenarioName">{{ session.get('name_scenario', '') }}</span>
                 </a>
-                <div data-role="menu-scenario"
+                <div class="dropdown"
+                     data-role="menu-scenario"
                      data-url="/set-scenario"
                      data-target="calc_pens_mainBody"
-                     style="min-width: 180px; margin-left: 20px" class="dropdown">
+                     style="min-width: 180px; margin-left: 20px">
                     <input type="hidden" name="menuValue" id="menuValue">
                     <button style="display: inline-block; border: 1px solid lightgray; min-width: 180px" type="button"
                             class="dropdown-button period-button"
@@ -57,11 +58,11 @@
                         <span class="label">{{ res_value('SELECT_SCENARIO') }}</span>
                         <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
                     </button>
-                    <div style="min-width: 210px;" class="dropdown-content">
-                        <a data-value="work" data-label="{{res_value('WOKR_SCENARIO')}}"><i class="fas fa-home"></i>{{res_value('WOKR_SCENARIO')}}</a>
-                        <a data-value="real" data-label="{{res_value('REAL_SCENARIO')}}"><i class="fas fa-envelope"></i>{{res_value('REAL_SCENARIO')}}</a>
-                        <a data-value="optim" data-label="{{res_value('OPTIMISTIC_SCENARIO')}}"><i class="fas fa-envelope"></i>{{res_value('OPTIMISTIC_SCENARIO')}}</a>
-                        <a data-value="pessimistic" data-label="{{res_value('PESSIMISTIC_SCENARIO')}}"><i class="fas fa-envelope"></i>{{res_value('PESSIMISTIC_SCENARIO')}}</a>
+                    <div style="min-width: 248px;" class="dropdown-content">
+                        <a data-value="work" data-label="{{res_value('WOKR_SCENARIO')}}"><i class="fas fa-home" style="margin-right: 10px;"></i>{{res_value('WOKR_SCENARIO')}}</a>
+                        <a data-value="real" data-label="{{res_value('REAL_SCENARIO')}}"><i class="fas fa-envelope" style="margin-right: 10px;"></i>{{res_value('REAL_SCENARIO')}}</a>
+                        <a data-value="optim" data-label="{{res_value('OPTIMISTIC_SCENARIO')}}"><i class="fas fa-envelope" style="margin-right: 10px;"></i>{{res_value('OPTIMISTIC_SCENARIO')}}</a>
+                        <a data-value="pessimistic" data-label="{{res_value('PESSIMISTIC_SCENARIO')}}"><i class="fas fa-envelope" style="margin-right: 10px;"></i>{{res_value('PESSIMISTIC_SCENARIO')}}</a>
                     </div>
                 </div>
             </header-l>

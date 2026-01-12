@@ -7,13 +7,13 @@ import { HelperBinder } from '/static/js/binders/standart/helperBinder.js';
 export const calcPensTabContext = {
     // Значения zone определяют id=""
     zones: {
-        mainTableHelper: '#calc_pens_mainTableHelper',
+        /*mainTableHelper: '#calc_pens_mainTableHelper',*/
         fragment: '#calc_pens_mainBody',
         filters: '#calc_pens_FilterZone'
     },
 
     binders: {
-        mainTableHelper: [HelperBinder],
+        /*mainTableHelper: [HelperBinder],*/
         filters: [FilterInputBinder, MenuBinder, MenuPrintBinder],
     },
 

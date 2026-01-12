@@ -64,7 +64,7 @@
 </div>-->
 <!--<div class="container">-->
 <div id="calc_pens_mainBody" style="height: calc(100vh - 120px); display: flex; flex-direction: column;">
-    <div style="flex: 1; overflow-y: auto; overflow-x: auto; position: relative;">
+    <div class="scroll-x-y" style="flex: 1; overflow-y: auto; overflow-x: auto; position: relative;">
         <!--class="table-container"-->
         <table style="border-collapse: collapse; width: max-content;">
 
@@ -113,7 +113,7 @@
 
             <tbody>
                 {% for row in rows %}
-                {% set sticky = 'box-sizing: border-box; position: sticky; border: none; box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.2); top: 80px; z-index: 2; background: #a3cfa8; font-weight: bold;'
+                {% set sticky = 'box-sizing: border-box; position: sticky; border: none; box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.2); top: 80px; z-index: 2; background: var(--table-header-bg); font-weight: bold;'
                     if loop.index0 == 0 
                     else ''
                 %}

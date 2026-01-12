@@ -1,19 +1,18 @@
-﻿.dropdown {
+﻿/*.dropdown {
     position: relative;
     display: inline-block;
-}
+}*/
 .dropdown.disabled {
     pointer-events: none; /* блокирует все клики внутри */
     opacity: 0.5; /* визуально серое */
 }
-.dropdown-button {
+/*.dropdown-button {
     padding: 4px 16px;
-    font-size: 18px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.1s;
-}
+}*/
 
 .dropdown-content {
     display: none;
@@ -60,7 +59,7 @@
     color: green;
 }
 
-.period-button {
+/*.period-button {
     border-radius: 6px;
     color: #333;
     cursor: pointer;
@@ -68,15 +67,15 @@
     display: inline-block;
     align-items: center;
     gap: 8px;
-}
+}*/
 
 .period-button:hover {
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
-.period-button .fas {
+/*.period-button .fas {
     color: #0077cc;
-}
+}*/
 
 .caret {
     display: inline-block;

@@ -22,7 +22,7 @@
     --table-bg: #e3f6e4;
     --table-border: 1px solid grey;
     --table-filter: #d6f2d8;
-    --table-header-bg: #c9edcd; /*#c7e6cc;*/
+    --table-header-bg: #c9edcd; /*#c7e6cc; #a3cfa8;*/
     --table-header-fg: #0f2f0f;
     --table-row-hover: #e8f8ea;
     --table-divider: 1px solid grey; /* разделители */
@@ -44,6 +44,7 @@
     --dropdown-button-background: #fffce8; /*#efefd3e6;*/
     --dropdown-button-color: black;
     --form-background: #d0ebe2;
+    --scroll-bar-color: #0077cc; /*#C1121F;*/
 }
 
 :root[data-theme="dark"] {
@@ -75,6 +76,7 @@
     --tab-content-active-border-top: 1px solid #75a6fd;
     --tab-content-active-border-right: 1px solid #75a6fd;
     --tab-content-active-border-left: 1px solid #75a6fd;
+    --scroll-bar-color: green;
 }
 :root {
     text-decoration: none;
@@ -452,9 +454,6 @@ button:hover, .button:hover {
     z-index: 5;
     overflow: hidden;
 }
-.dropdown .dropdown-content {
-    display: none;
-}
 .dropdown.open .dropdown-content {
     display: block;
 }
@@ -504,13 +503,14 @@ button:hover, .button:hover {
 .period-button {
     border-radius: 6px;
     padding: 4px 12px;
-    font-size: 15px;
-    color: #333;
+    font-size: 16px;
+    color: var(--button-color);
     cursor: pointer;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
     display: inline-block;
     align-items: center;
     gap: 8px;
+    font-weight: bold;
 }
 .caret {
     display: inline-block;
@@ -518,9 +518,9 @@ button:hover, .button:hover {
     margin-left: 7px;
     transform: scale(1.2);
     transform-origin: center;
-    border-top: 8px solid #333;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
+    border-top: 8px solid var(--scroll-bar-color);
     height: 0;
     width: 0;
 }
@@ -567,9 +567,8 @@ form {
     box-sizing: border-box;
     position: sticky;
     border: none;
-    background: #a3cfa8;
+    background: var(--table-header-bg); 
     z-index: 5;
-    background: #a3cfa8;
     font-weight: bold;
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.35), /* нижняя */
     inset -1px 0 0 rgba(0, 0, 0, 0.25), /* правая */
@@ -578,7 +577,7 @@ form {
 thead th {
     box-sizing: border-box;
     border: none;
-    background: #a3cfa8;
+    background: var(--table-header-bg);
     height: 40px;
     line-height: 40px;
     padding: 0 10px;
@@ -586,4 +585,41 @@ thead th {
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25), /* нижняя */
                 inset -1px 0 0 rgba(0, 0, 0, 0.25); /* правая */
                 /*inset 1px 0 0 rgba(0, 0, 0, 0.25);  левая */
+}
+/*Меняем алгоритм расчета длины и 
+высоты элемента с контента (width), 
+значения отступов (margin), 
+полей (padding) и границ (border) 
+на размеры блока. В секции  main.css это не работает!!! */
+*, *:after, *:before {
+    box-sizing: border-box;
+}
+/* Стили для скролла */
+.scroll-x-y::-webkit-scrollbar {
+    height: 4px; /* горизонтальный */
+    width: 3px; /* вертикальный */
+}
+/* Цвет ползунка */
+.scroll-x-y::-webkit-scrollbar-thumb {
+    background: var(--scroll-bar-color);
+    border-radius: 3px;
+}
+/* Цвет дорожки по которой бегает ползунок */
+.scroll-x-y::-webkit-scrollbar-track {
+    border: var(--table-border);
+    background: var(--table-header-bg);
+}
+.fas {
+    color: var(--scroll-bar-color);
+    /*#0077cc;*/
+    margin-right: 10px;
+    z-index: 10;
+}
+.filter-head {
+    display: flex;
+    padding: 2px;
+    gap: 12px;
+    align-items: center;
+    font-size: 16px; 
+    font-weight: bold;
 }
