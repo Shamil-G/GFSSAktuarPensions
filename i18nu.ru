@@ -43,6 +43,7 @@ USERNAME = Имя
 LIST_NPA = НПА
 BIG_REF = Общий справочник
 NAME_REF_PARM = Справочная переменная
+EXCEL=Excel
 REF_VALUE = Величина переменной 
 SELECT_REFER = Выберите справочник
 CALCULATIONS = Актуарные пенсионные расчеты

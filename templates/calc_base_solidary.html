@@ -26,7 +26,7 @@
         <button style="border: 1px solid lightgray; min-width: 160px; font-weight: bold"
                 type="button"
                 id="menuCalcButton">
-            <i class="fas fa-filter"></i>
+            <i class="fas fa-bolt"></i>
             <span class="label">{{ res_value('CALCULATION_PERIOD') }}</span>
         </button>
     </div>
@@ -39,7 +39,7 @@
         <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px; font-weight: bold"
                 type="button"
                 id="menuPrintButton">
-            <i class="fas fa-filter"></i>
+            <i class="fas fa-play"></i>
             <span class="label">{{ res_value('PRINT_PERIOD') }}</span>
         </button>
     </div>
@@ -49,11 +49,11 @@
 </div>
 <!--<div class="container">-->
 <div id="calc_base_solidary_mainBody">
-    <div class="table-container">
+    <div class="scroll-x-y">
         <table id="calc_base_solidary_mainTableHelper" class="report-table">
             <thead>
                 <tr>
-                    <th class="sticky-col sticky-header">Показатели</th>
+                    <th class="my_stick">Показатели</th>
                     {% if rows %}
                     {% for year in rows[0].keys() if year != 'metric_name' %}
                     <th>
@@ -78,7 +78,7 @@
                     class="row-2"          {# нечётные строки — чуть темнее зелёные #}
                     {% endif %}
                     >
-                    <td class="sticky-col" style="text-align: left; min-width: 256px; white-space: normal; word-wrap: break-word;">
+                    <td class="my_stick" style="text-align: left; min-width: 256px; white-space: normal; word-wrap: break-word;">
                         {{ row['metric_name'] }}
                     </td>
                     {% for year in row.keys() if year != 'metric_name' %}

@@ -2,7 +2,7 @@
     <table id="calc_base_solidary_mainTableHelper" class="report-table">
         <thead>
             <tr>
-                <th class="sticky-col sticky-header">Показатели</th>
+                <th class="my_stick">Показатели</th>
                 {% if rows %}
                 {% for year in rows[0].keys() if year != 'metric_name' %}
                 <th>
@@ -27,7 +27,7 @@
                 style="background-color:#e8ffe8;"          {# нечётные строки — чуть темнее зелёные #}
                 {% endif %}
                 >
-                <td class="sticky-col" style="text-align: left; min-width: 256px; white-space: normal; word-wrap: break-word;">
+                <td class="my_stick" style="text-align: left; min-width: 256px; white-space: normal; word-wrap: break-word;">
                     {{ row['metric_name'] }}
                 </td>
                 {% for year in row.keys() if year != 'metric_name' %}

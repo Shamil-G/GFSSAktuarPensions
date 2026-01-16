@@ -1,43 +1,47 @@
-<div class="table-container">
-    <table id="calc_pens_mainTableHelper" class="report-table">
-        <thead>
-            <tr>
-                <th class="sticky-col sticky-header" rowspan="2">Ид</th>
-                <th class="sticky-col sticky-header" rowspan="2" style="white-space: normal">Дата рождения</th>
-                {% if columns %}
+<!--<div class="table-container">-->
+<div class="scroll-x-y">
+        <table id="calc_pens_mainTableHelper" class="report-table">
+            <thead>
+                <tr>
+                    <th class="my_stick" rowspan="2" style="top: 0px">Ид</th>
+                    <th class="my_stick" rowspan="2" style="white-space: normal; top: 0px">Дата рождения</th>
+                    {% if columns %}
                     {% for year, cols in columns.items() %}
-                    <th colspan="{{ cols|length }}">
+                    <th colspan="{{ cols|length }}"
+                        class="my_stick"
+                        style="top: 0px">
                         {{ year }}
                     </th>
                     {% endfor %}
-                {% endif%}
-            </tr>
-            <tr>
-                {% if columns %}
+                    {% endif%}
+                </tr>
+                <tr>
+                    {% if columns %}
                     {% for year, cols in columns.items() %}
-                        {% for col in cols %}
-                        <th>{{ col.split('_', 1)[1] }}</th>
-                        {% endfor %}
+                    {% for col in cols %}
+                    <th class="my_stick"
+                        style="top: 32px">{{ col.split('_', 1)[1] }}</th>
                     {% endfor %}
-                {% endif%}
-            </tr>
-        </thead>
-        <tbody>
-            {% if rows and columns %}
+                    {% endfor %}
+                    {% endif%}
+                </tr>
+            </thead>
+            <tbody>
+                {% if rows and columns %}
                 {% for row in rows %}
                 <tr>
-                    <td class="sticky-col">{{ row.get('Ид', '') }}</td>
-                    <td class="sticky-col">{{ row.get('Дата рождения', '') }}</td>
+                    <td class="my_stick">{{ row.get('Ид', '') }}</td>
+                    <td class="my_stick">{{ row.get('Дата рождения', '') }}</td>
                     {% for year, cols in columns.items() %}
-                        {% for col in cols %}
-                        <td style=" text-align: right; min-width: 128px; white-space: nowrap;">
-                            {{ row.get(col, '') }}
-                        </td>
-                        {% endfor %}
+                    {% for col in cols %}
+                    <td style=" text-align: right; min-width: 128px; white-space: nowrap;">
+                        {{ row.get(col, '') }}
+                    </td>
+                    {% endfor %}
                     {% endfor %}
                 </tr>
                 {% endfor %}
-            {% endif %}
-        </tbody>
-    </table>
-</div>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>

@@ -19,20 +19,20 @@
 }
 
 /* Все ячейки */
-.report-table th,
+/*.report-table th,
 .report-table td {
     border: 1px solid #ccc;
     padding: 4px 8px;
     white-space: nowrap;
     background-color: inherit;
-}
+}*/
 
 /* Заголовки */
-.report-table th {
+/*.report-table th {
     font-weight: bold;
     text-align: center;
     vertical-align: middle;
-}
+}*/
 
 /* Фиксированные строки (верхняя строка) */
 .report-table th.sticky-header {

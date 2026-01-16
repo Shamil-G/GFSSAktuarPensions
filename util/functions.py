@@ -39,3 +39,21 @@ def get_scenario(name):
         case 'optim': scenario='Оптимистичный'
         case 'pessimistic': scenario='Пессимистичный'
     return scenario
+
+
+def to_decimal(value):
+    if value is None:
+        return None
+
+    s = str(value).strip()
+
+    if s == "":
+        return None
+
+    # убираем пробелы и заменяем запятую на точку
+    s = s.replace(" ", "").replace(",", ".")
+
+    try:
+        return Decimal(s)
+    except Exception:
+        return None

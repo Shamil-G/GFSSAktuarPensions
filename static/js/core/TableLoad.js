@@ -13,21 +13,21 @@ export const TableLoader = {
         //console.log("TableLoad. load: ", url, targetId, params);
 
         const target = document.getElementById(targetId);
-        //console.log("targetId:", targetId, ", target:\n\t", target);
+        console.log("targetId:", targetId, ", target:\n\t", target, '\n\tURL: ', url, ', params: ', params);
 
         if (!target) return null;
 
         const { headers, body } = TabUtil.serializeParams(params);
-        //console.log("🧪 TableLoader.serializeParams → headers:", headers, "body:", body);
+        console.log("🧪 TableLoader.serializeParams → headers:", headers, "body:", body);
 
         try {
-            //console.log("TableLoad. WILL FETCH.  URL: ", url, ", headers: ", headers, ", BODY: ", body);
+            console.log("TableLoad. WILL FETCH.  URL: ", url, ", headers: ", headers, ", BODY: ", body);
             const res = await fetch(url, { method: 'POST', headers, body });
             const html = await res.text();
 
             target.innerHTML = html;
 
-            //console.log("TableLoad. LOAD.  target: ", targetId, ", URL: ", url, ", params: ", params, ", RES: ", res);
+            console.log("TableLoad. LOAD.  target: ", targetId, ", URL: ", url, ", params: ", params, ", RES: ", res);
 
             return html; // ✅ теперь можно кэшировать
         } catch (err) {

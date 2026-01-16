@@ -1,19 +1,7 @@
-﻿/*.dropdown {
-    position: relative;
-    display: inline-block;
-}*/
-.dropdown.disabled {
+﻿.dropdown.disabled {
     pointer-events: none; /* блокирует все клики внутри */
     opacity: 0.5; /* визуально серое */
 }
-/*.dropdown-button {
-    padding: 4px 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.1s;
-}*/
-
 .dropdown-content {
     display: none;
     position: absolute;
@@ -40,60 +28,4 @@
     transition: background 0.5s, color 0.8s;
 }
 
-.dropdown:hover .dropdown-content {
-    display: block;
-}
 
-.dropdown-content i {
-    width: 32px;
-    /*text-align: center;*/
-}
-.dropdown-content a.selected {
-    font-weight: bold;
-    padding: 6px 12px;
-    border-radius: 4px;
-}
-.dropdown-content a.selected::after {
-    margin-left: 10px;
-    content: " ✔";
-    color: green;
-}
-
-/*.period-button {
-    border-radius: 6px;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-    display: inline-block;
-    align-items: center;
-    gap: 8px;
-}*/
-
-.period-button:hover {
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-}
-
-/*.period-button .fas {
-    color: #0077cc;
-}*/
-
-.caret {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 7px;
-    transform: scale(1.2); /* увеличивает всё */
-    transform-origin: center;
-
-    /*hight and color*/
-    border-top: 8px solid #333;
-    /*width base*/
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    height: 0;
-    width: 0;
-}
-
-.dropdown.open .caret {
-    transform: rotate(180deg) scale(1.4);
-    transition: transform 0.2s ease;
-}

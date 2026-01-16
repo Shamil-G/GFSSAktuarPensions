@@ -54,7 +54,6 @@ class SSO_User:
                 self.top_control=1
 
             if self.fio in list_admins:
-                log.info(f'---> SSO\n\tUSER: {self.fio}\n\tpost: {self.post}, dep_name: {self.dep_name}\n\tis Admin\n<---')
                 self.roles='Admin'
             session['roles'] = self.roles
 

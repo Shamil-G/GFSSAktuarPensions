@@ -26,7 +26,7 @@
     --table-header-fg: #0f2f0f;
     --table-row-hover: #e8f8ea;
     --table-divider: 1px solid grey; /* разделители */
-    --table-stick-row: #c9edcd;
+    --table-stick: #c9edcd;
     --clickable-row-selected: #d0ebff;
     --tbody-tr-even: #fffce8;
     --tr-active-row: #d0ebff;
@@ -44,7 +44,10 @@
     --dropdown-button-background: #fffce8; /*#efefd3e6;*/
     --dropdown-button-color: black;
     --form-background: #d0ebe2;
-    --scroll-bar-color: #0077cc; /*#C1121F;*/
+    --scroll-bar-track: grey; /*#0077cc #C1121F;*/
+    --scroll-bar-color: green; /*#0077cc #C1121F;*/
+    --caret-color: green;
+    --background-img-url: url(/static/img/bg.jpg);
 }
 
 :root[data-theme="dark"] {
@@ -72,15 +75,25 @@
     --table-row-hover: #3a3838;
     --table-divider: #5a5757; /* разделители */
 
-
+    --tbody-tr-even: #111;
+    --tr-hover: #E63946; /*#D62828 */
+    --tr-active-row: #0077cc;
+    --button-color: #f2f2f2;
     --tab-content-active-border-top: 1px solid #75a6fd;
     --tab-content-active-border-right: 1px solid #75a6fd;
     --tab-content-active-border-left: 1px solid #75a6fd;
+    --dropdown-content: #fefefe;
+    --dropdown-content-selected-color: #0077cc;
+    --dropdown-content-selected-background: #fffce8;
+    --dropdown-button-background: #fffce8; /*#efefd3e6;*/
+    --dropdown-button-color: black;
+    --scroll-bar-track: #c9edcd; /*#0077cc #C1121F;*/
     --scroll-bar-color: green;
+    --caret-color: green;
 }
 :root {
     text-decoration: none;
-    text-shadow: 1px 2px 3px grey;
+    /*text-shadow: 1px 2px 3px grey;*/
     border: var(--root-border);
     border-radius: 3px;
 }
@@ -116,11 +129,13 @@ nav {
     padding: 1px;
     display: grid;
     grid-template-rows: repeat(12,minmax(48px, 54px));
-    grid-row-gap: 1px;
+    grid-row-gap: 2px;
     grid-area: nav; /* задаем имя элемента */
     align-content: stretch;
     background-size: cover;
     background-position: center;
+    text-shadow: 1px 2px 3px grey;
+    background-image: var(--background-img-url);
 }
 
 header {
@@ -131,6 +146,8 @@ header {
     grid-area: header; /* задаем имя элемента */
     background-size: cover;
     background-position: center;
+    text-shadow: 1px 2px 3px grey;
+    background-image: var(--background-img-url);
 }
 
 article {
@@ -148,11 +165,13 @@ article {
 article_title {
     display: grid; /*Для выравнивания заголовка по центру*/
     padding-right: 8px;
+    padding-left: 24px;
     font-size: 20px;
     align-items: center; /* Выравниваем по вертикали*/
     align-items: center; /*Для выравнивания заголовка по центру*/
     grid-area: article_title; /* задаем имя элемента */
     grid-template-columns: 1fr 1fr;
+    background: var(--title-bg);
 }
 
 footer {
@@ -163,15 +182,12 @@ footer {
     grid-area: footer; /* задаем имя элемента */
     background-size: cover;
     background-position: center;
+    background-image: var(--background-img-url);
 }
 
 header, nav, article_title, article_body, article_info, footer {
-    border-radius: 3px;
-}
-
-article_title, footer {
-    padding-left: 24px;
-    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 4px;
 }
 
 footer > .footer-l, header > .header-l,, timer_header > header_c {
@@ -231,35 +247,42 @@ body {
     margin-top: 20px;
     border-radius: 8px;
 }
-header, nav, article_title, article_body, article_info, footer {
-    border: 1px solid rgba(142, 142, 142, 0.3);
-    border-radius: 4px;
-}
-article_title, footer {
-    background: var(--title-bg);
-    padding-left: 24px;
-    align-items: center;
-    border-radius: 5px;
-}
 
+/* Навигационные кнопки */
 .nav_button {
-    color: var(--button-color);
-    background-image: linear-gradient(to right, rgba(255, 255, 255, .0) 30%, rgba(255, 255, 255, .8), rgba(255, 255, 255, .0) 70%), linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0) 85%, rgba(255, 255, 255, .5)), linear-gradient(to right, rgba(121, 219, 144, 0.3), rgba(121, 219, 144, .5) 45%, rgba(121, 219, 144, 0.5)), linear-gradient(to right, rgba(121, 219, 144, 0.3), rgba(121, 219, 144, .5) 0%, rgba(121, 219, 144, 0.5));
-    background-repeat: no-repeat;
-    background-size: 200% 100%, auto, 100% 2px, 100% 2px, 100% 1px, 100% 1px;
-    background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
-    box-shadow: 3px 3px 6px grey;
-}
-
-.nav_button {
+    padding: 10px 14px;
+    display: flex;
+    position: relative;
     min-width: 125px;
     text-decoration: none;
     align-items: center;
-    padding: 12px 18px 12px 12px;
-    display: flex;
-    position: relative;
-    border-radius: 3px;
     font-weight: 500;
+    cursor: pointer;
+    color: var(--button-color);
+    border: 1px solid var(--nav-btn-border);
+    border-radius: 6px;
+    background-repeat: no-repeat;
+    background-size: 200% 100%, auto, 100% 2px, 100% 2px, 100% 1px, 100% 1px;
+    background-position: 200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+    background-image: linear-gradient(to right, rgba(255, 255, 255, .0) 30%, rgba(255, 255, 255, .8), rgba(255, 255, 255, .0) 70%), linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, 0) 85%, rgba(255, 255, 255, .5)), linear-gradient(to right, rgba(121, 219, 144, 0.3), rgba(121, 219, 144, .5) 45%, rgba(121, 219, 144, 0.5)), linear-gradient(to right, rgba(121, 219, 144, 0.3), rgba(121, 219, 144, .5) 0%, rgba(121, 219, 144, 0.5));
+    /*background: var(--nav-btn-bg);*/
+    box-shadow: 3px 3px 6px grey;
+    /*box-shadow: var(--nav-btn-shadow);*/
+}
+
+.nav_button:hover {
+    transform: translateY(1px);
+    transition: .3s linear;
+    background-position: -200% 0, 0 0, 0 0, 0 100%, 0 4px, 0 calc(100% - 4px);
+    box-shadow: 4px 4px 16px grey;
+}
+
+a.btn, a.nav_button {
+    text-decoration: none;
+}
+
+.btn {
+    text-decoration: none; /* чтобы не подчёркивалось */
 }
 
 nav > a {
@@ -287,32 +310,8 @@ nav > a {
     box-shadow: 0 2px 4px rgba(0,0,0,0.35);
 }
 
-/* Навигационные кнопки */
-.nav-button {
-    background: var(--nav-btn-bg);
-    color: var(--fg);
-    border: 1px solid var(--nav-btn-border);
-    padding: 10px 14px;
-    border-radius: 6px;
-    box-shadow: var(--nav-btn-shadow);
-    cursor: pointer;
-    transition: background-color .2s ease, box-shadow .2s ease, transform .1s ease;
-}
-
-.btn,
-.nav-button {
-    text-decoration: none; /* чтобы не подчёркивалось */
-}
 
 /* Эффект при наведении */
-.nav-button:hover {
-    transform: translateY(1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.35);
-}
-a.btn,
-a.nav-button {
-    text-decoration: none;
-}
 .table-wrapper {
     flex: 1 1 auto;
     overflow-y: auto;
@@ -320,8 +319,30 @@ a.nav-button {
     box-shadow: 0 2px 6px rgba(0,0,0,0.25); /* тень */
     margin-bottom: 6px;
 }
-tbody .my_stick {
+.my_stick {
+    position: sticky;
+    padding: 0px 8px 0px 8px;
     color: var(--table-stick-row);
+    background-color: var(--table-stick); /*    #d8ecdd;*/
+    box-sizing: border-box;
+    border: none;
+    background: var(--table-header-bg);
+    z-index: 3;
+    font-weight: bold;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.35), /* нижняя */
+                inset -1px 0 0 rgba(0, 0, 0, 0.25), /* правая */
+                inset 1px 0 0 rgba(0, 0, 0, 0.25); /* левая */
+}
+.sticky_row {
+    box-sizing: border-box;
+    position: sticky;
+    border: none;
+    background: var(--table-header-bg);
+    z-index: 5;
+    font-weight: bold;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.35), /* нижняя */
+    inset -1px 0 0 rgba(0, 0, 0, 0.25), /* правая */
+    inset 1px 0 0 rgba(0, 0, 0, 0.25); /* левая */
 }
 table {
     width: 100%;
@@ -330,8 +351,14 @@ table {
     border-radius: 4px;
     font-size: 14px;
     width: max-content; /* чтобы работал горизонтальный скролл */
+    text-shadow: none;
+    border-collapse: collapse;
 }
-
+/* Подсвечиваем строки на котором стоит курсор*/
+table tbody > tr:hover {
+    background-color: var(--table-row-hover);
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);
+}
 tbody td, tbody td {
     padding: 8px 12px;
     border: 1px solid var(--table-border); /*   #d3d3d3;*/
@@ -354,15 +381,15 @@ tr > td {
     text-align: center;
 }
 /* Сначала зебра */
-#court_mainTable tbody:not(.my_stick) tr:nth-child(odd) {
+tbody:not(.my_stick) tr:nth-child(odd) {
     background-color: var(--tbody-tr-even);
 }
 /* Потом hover, чтобы он перекрывал всё выше */
-#court_mainTable tbody:not(.my_stick) tr:hover {
+tbody:not(.my_stick) tr:hover {
     background-color: var(--tr-hover);
 }
 /* Потом active-row */
-#court_mainTable tbody:not(.my_stick) tr.active-row {
+tbody:not(.my_stick) tr.active-row {
     background-color: var(--tr-active-row);
 }
 .tab-content {
@@ -400,6 +427,11 @@ tr > td {
     border-bottom: none;
 }
 
+.tab:hover {
+    background: var(--tab-hover-background);
+    color: var(--tab-hover-color);
+}
+
 button, .button {
     margin: 0px;
     padding: 5px 34px 5px 34px;
@@ -409,7 +441,7 @@ button, .button {
     position: relative;
     color: var(--button-color);
     background-color: var(--button-background-color);
-    border: 1px solid;
+    border: 1px solid lightgray;
     transition: color .2s ease-in-out, background-color .2s ease-in-out, border-color .2s ease-in-out, box-shadow .2s ease-in-out;
     font-weight: 500;
     font-size: 15px;
@@ -418,29 +450,14 @@ button, .button {
     border-radius: 5px;
     text-decoration: none;
 }
-.tab:hover {
-    background: var(--tab-hover-background);
-    color: var(--tab-hover-color);
-}
-
-button:hover {
-    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
-}
 
 button:hover, .button:hover {
-    top: 1px;
-    transition: .3s linear;
-}
-
-button:hover {
+    transform: translateY(1px);
     box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-button:hover, .button:hover {
-    top: 1px;
     text-shadow: 1px 2px 3px grey;
     transition: .3s linear;
 }
+
 .dropdown {
     position: relative;
     display: inline-block;
@@ -466,9 +483,10 @@ button:hover, .button:hover {
     background-color: var(--dropdown-content-selected-background);
 }
 .dropdown-content a {
+    color: var(--dropdown-button-color);
     margin: 1px;
     padding: 6px 12px;
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: none;
     border-radius: 4px;
     text-align: left;
@@ -486,10 +504,9 @@ button:hover, .button:hover {
     border-radius: 4px;
 }
 .dropdown-content i {
-    width: 20px;
+    width: 24px;
     /* text-align: center; */
 }
-
 .dropdown-content a.selected::after {
     content: "✔";
     color: green;
@@ -499,18 +516,19 @@ button:hover, .button:hover {
 .dropdown-button {
     background-color: var(--dropdown-button-background);
     color: var(--dropdown-button-color);
-}
-.period-button {
-    border-radius: 6px;
-    padding: 4px 12px;
+    font-weight: bold;
     font-size: 16px;
-    color: var(--button-color);
-    cursor: pointer;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
     display: inline-block;
     align-items: center;
     gap: 8px;
-    font-weight: bold;
+}
+.dropdown.open .caret {
+    transform: rotate(180deg) scale(1.4);
+    transition: transform 0.2s ease;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 .caret {
     display: inline-block;
@@ -520,12 +538,17 @@ button:hover, .button:hover {
     transform-origin: center;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 8px solid var(--scroll-bar-color);
+    border-top: 8px solid var(--caret-color);
     height: 0;
     width: 0;
 }
 .caret.open {
     transform: scale(1.2) rotate(-180deg) translateY(1px);
+}
+.fas {
+    color: var(--caret-color);
+    margin-right: 10px;
+    z-index: 10;
 }
 .tiny-btn {
     all: unset;
@@ -563,23 +586,12 @@ form {
     border: 1px solid rgba(180, 180, 180, 0.1);
     box-shadow: 6px 6px 8px rgba(70, 205, 79, 0.2);
 }
-.sticky_row {
-    box-sizing: border-box;
-    position: sticky;
-    border: none;
-    background: var(--table-header-bg); 
-    z-index: 5;
-    font-weight: bold;
-    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.35), /* нижняя */
-    inset -1px 0 0 rgba(0, 0, 0, 0.25), /* правая */
-    inset 1px 0 0 rgba(0, 0, 0, 0.25); /* левая */
-}
 thead th {
     box-sizing: border-box;
     border: none;
     background: var(--table-header-bg);
-    height: 40px;
-    line-height: 40px;
+    height: 32px;
+    line-height: 32px;
     padding: 0 10px;
     white-space: nowrap; /* Тени вместо границ */
     box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.25), /* нижняя */
@@ -594,11 +606,17 @@ thead th {
 *, *:after, *:before {
     box-sizing: border-box;
 }
+.scroll-x-y {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+    position: relative;
+}
 /* Стили для скролла */
 .scroll-x-y::-webkit-scrollbar {
-    height: 4px; /* горизонтальный */
-    width: 3px; /* вертикальный */
-}
+    height: 8px; /* горизонтальный */
+    width: 4px; /* вертикальный */
+ }
 /* Цвет ползунка */
 .scroll-x-y::-webkit-scrollbar-thumb {
     background: var(--scroll-bar-color);
@@ -607,14 +625,9 @@ thead th {
 /* Цвет дорожки по которой бегает ползунок */
 .scroll-x-y::-webkit-scrollbar-track {
     border: var(--table-border);
-    background: var(--table-header-bg);
+ /*   background: var(--scroll-bar-track);*/
 }
-.fas {
-    color: var(--scroll-bar-color);
-    /*#0077cc;*/
-    margin-right: 10px;
-    z-index: 10;
-}
+
 .filter-head {
     display: flex;
     padding: 2px;
@@ -622,4 +635,66 @@ thead th {
     align-items: center;
     font-size: 16px; 
     font-weight: bold;
+}
+
+.image-upload {
+    display: flex;
+    width: 36px;
+    height: 30px;
+}
+
+.img-logo {
+    width: 28px;
+    height: 27px;
+    padding: 0px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.img-style {
+    border-radius: 18px;
+    margin: 2px 2px;
+    vertical-align: middle;
+    transition: color .2s ease-in-out,background-color .2s ease-in-out, border-color .2s ease-in-out, box-shadow .2s ease-in-out;
+    box-shadow: 5px 5px 8px rgba(70, 205, 79, 0.4);
+}
+
+.img-style:hover {
+    transition: color .2s ease-in-out,background-color .2s ease-in-out, border-color .2s ease-in-out, box-shadow .2s ease-in-out;
+    box-shadow: 5px -5px 8px rgba(70, 205, 79, 0.4);
+}
+
+.ok, .cancel {
+    width: 40px;
+    height: 36px;
+    border-radius: 32px;
+    margin: 0px 6px;
+    vertical-align: middle;
+    border-radius: 5px;
+}
+
+.ok {
+    padding: 3px 4px 3px 4px;
+}
+
+.cancel {
+    padding: 0px 1px 1px 0px;
+}
+.has-helper {
+    position: relative;
+}
+
+.help-icon {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.has-helper:hover .help-icon {
+    opacity: 1;
 }

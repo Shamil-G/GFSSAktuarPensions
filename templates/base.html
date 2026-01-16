@@ -1,27 +1,8 @@
 <!doctype html>
 <html lang="ru">
 <head>
-
-    <link rel="stylesheet" type="text/css" href="/static/common_style/main.css">
-    <link rel="stylesheet" type="text/css" href="/static/common_style/forms.css">
-    <link rel="stylesheet" type="text/css" href="/static/common_style/table_styles.css">
-    <link rel="stylesheet" type="text/css" href="/static/common_style/button.css">
-    <link rel="stylesheet" type="text/css" href="/static/common_style/images.css">
-    <link rel="stylesheet" type="text/css" href="/static/common_style/elements.css">
-    <link rel="stylesheet" type="text/css" href="/static/common_style/menu.css">
-    <link rel="stylesheet" type="text/css" href="/static/common_style/main_page.css">
-    <link rel="stylesheet" type="text/css" href="/static/common_style/modal.css">
-
-    <!--<link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/table_styles.css">-->
-    <!--<link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/menu.css">-->
-    <!--<link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/main.css">
-
-    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/button.css">
-    <link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/images.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="/static/common_style/main.css">-->
     {% block link_style %}{% endblock %}
-
-    <!--<link rel="stylesheet" type="text/css" href="/static/{{session['style']}}/include.css">-->
-
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -51,10 +32,10 @@
                      data-target="calc_pens_mainBody"
                      style="min-width: 180px; margin-left: 20px">
                     <input type="hidden" name="menuValue" id="menuValue">
-                    <button style="display: inline-block; border: 1px solid lightgray; min-width: 180px" type="button"
-                            class="dropdown-button period-button"
+                    <button style="display: inline-block; border: 1px solid lightgray; min-width: 180px; font-size: 16px" type="button"
+                            class="dropdown-button"
                             id="menuButton">
-                        <i class="fas fa-filter"></i>
+                        <i class="fas fa-bolt"></i>
                         <span class="label">{{ res_value('SELECT_SCENARIO') }}</span>
                         <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
                     </button>
@@ -76,7 +57,8 @@
             <header-r>
                 <div>
                     <a href="#" onclick="toggleTheme()">
-                        <img id="theme-icon"
+                        <img class="img-style"
+                             id="theme-icon"
                              src="/static/img/dark-icon.png"
                              style="width: 24px; height: 24px; border-radius: 18px; margin: 2px 2px; vertical-align: middle;" />
                     </a>
@@ -127,8 +109,15 @@
     <script>
         const html = document.documentElement;
         // Загружаем сохранённую тему
-        const saved = localStorage.getItem("theme");
-        if (saved) { html.dataset.theme = saved; }
+        const saved_color = localStorage.getItem("theme");
+        if (!saved_color) saved_color = 'color';
+
+        html.dataset.theme = saved_color;
+
+        document.getElementById("theme-icon").src =
+            saved_color === "dark"
+                ? "/static/img/color-icon.png"
+                : "/static/img/dark-icon.png";
 
         function toggleTheme() {
             const newTheme = html.dataset.theme === "dark" ? "color" : "dark";

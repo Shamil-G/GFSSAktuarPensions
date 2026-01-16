@@ -18,7 +18,7 @@
     <label style="margin-left: 5px;">
         Ид:
         <input id="filter-id"
-               style="margin-left: 5px; font-size: 18px; width: 180px; border: 1px solid #ccc; border-radius: 4px; padding: 4px 10px"
+               style="margin-left: 5px; font-size: 15px; width: 180px; border: 1px solid #ccc; border-radius: 4px; padding: 4px 10px"
                data-role="filter-input"
                data-url="/filter-pens-id"
                data-target="calc_pens_mainBody"
@@ -52,7 +52,7 @@
                 type="button"
                 class="dropdown-button"
                 id="menuCalcButton"> 
-            <i class="fas fa-filter"></i>
+            <i class="fas fa-bolt"></i>
             <span class="label">{{ res_value('CALCULATION_PERIOD') }}</span>
             <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
         </button>
@@ -67,17 +67,18 @@
     <div data-role="menu-print"
          data-url="/print_pens"
          data-track="true"
-         style="min-width: 220px; margin-left: 10px" 
+         style="min-width: 230px; margin-left: 10px" 
          class="dropdown">
         <input type="hidden" name="menuValuePrintPeriod" id="menuValuePrintPeriod">
-        <button style="display: inline-block; border: 1px solid lightgray; min-width: 160px; padding: 4px 16px; font-weight: bold" 
+        <button style="display: inline-block; border: 1px solid lightgray; min-width: 184px; padding: 4px 16px; font-weight: bold" 
                 type="button"
+                class="dropdown-button"
                 id="menuPrintButton">
-            <i class="fas fa-filter"></i>
+            <i class="fas fa-play"></i>
             <span class="label">{{ res_value('PRINT_PERIOD') }}</span>
             <span style="display: inline-block; margin-left: 5px;" class="caret"></span>
         </button>
-        <div style="min-width: 220px; margin-left: 3px" class="dropdown-content">
+        <div style="min-width: 230px; margin-left: 3px" class="dropdown-content">
             <a data-value="filter" data-label="{{res_value('PRINT_BY_FILTER')}}"><i class="fas fa-home"></i>{{res_value('PRINT_BY_FILTER')}}</a>
             <a data-value="all" data-label="{{res_value('PRINT_ALL')}}"><i class="fas fa-envelope"></i>{{res_value('PRINT_ALL')}}</a>
         </div>
@@ -87,15 +88,15 @@
 
 </div>
 <!--<div class="container">-->
-<div id="calc_pens_mainBody">
-    <div class="table-container">
-        <table id="calc_pens_mainTableHelper" class="report-table">
+<div id="calc_pens_mainBody" style="max-height: calc(100vh - 166px); display: flex; flex-direction: column;">
+    <div class="scroll-x-y">
+        <table id="calc_pens_mainTableHelper">
             <thead>
                 <tr>
-                    <th class="sticky-col sticky-header" rowspan="2">Ид</th>
-                    <th class="sticky-col sticky-header" rowspan="2" style="white-space: normal">Дата рождения</th>
+                    <th class="my_stick" style="top: 0px;" rowspan="2" colspan="1">Ид</th>
+                    <th class="my_stick" style="top: 0px; max-width: 110px; white-space:normal;" rowspan="2" colspan="1">Дата рождения</th>
                     {% for year, cols in columns.items() %}
-                    <th colspan="{{ cols|length }}">
+                    <th class="my_stick" style="top: 0px" colspan="{{ cols|length }}">
                         {{ year }}
                     </th>
                     {% endfor %}
@@ -103,7 +104,7 @@
                 <tr>
                     {% for year, cols in columns.items() %}
                     {% for col in cols %}
-                    <th>{{ col.split('_', 1)[1] }}</th>
+                    <th class="my_stick" style="top: 32px">{{ col.split('_', 1)[1] }}</th>
                     {% endfor %}
                     {% endfor %}
                 </tr>
@@ -112,8 +113,8 @@
                 {% if rows and columns %}
                 {% for row in rows %}
                 <tr>
-                    <td class="sticky-col">{{ row.get('Ид', '') }}</td>
-                    <td class="sticky-col">{{ row.get('Дата рождения', '') }}</td>
+                    <td>{{ row.get('Ид', '') }}</td>
+                    <td>{{ row.get('Дата рождения', '') }}</td>
                     {% for year, cols in columns.items() %}
                     {% for col in cols %}
                     <td style=" text-align: right; min-width: 128px; white-space: nowrap;">

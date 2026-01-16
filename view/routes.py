@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for, g, session, jsonify
-from flask_login import login_user
+from flask_login import login_user, login_required
 import requests
 import time
 from main_app import app, log
@@ -17,7 +17,7 @@ from view.solidary_route import *
 from view.demography_route import *
 from view.celery_task_route import *
 
-# from util.functions import extract_payload
+from util.functions import extract_payload
 
 from reports.get_summary_01 import  make_report_summary_01
 

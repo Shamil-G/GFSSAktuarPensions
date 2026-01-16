@@ -1,12 +1,12 @@
 from __init__ import app, log
 from celery_app import celery
 from flask import jsonify, session
-from model.celery_tasks import celery_calc_pens 
+from model.celery_tasks import celery_calc_pens, celery_calc_base_pension 
 from util.functions import extract_payload
 
 
 @app.route('/start_task_calculate_pens', methods=['POST'])
-def start_task():
+def start_task_calc_pens():
     payload = extract_payload()
     taskName = payload.get("taskName",'')
     value = payload.get("value",'')
@@ -44,4 +44,32 @@ def start_task():
     return jsonify({"task_id": taskName, "status": "fail"})
 
 
+@app.route('/start_task_calculate_base_pension', methods=['POST'])
+def start_task_calc_base_pension():
+    payload = extract_payload()
+    taskName = payload.get("taskName",'')
+    value = payload.get("value",'')
+    work_url = payload.get("work_url",'')
+    scenario = payload.get("scenario",'')
+
+    log.info(f'START_TASK. CALCULATE BASE PENSION. scenario: {scenario}, value: {value}, work_url: {work_url}')
+
+    log.info(f'START_TASK. CALCULATE BASE PENSION. PAYLOAD: {payload}')
+    log.info(f'START_TASK. CALCULATE BASE PENSION. TASK_NAME: {taskName}, scenario: {scenario}, value: {value}, work_url: {work_url}')
+
+    i = celery.control.inspect()
+    i_list = i.active()
+    i_reg = i.registered()
+
+    log.info(f"START_TASK. CALCULATE BASE PENSION. Активные воркеры: {i_list}")       # список активных задач
+    log.info(f"START_TASK. CALCULATE BASE PENSION. Зарегистрированные воркеры: {i_reg}")  # список известных задач
+
+    # Задача celery_calc_base_pension регистрируется 
+    # в файле model.celery_tasks 
+    if(scenario!=''):
+        args = [taskName, scenario, work_url]
+        task = celery_calc_base_pension.apply_async(args)
+        log.info(f"START_TASK. CALCULATE BASE PENSION. TASK: {task} started with args: {args}")  
+        return jsonify({"taskName": taskName, "status": "started"})
+    return jsonify({"task_id": taskName, "status": "fail"})
 
