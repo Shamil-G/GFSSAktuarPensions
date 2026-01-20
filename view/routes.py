@@ -11,7 +11,8 @@ from util.ip_addr import ip_addr
 # from view.routes_overpayments import *
 from view.ref_route import *
 from view.ref_coeff_route import *
-from view.base_pension import *
+from view.base_pension_route import *
+from view.solidary_pension_route import *
 from view.pens_fond_route import *
 from view.solidary_route import *
 from view.demography_route import *

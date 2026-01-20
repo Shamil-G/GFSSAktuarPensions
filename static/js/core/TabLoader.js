@@ -5,43 +5,43 @@
 //  loadCustomZone	–учна€ загрузка конкретной зоны по URL	    передаЄтс€ напр€мую	    attachZoneBinders(tabName, zoneKey)
 //  loadZone	    «агрузка зоны по конфигу request	        из getRequest(...)	    attachBinders(tabName)(можно фильтровать)
 //  load	        «агрузка основной зоны fragment	            из getRequest(...)	    attachBinders(tabName)
-import { getCacheKey, loadFromCache, addToCache, fadeInsert } from '/static/js/_aux/tabUtil.js';
+import { getCacheKey, loadFromCache, addToCache, fadeInsert, getZoneData } from '/static/js/_aux/tabUtil.js';
 
 export class TabLoader {
     constructor(tabContext) {
         this.tabContext = tabContext;
     }
 
-    async loadCustomZone(tabName, zoneKey, url, body = null, method = 'POST') {
-        console.log("loadCustomZone. tabName: ", tabName, "\n\t\t\tzoneKey: ", zoneKey, "\n\t\t\turl: ", url );
-        const zone = this.tabContext.getZone(tabName, zoneKey);
-        console.log("loadCustomZone. zone: ", zone);
-        console.log("loadCustomZone. zone: ", this.tabContext.getTabNames());
-        if (!zone) {
-            console.warn(`TabLoader: zone "${zoneKey}" for "${tabName}" not found`);
-            return;
-        }
+    //async loadCustomZone(tabName, zoneKey, url, body = null, method = 'POST') {
+    //    console.log("loadCustomZone. tabName: ", tabName, "\n\t\t\tzoneKey: ", zoneKey, "\n\t\t\turl: ", url );
+    //    const zone = this.tabContext.getZone(tabName, zoneKey);
+    //    console.log("loadCustomZone. zone: ", zone);
+    //    console.log("loadCustomZone. zone: ", this.tabContext.getTabNames());
+    //    if (!zone) {
+    //        console.warn(`TabLoader: zone "${zoneKey}" for "${tabName}" not found`);
+    //        return;
+    //    }
 
-        try {
-            const response = await fetch(url, {
-                method,
-                headers: method === 'POST' ? { 'Content-Type': 'application/json' } : {},
-                body: method === 'POST' ? JSON.stringify(body) : null
-            });
+    //    try {
+    //        const response = await fetch(url, {
+    //            method,
+    //            headers: method === 'POST' ? { 'Content-Type': 'application/json' } : {},
+    //            body: method === 'POST' ? JSON.stringify(body) : null
+    //        });
 
-            if (!response.ok) {
-                console.error(`TabLoader: failed to load "${tabName}" zone "${zoneKey}" Ч ${response.status}`);
-                return;
-            }
+    //        if (!response.ok) {
+    //            console.error(`TabLoader: failed to load "${tabName}" zone "${zoneKey}" Ч ${response.status}`);
+    //            return;
+    //        }
 
-            const html = await response.text();
-            zone.innerHTML = html;
+    //        const html = await response.text();
+    //        zone.innerHTML = html;
 
-            this.tabContext.attachZoneBinders(tabName, zoneKey); // точечна€ прив€зка
-        } catch (err) {
-            console.error(`TabLoader: error loading "${tabName}" zone "${zoneKey}"`, err);
-        }
-    }
+    //        this.tabContext.attachZoneBinders(tabName, zoneKey); // точечна€ прив€зка
+    //    } catch (err) {
+    //        console.error(`TabLoader: error loading "${tabName}" zone "${zoneKey}"`, err);
+    //    }
+    //}
 
     async loadZone(tabName, zoneKey, orderNum, use_cache = true) {
         const zone = this.tabContext.getZone(tabName, zoneKey);
@@ -53,89 +53,75 @@ export class TabLoader {
 
         const req = this.tabContext.getRequest(tabName, zoneKey, orderNum);
 
-        //console.log("TabLoader: loadZone, REQ: ", req);
-        
+        console.log("TabLoader: load_zone, REQ: ", req, '\n\ttabName: ', tabName, '\n\tzoneKey: ', zoneKey, '\n\torderKey: ', orderNum);
+
         if (!req || !req.url) {
-            console.warn(`TabLoader: invalid request config for "${tabName}" zone "${zoneKey}"`);
+            console.warn(`TabLoader load_zone: invalid request config for "${tabName}" zone "${zoneKey}"`);
             return;
         }
 
-        try {
-            const response = await fetch(req.url, {
-                method: req.method,
-                headers: req.method === 'POST' ? { 'Content-Type': 'application/json' } : {},
-                body: req.method === 'POST' ? JSON.stringify(req.body) : null
-            });
-            
-            if (!response.ok) {
-                console.error(`TabLoader: failed to load "${tabName}" zone "${zoneKey}" Ч ${response.status}`);
-                return;
-            }
-            const html = await response.text();
+        const params = { fragment: tabName, order_num: orderNum }
+        const html = await getZoneData(tabName, zoneKey, params);
 
-            fadeInsert(zone, html);
-            //zone.innerHTML = html;
+        fadeInsert(zone, html);
 
-            const cacheKey = getCacheKey(tabName, orderNum, zoneKey);
-            addToCache(cacheKey, html);
-            //this.tabContext.attachBinders(tabName); // можно фильтровать по zoneKey, если нужно
-        } catch (err) {
-            console.error(`TabLoader: error loading "${tabName}" zone "${zoneKey}"`, err);
-        }
+        const cacheKey = getCacheKey(tabName, orderNum, zoneKey);
+        addToCache(cacheKey, html);
+        //this.tabContext.attachBinders(tabName); // можно фильтровать по zoneKey, если нужно
     }
 
     // ... 
-    async load(tabName, orderNum) {
-        const entry = this.tabContext.getEntry(tabName);
-        if (!entry) {
-            console.warn(`TabLoader: tab "${tabName}" not found`);
-            return;
-        }
+    //async load(tabName, orderNum) {
+    //    const entry = this.tabContext.getEntry(tabName);
+    //    if (!entry) {
+    //        console.warn(`TabLoader: tab "${tabName}" not found`);
+    //        return;
+    //    }
 
-        const zone = this.tabContext.getZone(tabName, 'fragment');
-        if (!zone) {
-            console.warn(`TabLoader: zone for "${tabName}" not found`);
-            return;
-        }
+    //    const zone = this.tabContext.getZone(tabName, 'fragment');
+    //    if (!zone) {
+    //        console.warn(`TabLoader: zone for "${tabName}" not found`);
+    //        return;
+    //    }
 
-        const req = this.tabContext.getRequest(tabName, orderNum);
-        if (!req || !req.url) {
-            console.warn(`TabLoader: invalid request config for "${tabName}"`);
-            return;
-        }
+    //    const req = this.tabContext.getRequest(tabName, orderNum);
+    //    if (!req || !req.url) {
+    //        console.warn(`TabLoader: invalid request config for "${tabName}"`);
+    //        return;
+    //    }
 
-        try {
-            const response = await fetch(req.url, {
-                method: req.method,
-                headers: req.method === 'POST' ? { 'Content-Type': 'application/json' } : {},
-                body: req.method === 'POST' ? JSON.stringify(req.body) : null
-            });
+    //    try {
+    //        const response = await fetch(req.url, {
+    //            method: req.method,
+    //            headers: req.method === 'POST' ? { 'Content-Type': 'application/json' } : {},
+    //            body: req.method === 'POST' ? JSON.stringify(req.body) : null
+    //        });
 
-            if (!response.ok) {
-                console.error(`TabLoader: failed to load "${tabName}" Ч ${response.status}`);
-                return;
-            }
+    //        if (!response.ok) {
+    //            console.error(`TabLoader: failed to load "${tabName}" Ч ${response.status}`);
+    //            return;
+    //        }
 
-            const html = await response.text();
-            zone.innerHTML = html;
+    //        const html = await response.text();
+    //        zone.innerHTML = html;
 
-            this.tabContext.attachBinders(tabName);
-        } catch (err) {
-            console.error(`TabLoader: error loading "${tabName}"`, err);
-        }
-    }
+    //        this.tabContext.attachBinders(tabName);
+    //    } catch (err) {
+    //        console.error(`TabLoader: error loading "${tabName}"`, err);
+    //    }
+    //}
 
-    unload(tabName) {
-        const entry = this.tabContext.getEntry(tabName);
-        if (!entry || !entry.zones) return;
+    //unload(tabName) {
+    //    const entry = this.tabContext.getEntry(tabName);
+    //    if (!entry || !entry.zones) return;
 
-        for (const selector of Object.values(entry.zones)) {
-            const zone = typeof selector === 'string' ? document.querySelector(selector) : null;
-            if (zone) zone.innerHTML = '';
-        }
+    //    for (const selector of Object.values(entry.zones)) {
+    //        const zone = typeof selector === 'string' ? document.querySelector(selector) : null;
+    //        if (zone) zone.innerHTML = '';
+    //    }
 
-        this.tabContext.detachBinders(tabName);
-    }
+    //    this.tabContext.detachBinders(tabName);
+    //}
 
 
 }

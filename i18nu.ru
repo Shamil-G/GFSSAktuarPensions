@@ -64,6 +64,7 @@ PESSIMISTIC_SCENARIO=Песссимистичный
 PYTHON_REPORTS=Отчеты на Питон 
 PROVISION=Расчет провизии
 BASE_SOLIDARY=Солидарная и базовая пенсии
+SOLIDARY_PENSION=Солидарная пенсии
 BASE_PENSION=Базовая пенсия
 PENS_FOND = Пенсионные накопления
 PAGE_DEMOGRAPHY=Демография

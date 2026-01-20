@@ -199,3 +199,31 @@ export function fadeInsert(contentZone, htmlString) {
         }, 300);
     });
 }
+///////////////////////////////////////////////////////////////////////////////
+export async function getZoneData(tabName, zoneName, params = {}) {
+    const zone_request = PageManager.get().tabContext.getEntry(tabName).request[zoneName];
+    //console.log('GET ZONE DATA. zone_request: ', zone_request)
+
+    const url = zone_request?.url || '/get_form';
+    const method = zone_request?.method || 'GET';
+    const parms = params || zone_request?.params;
+
+    const req = { url, method, body: parms };
+
+    //console.log('GET ZONE DATA. URL: ', url, '\n\tmethod: ', method, '\n\tparams:', params, 'parms:', parms, '\n\treq: ', req);
+
+    const response = await fetch(
+        method === 'GET' ? `${req.url}?form=${tabName}` : req.url,
+        {
+            method: req.method,
+            headers: req.method === 'POST' ? { 'Content-Type': 'application/json' } : {},
+            body: req.method === 'POST' ? JSON.stringify(req.body) : null
+        }
+    );
+
+    if (!response.ok) {
+        console.error(`GET ZONE DATA. failed fetch "${tabName}" — ${response}`);
+        return '';
+    }
+    return await response.text();
+}
