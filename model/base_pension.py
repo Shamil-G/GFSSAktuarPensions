@@ -17,7 +17,7 @@ report_code='BP01'
 
 # Визуализация расчета базовой пенсии
 def get_stmt(scenario):
-	return f"SELECT * FROM BASE_PENSION WHERE SCENARIO='{scenario}'"
+	return f"SELECT * FROM BASE_PENSION WHERE SCENARIO='{scenario}' order by pens_year, next_year, sex"
 
 
 def build_pension_pivot(df: pd.DataFrame):

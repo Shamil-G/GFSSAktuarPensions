@@ -1,11 +1,11 @@
 ﻿{% extends 'base.html' %}
 
 {% block title %}
-{{ res_value('BASE_PENSION') }}
+{{ res_value('SOLIDARY_PENSION') }}
 {% endblock %}
 
 {% block main_title %}
-{{ res_value('BASE_PENSION') }}
+{{ res_value('SOLIDARY_PENSION') }}
 {% endblock %}
 
 {% block link_style %}
@@ -19,94 +19,94 @@
     <!--в data-work-url указываем celery что надо вызвать-->
     <!--в data-action указываем биндеру url для вызова -->
     <!--в data-fragment указываем url для загрузки фрагмента -->
-        <div data-role="run"
-             data-action="/start_task_calculate_solidary_pension"
-             data-work-url="/calculate_solidary_pension"
-             data-fragment="/show-solidary-pension-fragment"
-             data-target="solidary_pension_mainBody"
-             data-track="true"
-             data-task="'Прогнозирование солидарных пенсионных расходов'"
-             data-session-scenario="{{ session['scenario'] }}">
-            <a class="button"
-                style="min-width: 200px; display: inline-block; margin-left: 5px; margin-left: 16px; font-weight: bold;">
-                <i class="fas fa-bolt"></i>
-                {{ res_value('CALCULATION_PERIOD') }}
-            </a>
-        </div>
-
-        <a class="button" href="/get_base_pension_excel"
-           style="margin-left: 16px; font-weight: bold;">
-            <i class="fas fa-print"></i>
-            {{ res_value('EXCEL') }}
+    <div data-role="run"
+         data-action="/start_task_calculate_solidary_pension"
+         data-work-url="/calculate_solidary_pension"
+         data-fragment="/show-solidary-pension-fragment"
+         data-target="solidary_pension_mainBody"
+         data-track="true"
+         data-task="'Прогнозирование солидарных пенсионных расходов'"
+         data-session-scenario="{{ session['scenario'] }}">
+        <a class="button"
+           style="min-width: 200px; display: inline-block; margin-left: 5px; margin-left: 16px; font-weight: bold;">
+            <i class="fas fa-bolt"></i>
+            {{ res_value('CALCULATION_PERIOD') }}
         </a>
-
-        <div id="status" style="font-size: 18px; margin-left: 32px"></div>
-
     </div>
-            <div id="base_pension_mainBody" style="height: calc(100vh - 120px); display: flex; flex-direction: column;">
-                <div class="scroll-x-y">
-                    <table style="border-collapse: collapse; width: max-content;">
-                        <thead>
-                            <tr>
-                                <th rowspan="2" class="my_stick"
-                                    style="top: 0px; max-width: 115px; white-space: normal;">
-                                    Год назначения
-                                </th>
 
-                                <th rowspan="2" style="top: 0px;"
-                                    class="my_stick">
-                                    Возраст
-                                </th>
+    <a class="button" href="/get_base_pension_excel"
+       style="margin-left: 16px; font-weight: bold;">
+        <i class="fas fa-print"></i>
+        {{ res_value('EXCEL') }}
+    </a>
 
-                                <th rowspan="2" style="top: 0px;"
-                                    class="my_stick">
-                                    Пол
-                                </th>
+    <div id="status" style="font-size: 18px; margin-left: 32px"></div>
 
-                                {% for year in columns %}
-                                <th colspan="3" style="top: 0px;"
-                                    class="my_stick">
-                                    {{ year }}
-                                </th>
-                                {% endfor %}
-                            </tr>
+</div>
+<div id="base_pension_mainBody" style="height: calc(100vh - 120px); display: flex; flex-direction: column;">
+    <div class="scroll-x-y">
+        <table style="border-collapse: collapse; width: max-content;">
+            <thead>
+                <tr>
+                    <th rowspan="2" class="my_stick"
+                        style="top: 0px; max-width: 115px; white-space: normal;">
+                        Год назначения
+                    </th>
 
-                            <tr style="height: 33px; line-height: 33px;">
-                                {% for year in columns %}
-                                <th class="my_stick" style="top: 32px;">
-                                    Количество
-                                </th>
-                                <th class="my_stick" style="top: 32px;">
-                                    Сумма
-                                </th>
-                                <th class="my_stick" style="top: 32px;">
-                                    Среднее
-                                </th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
+                    <th rowspan="2" style="top: 0px;"
+                        class="my_stick">
+                        Возраст
+                    </th>
 
-                        <tbody>
-                            {% for row in rows %}
-                            {% set sticky = 'line-height: 32px; top: 65px; height: 32px;'
-                            if loop.index0 == 0 else '' %}
-                            {% set stick_class = 'my_stick'
-                            if loop.index0 == 0 else '' %}
-                            <tr>
-                                <td class="{{ stick_class }}" style="{{ sticky }}">{{ row.pens_year }}</td>
-                                <td class="{{ stick_class }}" style="{{ sticky }}">{{ row.pens_age }}</td>
-                                <td class="{{ stick_class }}" style="{{ sticky }}">{{ row.sex }}</td>
+                    <th rowspan="2" style="top: 0px;"
+                        class="my_stick">
+                        Пол
+                    </th>
 
-                                {% for year in columns %}
-                                <td class="{{ stick_class }}" style="{{ sticky }} white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right; padding: 0px 6px 0px 10px">{{ row['cnt_' ~ year] }}</td>
-                                <td class="{{ stick_class }}" style="{{ sticky }} white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right; padding: 0px 6px 0px 10px">{{ row['sum_' ~ year] }}</td>
-                                <td class="{{ stick_class }}" style="{{ sticky }} white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right; padding: 0px 6px 0px 10px">{{ row['avg_' ~ year] }}</td>
-                                {% endfor %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <script type="module" id="pageScript" data-page="base_pension" src="static/js/main.js"></script>
+                    {% for year in columns %}
+                    <th colspan="3" style="top: 0px;"
+                        class="my_stick">
+                        {{ year }}
+                    </th>
+                    {% endfor %}
+                </tr>
+
+                <tr style="height: 33px; line-height: 33px;">
+                    {% for year in columns %}
+                    <th class="my_stick" style="top: 32px;">
+                        Количество
+                    </th>
+                    <th class="my_stick" style="top: 32px;">
+                        Сумма
+                    </th>
+                    <th class="my_stick" style="top: 32px;">
+                        Среднее
+                    </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in rows %}
+                {% set sticky = 'line-height: 32px; top: 65px; height: 32px;'
+                if loop.index0 == 0 else '' %}
+                {% set stick_class = 'my_stick'
+                if loop.index0 == 0 else '' %}
+                <tr>
+                    <td class="{{ stick_class }}" style="{{ sticky }}">{{ row.pens_year }}</td>
+                    <td class="{{ stick_class }}" style="{{ sticky }}">{{ row.pens_age }}</td>
+                    <td class="{{ stick_class }}" style="{{ sticky }}">{{ row.sex }}</td>
+
+                    {% for year in columns %}
+                    <td class="{{ stick_class }}" style="{{ sticky }} white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right; padding: 0px 6px 0px 10px">{{ row['cnt_' ~ year] }}</td>
+                    <td class="{{ stick_class }}" style="{{ sticky }} white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right; padding: 0px 6px 0px 10px">{{ row['sum_' ~ year] }}</td>
+                    <td class="{{ stick_class }}" style="{{ sticky }} white-space: nowrap; font-variant-numeric: tabular-nums; text-align: right; padding: 0px 6px 0px 10px">{{ row['avg_' ~ year] }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="module" id="pageScript" data-page="base_pension" src="static/js/main.js"></script>
             {% endblock %}
