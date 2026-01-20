@@ -80,10 +80,19 @@ def build_pension_pivot(df: pd.DataFrame):
         .join(sum_pivot)
         .join(avg_pivot)
         .sort_index(axis=1, level=0)
-        .reset_index()  # вернёт pens_year, pens_age, sex в обычные колонки
+        .reset_index()
     )
 
     result["sex"] = result["sex"].replace({"m": "м", "w": "ж"})
+
+    # 🔽 Сортируем по году выхода на пенсию и по полу
+    sex_order = {"м": 0, "ж": 1}
+    result["_sex_order"] = result["sex"].map(sex_order)
+
+    result = result.sort_values(
+        by=["pens_year", "_sex_order"],
+        ascending=[True, True]
+    ).drop(columns="_sex_order")
 
     # ---------------------------------------------------------
     # 5. Плоские имена колонок (без падения на служебных)
