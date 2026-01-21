@@ -11,8 +11,8 @@ from   db.connect import get_connection
 from   pivots.pivot_functions import flatten
 
 
-report_name='Прогноз Базовой пенсии'
-report_code='BP01'
+report_name='Прогноз Солидарной пенсии'
+report_code='СP01'
 
 
 # Визуализация расчета базовой пенсии
@@ -335,7 +335,7 @@ def get_solidary_items(scenario):
 def get_solidary_pension_excel(params):
    scenario=params.get('scenario','')
    pivot, columns = get_solidary_items(scenario)
-   log.info(f'get_base_pension_excel. params: {params}')
+   log.info(f'get_solidary_pension_excel. params: {params}')
    return export_to_excel(pivot, columns, scenario)
 
 
