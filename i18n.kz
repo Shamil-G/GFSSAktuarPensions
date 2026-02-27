@@ -68,4 +68,11 @@ SOLIDARY_PENSION=Солидарная пенсия
 BASE_PENSION=Базовая пенсия
 PENS_FOND = Пенсионные накопления
 PAGE_DEMOGRAPHY=Демография
-
+PENS_FOND=Пенсионные накопления
+BIG_REF=Общий справочник
+LOGOUT_BUTTON=Выйти
+NAME_REF_PARM=Справочная переменная
+SELECT_REFER=Выберите справочник
+YEAR=ГОД
+REF_YEAR=ГОД
+REF_VALUE=Величина переменной

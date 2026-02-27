@@ -1,7 +1,7 @@
 from typing import List, Any
 import os.path
 from flask import session
-from gfss_parameter import platform, BASE
+from gfss_parameter import BASE
 from util.logger import log
 from app_config import src_lang, language
 from db.connect import get_connection
@@ -13,36 +13,31 @@ class I18N:
     objects: List[Any] = []
 
     def get_resource(self, lang, resource_name):
-        if not resource_name: return ''
+        if not resource_name:
+            return ''
+
         file_object = ''
         return_value = ''
         file_name = f'{BASE}/i18n.{lang}'
-        if platform == 'unix':
-            file_name = f'{BASE}/i18nu.{lang}'
-        n_objects = 0
 
-        for f_name in self.file_names:
+        for i, f_name in enumerate(self.file_names):
             if f_name == file_name:
-                file_object = self.objects[n_objects]
+                file_object = self.objects[i]
                 break
-            n_objects = n_objects + 1
 
         if file_object == '' and os.path.exists(file_name):
-            file = open(file_name, "r")
-            if file is not None:
-                self.file_names.append(file_name)
-                self.files.append(file)
+            with open(file_name, "r", encoding="utf-8") as file:
                 file_object = file.read()
+                self.file_names.append(file_name)
                 self.objects.append(file_object)
 
-        if file_object != '':
+        if file_object:
             for line in file_object.splitlines():
-                if resource_name in line:
+                if line.startswith(resource_name + '='):
                     return_value = line.split('=', 1)[1]
                     break
-        if return_value == '':
-            return_value = resource_name
-        return return_value
+
+        return return_value or resource_name
 
     def close(self):
         log.info("I18N. CLOSE")
